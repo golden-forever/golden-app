@@ -1,7 +1,6 @@
 export const createTypography = () => {
   return {
-    fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+    fontFamily: "Noto Sans",
     body1: {
       fontSize: "1rem",
       fontWeight: 400,

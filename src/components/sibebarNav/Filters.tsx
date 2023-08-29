@@ -85,6 +85,24 @@ const Filters: FunctionComponent = () => {
     newFilterData.value = value;
     setFiltersRange(filtersTemp);
   };
+  const addInputTag: AddTag = (filterData, tag) => {
+    const filtersTemp = [...filtersInput];
+    const newFilterData = filtersTemp.find(
+      curFilter => curFilter === filterData
+    );
+    if (!newFilterData) return;
+    newFilterData.applied.push(tag);
+    setFiltersInput(filtersTemp);
+  };
+  const clearAllInputTags = (filterData: Filter) => {
+    const filtersTemp = [...filtersInput];
+    const newFilterData = filtersTemp.find(
+      curFilter => curFilter === filterData
+    );
+    if (!newFilterData) return;
+    newFilterData.applied = [];
+    setFiltersInput(filtersTemp);
+  };
   return (
     <div
       style={{
@@ -136,8 +154,8 @@ const Filters: FunctionComponent = () => {
           data={filter}
           key={i}
           removeTag={removeTag}
-          addTag={addTag}
-          clearAllTags={clearAllTags}
+          addTag={addInputTag}
+          clearAllTags={clearAllInputTags}
         />
       ))}
     </div>

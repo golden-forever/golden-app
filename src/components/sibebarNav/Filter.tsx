@@ -10,21 +10,24 @@ import {
 
 // Icons
 import { Close, Add, Remove } from "@mui/icons-material";
-
+import Include from "./filters/Include";
+import CustomAutocomplete from "./filters/CustomAutocomplete";
 type Props = {
   data: Filter;
   removeTag: RemoveTag;
   addTag: AddTag;
   clearAllTags: ClearAllTags;
 };
- const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
+const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
   const [isAddNew, setIsAddNew] = useState(false);
-  const [tag, setTag] = useState("");
-  const { label, applied, include } = data;
-  const handleAdd = () => {
+  const { label, applied, include, allTags } = data;
+  const [availableTags, setAvailableTags] = useState<never[] | Tag[]>(allTags);
+
+  const handleAdd = (tag: Tag) => {
     setIsAddNew(false);
-    setTag("");
     addTag(data, tag);
+    const newTags = allTags.filter(item => !applied.includes(item));
+    setAvailableTags(newTags);
   };
   return (
     <div
@@ -109,7 +112,7 @@ type Props = {
                 fontFamily: "'Noto Sans'",
               }}
             >
-              {val}
+              {val.label}
               <IconButton sx={{ p: "0" }} onClick={() => removeTag(data, i)}>
                 <Close sx={{ width: "15px", height: "15px" }} />
               </IconButton>
@@ -125,54 +128,17 @@ type Props = {
           </IconButton>
         </div>
         {isAddNew && (
-          <Box display={"flex"} width={"90%"} m={"0 auto"}>
-            <TextField
-              fullWidth
-              name="tag"
-              size="small"
-              // label="Add tag"
-              placeholder="Add tag"
-              variant="standard"
-              value={tag}
-              onChange={e => setTag(e.target.value)}
-            />
-            <IconButton color="primary" onClick={handleAdd}>
-              <Add />
-            </IconButton>
-          </Box>
+          <CustomAutocomplete
+            availableTags={availableTags}
+            handleSelect={handleAdd}
+          />
         )}
       </div>
       {/* Include */}
-      {include && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-end",
-            justifyContent: "flex-start",
-            gap: "0.25rem",
-          }}
-        >
-          <div style={{ position: "relative" }}>Include:</div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-start",
-              gap: "0.25rem",
-            }}
-          >
-            <div style={{ position: "relative", fontWeight: "600" }}>
-              {include}
-            </div>
-          </div>
-          <IconButton style={{ position: "relative" }} color="primary" />
-        </div>
-      )}
+      {include && <Include addTag={addTag} availableTags={availableTags} />}
       {/* Include End*/}
     </div>
   );
 };
 
-export default Filter
+export default Filter;

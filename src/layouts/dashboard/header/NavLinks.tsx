@@ -35,8 +35,8 @@ const NavLinks = (props: Props) => {
           style={({ isActive, isPending }) => {
             return {
               position: "relative",
-              padding: "12px 0",
-              margin: "0 7px",
+              padding: "12px 10px",
+              margin: "0 24px 0 0",
               fontWeight: isActive ? "bold" : "",
               color: isActive ? "white" : "rgba(237, 237, 237, 0.3)",
               borderBottom: isActive ? "2px solid white" : "",

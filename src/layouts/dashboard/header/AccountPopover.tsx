@@ -89,10 +89,19 @@ export default function AccountPopover() {
           }}
         >
           <Avatar alt="user" src={userAvatar} />
-          <Box color={"white"} textAlign={"left"}>
-            <Typography variant="h6"> Alma Lawson</Typography>
+          <Box
+            color={"white"}
+            textAlign={"left"}
+            display={"flex"}
+            flexDirection={"column"}
+          >
+            <Typography variant="subtitle2" fontSize={"12px"}>
+              {" "}
+              Alma Lawson
+            </Typography>
             <Typography
-              variant="body2"
+              variant="caption"
+              fontSize={"10px"}
               sx={{
                 color: "rgba(237, 237, 237, 0.8)",
                 textTransform: "none",

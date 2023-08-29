@@ -1,14 +1,36 @@
+import { jobTitles, skillsAndKeywords, filters } from "../_mock/filters";
 export const filtersData: Filter[] = [
-  { label: "Job Titles", applied: [] },
+  { label: "Job Titles", applied: [], allTags: jobTitles },
   {
     label: "Skills and Keywords",
-    applied: ["PHP", "Branding", "Software Development"],
+    applied: [],
     include: "Current or Past",
+    allTags: skillsAndKeywords,
   },
-  { label: "Keywords To Avoid", applied: [], include: "Current or Past" },
-  { label: "Company Industries", applied: [], include: "Current or Past" },
-  { label: "Companies to Include", applied: [], include: "Current or Past" },
-  { label: "Companies to Avoid", applied: [], include: "Current or Past" },
+  {
+    label: "Keywords To Avoid",
+    applied: [],
+    include: "Current or Past",
+    allTags: filters,
+  },
+  {
+    label: "Company Industries",
+    applied: [],
+    include: "Current or Past",
+    allTags: filters,
+  },
+  {
+    label: "Companies to Include",
+    applied: [],
+    include: "Current or Past",
+    allTags: filters,
+  },
+  {
+    label: "Companies to Avoid",
+    applied: [],
+    include: "Current or Past",
+    allTags: filters,
+  },
 ];
 
 export const filtersRangeData: FilterRange[] = [
@@ -37,7 +59,8 @@ export const filtersLocationData: FilterLocation[] = [
 export const filtersInputData: Filter[] = [
   {
     label: "Education",
-    applied: ["PHP", "Branding", "Software Development"],
+    applied: [],
     include: "Current or Past",
+    allTags: filters,
   },
 ];

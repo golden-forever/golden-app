@@ -52,7 +52,12 @@ export default function Header({}: Props) {
             width: "100%",
           }}
         >
-          <Box display={"flex"} alignItems={"center"} padding={"8px 0"}>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            padding={"8px 0"}
+            columnGap={"24px"}
+          >
             <Logo />
             <JobsPopover />
           </Box>

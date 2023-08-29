@@ -1,8 +1,11 @@
-import * as React from "react";
 import { TextareaAutosize } from "@mui/base/TextareaAutosize";
 import { styled } from "@mui/system";
-
-export default function Textarea() {
+import { Box, Typography } from "@mui/material";
+type Props = {
+  rows?: number;
+  label?: string;
+};
+export default function Textarea({ rows, label }: Props) {
   const blue = {
     100: "#DAECFF",
     200: "#b6daff",
@@ -27,8 +30,7 @@ export default function Textarea() {
 
   const StyledTextarea = styled(TextareaAutosize)(
     ({ theme }) => `
-    width: 320px;
-    font-family: IBM Plex Sans, sans-serif;
+    width: 100%;
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
@@ -47,9 +49,7 @@ export default function Textarea() {
   
     &:focus {
       border-color: ${blue[400]};
-      box-shadow: 0 0 0 3px ${
-        theme.palette.mode === "dark" ? blue[500] : blue[200]
-      };
+      box-shadow: none;
     }
   
     // firefox
@@ -60,10 +60,22 @@ export default function Textarea() {
   );
 
   return (
-    <StyledTextarea
-      aria-label="minimum height"
-      minRows={3}
-      placeholder="Minimum 3 rows"
-    />
+    <Box width={"100%"}>
+      {label && (
+        <Typography
+          component={"label"}
+          color={grey[800]}
+          htmlFor="textarea"
+          variant="body2"
+        >
+          {label}
+        </Typography>
+      )}
+      <StyledTextarea
+        aria-label="textarea"
+        minRows={rows || 3}
+        placeholder="The candidate's skills do not fit the requirements..."
+      />
+    </Box>
   );
 }

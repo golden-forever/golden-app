@@ -9,16 +9,18 @@ import {
   Typography,
   TextField,
   Autocomplete,
+  IconButton,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import Textarea from "../inputs/Textarea";
+import { Close } from "@mui/icons-material";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export interface SimpleDialogProps {
   open: boolean;
   //   selectedValue: string;
-  onClose: (value: string) => void;
+  onClose: () => void;
 }
 
 export default function SelectCountryModal({
@@ -28,6 +30,18 @@ export default function SelectCountryModal({
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Select your company to get started</DialogTitle>
+      <IconButton
+        sx={{
+          marginRight: "-10px",
+          position: "absolute",
+          top: "0",
+          right: "0",
+          transform: "translate(-50%, 20%)",
+        }}
+        onClick={onClose}
+      >
+        <Close />
+      </IconButton>
       <DialogContent>
         <DialogContentText>
           {"Start typing the company name to select"}

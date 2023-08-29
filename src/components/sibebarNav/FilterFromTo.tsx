@@ -1,28 +1,55 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useMemo, useState } from "react";
 import { Box, Button, Slider } from "@mui/material";
 
 // Icons
 import { Close, Add, Remove } from "@mui/icons-material";
-
+type RangeArr = [number, number];
 type Props = {
   data: FilterRange;
-  handleRangeChange: (
-    filterRangeData: FilterRange,
-    value: [number, number]
-  ) => void;
+  handleRangeChange: (filterRangeData: FilterRange, value: RangeArr) => void;
   clearAll: (data: FilterRange) => void;
 };
 const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
   const [tag, setTag] = useState("");
   const { label, value, min, max } = data;
+  const [localValue, setLocalValue] = useState([min, max]);
   //   const handleAdd = () => {
   //     setIsAddNew(false);
   //     setTag("");
   //     addTag(data, tag);
   //   };
-  const onChange = (value: [number, number]) => {
+  const onChange = (value: RangeArr) => {
     handleRangeChange(data, value);
+    setLocalValue(value);
   };
+  const onFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = [...value];
+    newValue[0] = Number(e.target.value);
+    optimizedOnChange(newValue as RangeArr, value);
+  };
+  const onToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = [...value];
+    newValue[1] = Number(e.target.value);
+    optimizedOnChange(newValue as RangeArr, value);
+  };
+  const debounce = () => {
+    let timeoutID: any;
+    return (newValue: RangeArr, curValue: RangeArr) => {
+      setLocalValue(newValue);
+      console.log(newValue);
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        if (newValue[0] <= newValue[1]) {
+          if (newValue[0] < min) newValue[0] = min;
+          if (newValue[1] > max) newValue[1] = max;
+          handleRangeChange(data, newValue);
+        } else {
+          setLocalValue(curValue);
+        }
+      }, 1000);
+    };
+  };
+  const optimizedOnChange = useMemo(() => debounce(), []);
   return (
     <div
       style={{
@@ -58,7 +85,14 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
         >
           {label}
         </h4>
-        <Button variant="text" color="primary" onClick={() => clearAll(data)}>
+        <Button
+          variant="text"
+          color="primary"
+          onClick={() => {
+            clearAll(data);
+            setLocalValue([min, max]);
+          }}
+        >
           Clear
         </Button>
       </div>
@@ -80,12 +114,8 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
           type="number"
           id="companySizeFrom"
           name="companySizeFrom"
-          value={value[0]}
-          onChange={e => {
-            const value = data.value;
-            value[0] = Number(e.target.value);
-            onChange(value);
-          }}
+          value={localValue[0]}
+          onChange={onFromChange}
           min={min}
           max={value[1]}
         />
@@ -98,14 +128,8 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
           type="number"
           id="companySizeTo"
           name="companySizeTo"
-          value={value[1]}
-          onChange={e => {
-            const newMax = Number(e.target.value);
-            if (newMax > value[0]) {
-              value[1] = newMax;
-              onChange(value);
-            }
-          }}
+          value={localValue[1]}
+          onChange={onToChange}
           min={value[0]}
           max={max}
         />

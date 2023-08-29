@@ -1,7 +1,14 @@
 import { FunctionComponent } from "react";
-import { TextField, Button } from "@mui/material";
-import InputContainer from "../locofy/InputContainer";
-import Input from "../locofy/Input";
+import {
+  TextField,
+  Button,
+  InputLabel,
+  Box,
+  FormControl,
+  Input,
+  OutlinedInput,
+} from "@mui/material";
+import Textarea from "../common/inputs/Textarea";
 type Props = {
   setSelected: () => void;
 };
@@ -60,109 +67,35 @@ const EditJob = ({ setSelected }: Props) => {
             gap: "16px",
           }}
         >
-          <InputContainer
-            jobDescriptionInput=" Job Title"
-            jobDescriptionPlaceholder="Product manag|"
-            propHeight="unset"
-            propFlex="unset"
-          />
-          <div
-            style={{
-              alignSelf: "stretch",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-              justifyContent: "flex-start",
-              gap: "4px",
-              position: "relative",
-            }}
-          >
-            <Input
-              content="Location"
-              inputPosition="unset"
-              inputWidth="unset"
-              inputAlignSelf="stretch"
-              inputHeight="unset"
-              inputZIndex="unset"
-              inputDisplay="unset"
-              inputFlexDirection="unset"
-              inputAlignItems="unset"
-              inputJustifyContent="unset"
-              inputGap="unset"
-              frameDivHeight="20px"
-              frameDivGap="4px"
-              labelCursor="pointer"
-              labelGap="2px"
-              labelFontSize="14px"
-              labelLineHeight="13px"
-              labelFontFamily="Inter"
-              labelLetterSpacing="unset"
-              labelFontSize1="14px"
-              frameDivPadding="2px"
-              iconsWidth="6px"
-              iconsHeight="6px"
-              frameDivHeight1="unset"
-              frameDivDisplay="unset"
-              frameDivFlexDirection="unset"
-              frameDivAlignItems="unset"
-              frameDivJustifyContent="unset"
-              frameDivFlex="unset"
-              frameDivBorder="none"
-              frameDivBackgroundColor="transparent"
+          <FormControl fullWidth>
+            <InputLabel
+              disableAnimation
+              htmlFor="component-outlined"
+              // sx={{ position: "static" }}
+            >
+              Name
+            </InputLabel>
+            <OutlinedInput
+              id="component-outlined"
+              defaultValue="Composed TextField"
+              label="Name"
             />
-            <div style={{ alignSelf: "stretch" }}>
-              <div
-                style={{
-                  alignSelf: "stretch",
-                  display: "flex",
-                  flexDirection: "row",
-                  padding: "12px",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <div style={{ position: "relative" }}>
-                  <span>Tel</span>
-                  <span style={{ color: "#191919" }}>šiai</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  alignSelf: "stretch",
-                  backgroundColor: "#f5f5f5",
-                  display: "flex",
-                  flexDirection: "row",
-                  padding: "12px",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <div style={{ position: "relative" }}>
-                  <span>{`Tel `}</span>
-                  <span style={{ color: "#191919" }}>Aviv</span>
-                </div>
-              </div>
-              <div
-                style={{
-                  alignSelf: "stretch",
-                  display: "flex",
-                  flexDirection: "row",
-                  padding: "12px",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                }}
-              >
-                <div style={{ position: "relative" }}>
-                  <span>Tel</span>
-                  <span style={{ color: "#191919" }}>ford</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <InputContainer
-            jobDescriptionInput="Job Description"
-            jobDescriptionPlaceholder="Enter job description"
-          />
+          </FormControl>
+          <FormControl fullWidth>
+            <InputLabel
+              disableAnimation
+              htmlFor="component-outlined"
+              // sx={{ position: "static" }}
+            >
+              Name
+            </InputLabel>
+            <OutlinedInput
+              id="component-outlined"
+              defaultValue="Composed TextField"
+              label="Name"
+            />
+          </FormControl>
+          <Textarea rows={16} label="Job Description" />
         </div>
         <div
           style={{

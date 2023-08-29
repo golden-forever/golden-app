@@ -1,244 +1,139 @@
-import { FunctionComponent, useMemo, type CSSProperties } from "react";
-import companyImg from "../../../assets/logos15.svg";
+import { Box, Stack, Typography } from "@mui/material";
 
-type EducationType = {
-  educationDetails?: string;
-  universityName?: string;
-  degreeDetails?: string;
-  dateRange?: string;
-  showLogosIcon?: boolean;
-
-  /** Style props */
-  educationPosition?: CSSProperties["position"];
-  educationWidth?: CSSProperties["width"];
-  educationGap?: CSSProperties["gap"];
-  educationAlignSelf?: CSSProperties["alignSelf"];
-  iconWidth?: CSSProperties["width"];
-  iconHeight?: CSSProperties["height"];
-  iconPadding?: CSSProperties["padding"];
-  iconBackgroundImage?: CSSProperties["backgroundImage"];
-  iconBackgroundSize?: CSSProperties["backgroundSize"];
-  iconBackgroundRepeat?: CSSProperties["backgroundRepeat"];
-  iconBackgroundPosition?: CSSProperties["backgroundPosition"];
-  logosIconWidth?: CSSProperties["width"];
-  logosIconHeight?: CSSProperties["height"];
-  rightSideGap?: CSSProperties["gap"];
-  cornelUniversityFontSize?: CSSProperties["fontSize"];
-  cornelUniversityAlignSelf?: CSSProperties["alignSelf"];
-  frameDivGap?: CSSProperties["gap"];
-  masterOfRegionalFontSize?: CSSProperties["fontSize"];
-  masterOfRegionalDisplay?: CSSProperties["display"];
-  masterOfRegionalAlignItems?: CSSProperties["alignItems"];
-  masterOfRegionalWidth?: CSSProperties["width"];
-  masterOfRegionalAlignSelf?: CSSProperties["alignSelf"];
-  divFontSize?: CSSProperties["fontSize"];
+type Props = {
+  data: Education;
 };
 
-const getStyleValue = (key: string, value: string | number | undefined) => {
-  if (value === undefined || value === "") return;
-  return { [key]: value };
-};
-const Education: FunctionComponent<EducationType> = ({
-  educationDetails,
-  universityName,
-  degreeDetails,
-  dateRange,
-  showLogosIcon,
-  educationPosition,
-  educationWidth,
-  educationGap,
-  educationAlignSelf,
-  iconWidth,
-  iconHeight,
-  iconPadding,
-  iconBackgroundImage,
-  iconBackgroundSize,
-  iconBackgroundRepeat,
-  iconBackgroundPosition,
-  logosIconWidth,
-  logosIconHeight,
-  rightSideGap,
-  cornelUniversityFontSize,
-  cornelUniversityAlignSelf,
-  frameDivGap,
-  masterOfRegionalFontSize,
-  masterOfRegionalDisplay,
-  masterOfRegionalAlignItems,
-  masterOfRegionalWidth,
-  masterOfRegionalAlignSelf,
-  divFontSize,
-}) => {
-  const educationStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("position", educationPosition),
-      ...getStyleValue("width", educationWidth),
-      ...getStyleValue("gap", educationGap),
-      ...getStyleValue("alignSelf", educationAlignSelf),
-    };
-  }, [educationPosition, educationWidth, educationGap, educationAlignSelf]);
-
-  const iconStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("width", iconWidth),
-      ...getStyleValue("height", iconHeight),
-      ...getStyleValue("padding", iconPadding),
-      ...getStyleValue("backgroundImage", iconBackgroundImage),
-      ...getStyleValue("backgroundSize", iconBackgroundSize),
-      ...getStyleValue("backgroundRepeat", iconBackgroundRepeat),
-      ...getStyleValue("backgroundPosition", iconBackgroundPosition),
-    };
-  }, [
-    iconWidth,
-    iconHeight,
-    iconPadding,
-    iconBackgroundImage,
-    iconBackgroundSize,
-    iconBackgroundRepeat,
-    iconBackgroundPosition,
-  ]);
-
-  const logosIconStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("width", logosIconWidth),
-      ...getStyleValue("height", logosIconHeight),
-    };
-  }, [logosIconWidth, logosIconHeight]);
-
-  const rightSideStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("gap", rightSideGap),
-    };
-  }, [rightSideGap]);
-
-  const cornelUniversityStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("fontSize", cornelUniversityFontSize),
-      ...getStyleValue("alignSelf", cornelUniversityAlignSelf),
-    };
-  }, [cornelUniversityFontSize, cornelUniversityAlignSelf]);
-
-  const frameDiv3Style: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("gap", frameDivGap),
-    };
-  }, [frameDivGap]);
-
-  const masterOfRegionalStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("fontSize", masterOfRegionalFontSize),
-      ...getStyleValue("display", masterOfRegionalDisplay),
-      ...getStyleValue("alignItems", masterOfRegionalAlignItems),
-      ...getStyleValue("width", masterOfRegionalWidth),
-      ...getStyleValue("alignSelf", masterOfRegionalAlignSelf),
-    };
-  }, [
-    masterOfRegionalFontSize,
-    masterOfRegionalDisplay,
-    masterOfRegionalAlignItems,
-    masterOfRegionalWidth,
-    masterOfRegionalAlignSelf,
-  ]);
-
-  const divStyle: CSSProperties = useMemo(() => {
-    return {
-      ...getStyleValue("fontSize", divFontSize),
-    };
-  }, [divFontSize]);
-
+const Education = ({ data }: Props) => {
+  const { school, logo_url, starts_at, ends_at, field_of_study } = data;
+  const start = new Date(starts_at).getFullYear();
+  const end = new Date(ends_at).getFullYear();
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "316px",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-        gap: "16px",
-        textAlign: "left",
-        fontSize: "16px",
-        color: "#191919",
-        fontFamily: "'Noto Sans'",
-        ...educationStyle,
-      }}
-    >
-      <div
-        style={{
-          borderRadius: "2px",
+    // <div
+    //   style={{
+    //     position: "relative",
+    //     width: "316px",
+    //     display: "flex",
+    //     flexDirection: "row",
+    //     alignItems: "flex-start",
+    //     justifyContent: "flex-start",
+    //     gap: "16px",
+    //     textAlign: "left",
+    //     fontSize: "16px",
+    //     color: "#191919",
+    //     fontFamily: "'Noto Sans'",
+    //   }}
+    // >
+    //   <div
+    //     style={{
+    //       borderRadius: "2px",
+    //       width: "48px",
+    //       height: "48px",
+    //       display: "flex",
+    //       flexDirection: "row",
+    //       padding: "10px",
+    //       boxSizing: "border-box",
+    //       alignItems: "center",
+    //       justifyContent: "center",
+    //     }}
+    //   >
+    //     <img
+    //       style={{ position: "relative", width: "32px", height: "31.44px" }}
+    //       alt=""
+    //       src={educationDetails}
+    //     />
+    //   </div>
+    //   <div
+    //     style={{
+    //       flex: "1",
+    //       display: "flex",
+    //       flexDirection: "column",
+    //       alignItems: "flex-start",
+    //       justifyContent: "flex-start",
+    //       gap: "8px",
+    //     }}
+    //   >
+    //     <div style={{ position: "relative", fontWeight: "600" }}>
+    //       {universityName}
+    //     </div>
+    //     <div
+    //       style={{
+    //         alignSelf: "stretch",
+    //         display: "flex",
+    //         flexDirection: "column",
+    //         alignItems: "flex-start",
+    //         justifyContent: "flex-start",
+    //         gap: "4px",
+    //         fontSize: "14px",
+    //       }}
+    //     >
+    //       <div
+    //         style={{
+    //           position: "relative",
+    //           display: "flex",
+    //           alignItems: "center",
+    //           width: "256px",
+    //         }}
+    //       >
+    //         {degreeDetails}
+    //       </div>
+    //       <div style={{ position: "relative", color: "#666" }}>{dateRange}</div>
+    //     </div>
+    //   </div>
+    // </div>
+    <Box width={"100%"} display={"flex"}>
+      <Box
+        sx={{
+          position: "relative",
           width: "48px",
           height: "48px",
-          display: "flex",
-          flexDirection: "row",
-          padding: "10px",
-          boxSizing: "border-box",
-          alignItems: "center",
-          justifyContent: "center",
-          ...iconStyle,
+          marginRight: "24px",
         }}
       >
-        {/* {showLogosIcon && ( */}
-        <img
-          alt=""
-          src={companyImg}
-          style={{
-            position: "relative",
-            width: "32px",
-            height: "31.44px",
-            ...logosIconStyle,
-          }}
-        />
-        {/* )} */}
-      </div>
-      <div
-        style={{
-          flex: "1",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          gap: "8px",
-          ...rightSideStyle,
-        }}
-      >
-        <div
-          style={{
-            position: "relative",
-            fontWeight: "600",
-            ...cornelUniversityStyle,
-          }}
-        >
-          {universityName}
-        </div>
-        <div
-          style={{
-            alignSelf: "stretch",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            gap: "4px",
-            fontSize: "14px",
-            ...frameDiv3Style,
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              width: "256px",
-              ...masterOfRegionalStyle,
-            }}
-          >
-            {degreeDetails}
-          </div>
-          <div style={{ position: "relative", color: "#666", ...divStyle }}>
-            {dateRange}
-          </div>
-        </div>
-      </div>
-    </div>
+        <img style={{ objectFit: "cover" }} alt="" src={logo_url} />
+      </Box>
+      <Box>
+        <Stack>
+          <Typography variant="subtitle1">{school} </Typography>
+          <Typography variant="body2">{field_of_study}</Typography>
+          <Typography variant="body2" color={"secondary"}>
+            {start} - {end}
+          </Typography>
+        </Stack>
+      </Box>
+    </Box>
   );
 };
 
 export default Education;
+const mockData = {
+  _id: "avi-ventura",
+  city: null,
+  connections: 500.0,
+  country: "IL",
+  country_full_name: "Israel",
+  first_name: "Avi",
+  headline: "Product Team Lead",
+  last_name: "Ventura",
+  occupation: "Product Team Lead at Surecomp",
+  profile_pic_url: "https://storage.googleapis.com/linkedingpt/avi-ventura.jpg",
+  public_identifier: "avi-ventura",
+  state: null,
+  summary:
+    "• Vast experience building successful consumer Mobile Web and Desktop products from scratch.\n• Demonstrated success in creating innovative and user-friendly software applications and customer- facing features.\n• Experience working on Agile enabled teams (SCRUM) as a product owner.\n• Experience launching consumer-facing online service (Web/ Mobile/ Tablet) from start to finish.\n• Proven ability to understand complex business problems, apply strong analytical skill and create \n  technical requirements (PRD's, user stories - high level and detailed design).\n• Deep experience in analytics, and massive understanding of the online industry.\n\n• Have both the ability to work independently and also to integrate with other team members.\n• Attention to detail and the ability to see the bigger picture.\n• Ability to manage cross-functional projects without direct authority.\n\n• In my spare time I'm a long distances runner and a triathlete. Also I was competing in The Iron Man Triathlon competition in Austria 2019.",
+  education: [
+    {
+      starts_at: "2000-01-01T00:00:00.000+0000",
+      ends_at: "2003-12-31T00:00:00.000+0000",
+      field_of_study: "Mass communication, management",
+      degree_name: "BA",
+      school: "Hamaslool Ha'akademi shel Hamichlala Leminhal",
+      school_linkedin_profile_url:
+        "https://il.linkedin.com/school/the-college-of-management/",
+      description: "Student",
+      logo_url:
+        "https://storage.googleapis.com/linkedingpt/school-the-college-of-management.jpeg",
+    },
+  ],
+  full_name: "Avi Ventura",
+};

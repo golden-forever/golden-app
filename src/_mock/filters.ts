@@ -1,0 +1,46 @@
+export const jobTitles = [
+  { label: "DevOps", value: "devOps" },
+  { label: "Designer", value: "designer" },
+  { label: "Manager", value: "manager" },
+  { label: "Analyst", value: "analyst" },
+  { label: "Engineer", value: "engineer" },
+  { label: "Coordinator", value: "coordinator" },
+  { label: "Administrator", value: "administrator" },
+  { label: "Specialist", value: "specialist" },
+  { label: "Consultant", value: "consultant" },
+  { label: "Architect", value: "architect" },
+];
+
+export const skillsAndKeywords = [
+  { label: "JavaScript", value: "javaScript" },
+  { label: "Python", value: "python" },
+  { label: "Data Analysis", value: "dataAnalysis" },
+  { label: "Web Development", value: "webDevelopment" },
+  { label: "Machine Learning", value: "machineLearning" },
+  { label: "Graphic Design", value: "graphicDesign" },
+  { label: "Project Management", value: "projectManagement" },
+  { label: "Digital Marketing", value: "digitalMarketing" },
+  { label: "Problem Solving", value: "problemSolving" },
+  { label: "Communication", value: "communication" },
+  { label: "Teamwork", value: "teamwork" },
+  { label: "Creativity", value: "creativity" },
+  { label: "Critical Thinking", value: "criticalThinking" },
+  { label: "Time Management", value: "timeManagement" },
+];
+
+export const filters = [
+  { label: "Efficiency", value: "efficiency" },
+  { label: "Productivity", value: "productivity" },
+  { label: "Innovation", value: "innovation" },
+  { label: "Quality", value: "quality" },
+  { label: "Leadership", value: "leadership" },
+  { label: "Diversity", value: "diversity" },
+  { label: "Sustainability", value: "sustainability" },
+  { label: "Resilience", value: "resilience" },
+  { label: "Adaptability", value: "adaptability" },
+  { label: "Customer Service", value: "customerService" },
+  { label: "Risk Management", value: "riskManagement" },
+  { label: "Cybersecurity", value: "cybersecurity" },
+  { label: "Inclusivity", value: "inclusivity" },
+  { label: "Ethics", value: "ethics" },
+];

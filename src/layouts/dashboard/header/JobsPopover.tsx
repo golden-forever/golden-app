@@ -56,6 +56,8 @@ export default function JobsPopover() {
         sx={{
           p: 0,
           color: "white",
+          fontSize: "16px",
+          fontWeight: "400",
           ...(open && {}),
         }}
         endIcon={<KeyboardArrowDown />}
@@ -84,9 +86,7 @@ export default function JobsPopover() {
         }}
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
-          <Typography variant="subtitle2" noWrap>
-            Other Job
-          </Typography>
+          <Typography variant="subtitle1">Other Job</Typography>
         </Box>
 
         <Stack>
@@ -99,6 +99,7 @@ export default function JobsPopover() {
                 display: "flex",
                 transition: "opacity 0.3s ease 0s",
                 position: "relative",
+                fontSize: "14px",
                 justifyContent: "space-between",
                 alignItems: "center",
                 p: "14px 16px 14px 29px",

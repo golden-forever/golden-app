@@ -9,10 +9,12 @@ import {
   DialogActions,
   Typography,
   Divider,
+  IconButton,
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import Textarea from "../inputs/Textarea";
 import notFoundImg from "../../../assets/image@2x.png";
+import { Close } from "@mui/icons-material";
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export interface SimpleDialogProps {
@@ -24,6 +26,18 @@ export interface SimpleDialogProps {
 export default function NoJobModal({ open, onClose }: SimpleDialogProps) {
   return (
     <Dialog onClose={onClose} open={open}>
+      <IconButton
+        sx={{
+          marginRight: "-10px",
+          position: "absolute",
+          top: "0",
+          right: "0",
+          transform: "translate(-50%, 20%)",
+        }}
+        onClick={onClose}
+      >
+        <Close />
+      </IconButton>
       <div
         style={{
           alignSelf: "stretch",

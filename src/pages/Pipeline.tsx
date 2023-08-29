@@ -5,9 +5,15 @@ import {
   ProfileCard,
   ProfileDrawerContent,
 } from "../components/common";
+
 import { Box, Drawer } from "@mui/material";
+
+import { profiles } from "../_mock/profiles";
+
 const Pipeline: FunctionComponent = () => {
   const [isProfileDrawer, setIsProfileDrawer] = useState(false);
+  const [selectedProf, setSelectedProf] = useState<null | ProfileData>(null);
+
   const [isFeedbackModal, setIsFeedbackModal] = useState(false);
 
   const toggleFeedbackModal = (open: boolean) => {
@@ -22,6 +28,9 @@ const Pipeline: FunctionComponent = () => {
     //   return;
     // }
     setIsProfileDrawer(open);
+  };
+  const handleSelect = (data: ProfileData) => {
+    setSelectedProf(data);
   };
 
   return (
@@ -74,18 +83,14 @@ const Pipeline: FunctionComponent = () => {
             gap: "1.5rem",
           }}
         >
-          <ProfileCard
-            onProfileClick={() => toggleDrawer(true)}
-            openFeedbackModal={() => toggleFeedbackModal(true)}
-          />
-          <ProfileCard
-            onProfileClick={() => toggleDrawer(true)}
-            openFeedbackModal={() => toggleFeedbackModal(true)}
-          />
-          <ProfileCard
-            onProfileClick={() => toggleDrawer(true)}
-            openFeedbackModal={() => toggleFeedbackModal(true)}
-          />
+          {profiles.map((profile, i) => (
+            <ProfileCard
+              onProfileClick={() => toggleDrawer(true)}
+              openFeedbackModal={() => toggleFeedbackModal(true)}
+              handleSelect={handleSelect}
+              data={profile}
+            />
+          ))}
         </div>
       </Box>
       {/* </main>
@@ -100,9 +105,12 @@ const Pipeline: FunctionComponent = () => {
         open={isProfileDrawer}
         onClose={() => toggleDrawer(false)}
       >
-        <ProfileDrawerContent
-          openFeedbackModal={() => toggleFeedbackModal(true)}
-        />
+        {selectedProf !== null && (
+          <ProfileDrawerContent
+            data={selectedProf}
+            openFeedbackModal={() => toggleFeedbackModal(true)}
+          />
+        )}
       </Drawer>
     </>
   );

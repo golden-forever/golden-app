@@ -106,10 +106,7 @@ const FilterLocation = ({ data }: Props) => {
       {/* From To Fields End*/}
 
       {/* Checkbox */}
-      <FormControlLabel
-        control={<Checkbox defaultChecked />}
-        label="Education"
-      />
+      <FormControlLabel control={<Checkbox />} label="Anywhere in Israel" />
 
       {/* Checkbox End */}
     </div>

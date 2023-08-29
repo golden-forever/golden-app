@@ -10,6 +10,7 @@ import {
 
 // Icons
 import { Close, Add, Remove } from "@mui/icons-material";
+import CustomAutocomplete from "./filters/CustomAutocomplete";
 
 type Props = {
   data: Filter;
@@ -19,12 +20,14 @@ type Props = {
 };
 const FilterInput = ({ data, removeTag, addTag, clearAllTags }: Props) => {
   const [isAddNew, setIsAddNew] = useState(false);
-  const [tag, setTag] = useState("");
-  const { label, applied, include } = data;
-  const handleAdd = () => {
+  const { label, applied, include, allTags } = data;
+  const [availableTags, setAvailableTags] = useState<never[] | Tag[]>(allTags);
+
+  const handleAdd = (tag: Tag) => {
     setIsAddNew(false);
-    setTag("");
     addTag(data, tag);
+    const newTags = allTags.filter(item => !applied.includes(item));
+    setAvailableTags(newTags);
   };
   return (
     <div
@@ -79,7 +82,16 @@ const FilterInput = ({ data, removeTag, addTag, clearAllTags }: Props) => {
           gap: "0.75rem",
         }}
       >
-        <Box component={"form"} display={"flex"} width={"100%"} m={"0 auto"}>
+        {/* <Box
+          component={"form"}
+          display={"flex"}
+          width={"100%"}
+          m={"0 auto"}
+          onSubmit={e => {
+            e.preventDefault();
+            // handleAdd();
+          }}
+        >
           <TextField
             fullWidth
             name="tag"
@@ -87,10 +99,14 @@ const FilterInput = ({ data, removeTag, addTag, clearAllTags }: Props) => {
             // label="Add tag"
             placeholder="Add tag"
             variant="standard"
-            value={tag}
-            onChange={e => setTag(e.target.value)}
+            // value={tag}
+            // onChange={e => setTag(e.target.value)}
           />
-        </Box>
+        </Box> */}
+        <CustomAutocomplete
+          availableTags={availableTags}
+          handleSelect={handleAdd}
+        />
         <Box
           sx={{
             alignSelf: "stretch",
@@ -121,8 +137,8 @@ const FilterInput = ({ data, removeTag, addTag, clearAllTags }: Props) => {
             //     fontFamily: "'Noto Sans'",
             //   }}
             // >
-            <Typography sx={{ width: "100%" }} color={"primary.main"}>
-              {val}
+            <Typography sx={{ width: "100%" }} color={"primary.main"} key={i}>
+              {val.label}
             </Typography>
 
             // <IconButton sx={{ p: "0" }} onClick={() => removeTag(data, i)}>

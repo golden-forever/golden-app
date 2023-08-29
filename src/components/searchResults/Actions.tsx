@@ -2,6 +2,15 @@ import { FunctionComponent, useCallback } from "react";
 import { Button } from "@mui/material";
 import tickIcon from "../../assets/icons11.svg";
 import eyeIcon from "../../assets/icons12.svg";
+import Action from "./Action";
+type ActionData = undefined | "save" | "hide";
+
+const mockActions: { variant?: ActionData }[] = [
+  { variant: "save" },
+  { variant: "save" },
+  { variant: "hide" },
+  {},
+];
 const Actions: FunctionComponent = () => {
   const onDanielChoenSavedClick = useCallback(() => {
     // Please sync "Pipeline(My candidates)" to the project
@@ -27,148 +36,9 @@ const Actions: FunctionComponent = () => {
         fontFamily: "'Noto Sans'",
       }}
     >
-      <div
-        style={{
-          alignSelf: "stretch",
-          backgroundColor: "#fff",
-          borderBottom: "1px solid #ededed",
-          display: "flex",
-          flexDirection: "row",
-          padding: "0rem 1.5rem 1.5rem",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "2rem",
-        }}
-      >
-        <img
-          style={{
-            position: "relative",
-            width: "1.25rem",
-            height: "1.25rem",
-            overflow: "hidden",
-            flexShrink: "0",
-          }}
-          alt=""
-          src={tickIcon}
-        />
-        <div
-          style={{
-            alignSelf: "stretch",
-            flex: "1",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-            onClick={onDanielChoenSavedClick}
-          >
-            <span>{`Yoss Maman was saved to `}</span>
-            <span style={{ color: "#0a66c2" }}>Pipeline</span>
-          </div>
-          <Button variant="text" color="primary">
-            Cancel
-          </Button>
-        </div>
-      </div>
-      <div
-        style={{
-          alignSelf: "stretch",
-          backgroundColor: "#fff",
-          borderBottom: "1px solid #ededed",
-          display: "flex",
-          flexDirection: "row",
-          padding: "0rem 1.5rem 1.5rem",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "2rem",
-        }}
-      >
-        <img
-          style={{
-            position: "relative",
-            width: "1.25rem",
-            height: "1.25rem",
-            overflow: "hidden",
-            flexShrink: "0",
-          }}
-          alt=""
-          src={tickIcon}
-        />
-        <div
-          style={{
-            alignSelf: "stretch",
-            flex: "1",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div
-            style={{
-              position: "relative",
-              fontWeight: "600",
-              cursor: "pointer",
-            }}
-            onClick={onDanielChoenSaved1Click}
-          >
-            <span>{`Vadim Pilipenko was saved to `}</span>
-            <span style={{ color: "#0a66c2" }}>Pipeline</span>
-          </div>
-          <Button variant="text" color="primary">
-            Cancel
-          </Button>
-        </div>
-      </div>
-      <div
-        style={{
-          alignSelf: "stretch",
-          backgroundColor: "#fff",
-          borderBottom: "1px solid #ededed",
-          display: "flex",
-          flexDirection: "row",
-          padding: "0rem 1.5rem 1.5rem",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "2rem",
-        }}
-      >
-        <img
-          style={{
-            position: "relative",
-            width: "1.5rem",
-            height: "1.5rem",
-            overflow: "hidden",
-            flexShrink: "0",
-          }}
-          alt=""
-          src={eyeIcon}
-        />
-        <div
-          style={{
-            alignSelf: "stretch",
-            flex: "1",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <div style={{ position: "relative", fontWeight: "600" }}>
-            Avi Ventura doesn't fit to your project
-          </div>
-          <Button variant="text" color="primary">
-            Cancel
-          </Button>
-        </div>
-      </div>
+      {mockActions.map((action, i) => (
+        <Action variant={action.variant} handleCancel={() => {}} />
+      ))}
     </div>
   );
 };

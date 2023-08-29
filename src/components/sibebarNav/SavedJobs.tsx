@@ -1,4 +1,4 @@
-import { Box, Divider, Button } from "@mui/material";
+import { Box, Divider, Button, Chip, Stack, Typography } from "@mui/material";
 import NavLink from "./NavLink";
 import Logo from "./Logo";
 import { useState } from "react";
@@ -19,24 +19,21 @@ const SavedJobs = (props: Props) => {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "flex-start",
-          gap: "1rem",
+          gap: "24px",
           fontSize: "1rem",
         }}
       >
-        <div
-          style={{
-            alignSelf: "stretch",
-            display: "flex",
-            flexDirection: "row",
-            padding: "0rem 0rem 0rem 1.75rem",
-            alignItems: "center",
-            justifyContent: "flex-start",
-          }}
+        <Stack
+          flexDirection={"row"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          width={"100%"}
+          p={"0 16px 0 28px"}
         >
-          <div style={{ flex: "1", position: "relative", fontWeight: "600" }}>
-            Total saved
-          </div>
-        </div>
+          <Typography variant="h4">Total saved</Typography>
+          <Typography variant="body1">80</Typography>
+        </Stack>
+
         <div
           style={{
             alignSelf: "stretch",
@@ -76,10 +73,7 @@ const SavedJobs = (props: Props) => {
                   borderTopRightRadius: "4px",
                   borderBottomRightRadius: "4px",
                 },
-                "& .MuiButton-endIcon": {
-                  transition: "opacity 1s ease 0s",
-                  opacity: 0,
-                },
+
                 "&.active": {
                   color: "primary.main",
                   "::after": {
@@ -88,14 +82,18 @@ const SavedJobs = (props: Props) => {
                 },
                 ":hover": {
                   background: "transparent",
-                  "& .MuiButton-endIcon": { opacity: 1 },
+                  "& .MuiChip-root": { opacity: 1 },
                   "::after": {
                     opacity: 1,
                   },
                 },
               }}
             >
-              {option.label} <span>{option.amount}</span>
+              {option.label}{" "}
+              <Chip
+                label={option.amount}
+                color={selected === option ? "primary" : "default"}
+              />
             </Button>
           ))}
           {/* <Button

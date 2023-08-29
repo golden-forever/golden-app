@@ -1,18 +1,18 @@
 import { FunctionComponent, useState, useCallback } from "react";
-import ModalFeetback from "../components/locofy/ModalFeetback";
-import PortalPopup from "../components/locofy/PortalPopup";
 
 import { Actions } from "../components/searchResults";
-import ProfileSlideover from "../components/locofy/ProfileSlideover";
+
 import {
   FeetbackModal,
   ProfileCard,
   ProfileDrawerContent,
 } from "../components/common";
 import { Drawer } from "@mui/material";
+import { profiles } from "../_mock/profiles";
 
 const SearchResults: FunctionComponent = () => {
   const [isProfileDrawer, setIsProfileDrawer] = useState(false);
+  const [selectedProf, setSelectedProf] = useState<null | ProfileData>(null);
   const [isFeedbackModal, setIsFeedbackModal] = useState(false);
 
   const toggleFeedbackModal = (open: boolean) => {
@@ -27,6 +27,10 @@ const SearchResults: FunctionComponent = () => {
     //   return;
     // }
     setIsProfileDrawer(open);
+  };
+
+  const handleSelect = (data: ProfileData) => {
+    setSelectedProf(data);
   };
 
   return (
@@ -69,18 +73,14 @@ const SearchResults: FunctionComponent = () => {
               gap: "1.5rem",
             }}
           >
-            <ProfileCard
-              onProfileClick={() => toggleDrawer(true)}
-              openFeedbackModal={() => toggleFeedbackModal(true)}
-            />
-            <ProfileCard
-              onProfileClick={() => toggleDrawer(true)}
-              openFeedbackModal={() => toggleFeedbackModal(true)}
-            />
-            <ProfileCard
-              onProfileClick={() => toggleDrawer(true)}
-              openFeedbackModal={() => toggleFeedbackModal(true)}
-            />
+            {profiles.map((profile, i) => (
+              <ProfileCard
+                onProfileClick={() => toggleDrawer(true)}
+                openFeedbackModal={() => toggleFeedbackModal(true)}
+                handleSelect={handleSelect}
+                data={profile}
+              />
+            ))}
           </div>
         </main>
       </div>
@@ -89,24 +89,18 @@ const SearchResults: FunctionComponent = () => {
         open={isFeedbackModal}
         onClose={() => toggleFeedbackModal(false)}
       />
-      {/* {isModalFeetbackPopupOpen && (
-        <PortalPopup
-          overlayColor="rgba(13, 21, 32, 0.3)"
-          placement="Centered"
-          onOutsideClick={closeModalFeetbackPopup}
-        >
-          <ModalFeetback onClose={closeModalFeetbackPopup} />
-        </PortalPopup>
-      )} */}
 
       <Drawer
         anchor={"right"}
         open={isProfileDrawer}
         onClose={() => toggleDrawer(false)}
       >
-        <ProfileDrawerContent
-          openFeedbackModal={() => toggleFeedbackModal(true)}
-        />
+        {selectedProf !== null && (
+          <ProfileDrawerContent
+            data={selectedProf}
+            openFeedbackModal={() => toggleFeedbackModal(true)}
+          />
+        )}
       </Drawer>
     </>
   );
