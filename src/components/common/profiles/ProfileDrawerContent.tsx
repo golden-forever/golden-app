@@ -356,7 +356,7 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
               }
               onClick={() => setIseShowMoreExperience(!isShowMoreExperience)}
             >
-              {isShowMore ? "Show less" : "Show more"}
+              {isShowMoreExperience ? "Show less" : "Show more"}
             </Button>
           </div>
         </div>
@@ -433,7 +433,7 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
               }
               onClick={() => setIseShowMoreEducation(!isShowMoreEducation)}
             >
-              {isShowMore ? "Show less" : "Show more"}
+              {isShowMoreEducation ? "Show less" : "Show more"}
             </Button>
           </div>
         </div>

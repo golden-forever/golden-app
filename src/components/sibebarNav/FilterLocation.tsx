@@ -17,9 +17,12 @@ import { Close, Add, Remove } from "@mui/icons-material";
 
 type Props = {
   data: FilterLocation;
+  clearAll: () => void;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
-const FilterLocation = ({ data }: Props) => {
-  const [isAddNew, setIsAddNew] = useState(false);
+const FilterLocation = ({ data, clearAll, handleChange }: Props) => {
   const [tag, setTag] = useState("");
   const { label, minToDrive, to, anywhere } = data;
 
@@ -63,11 +66,7 @@ const FilterLocation = ({ data }: Props) => {
         >
           {label}
         </h4>
-        <Button
-          variant="text"
-          color="primary"
-          // onClick={() => clearAllTags(data)}
-        >
+        <Button variant="text" color="primary" onClick={clearAll}>
           Clear
         </Button>
       </div>
@@ -86,27 +85,34 @@ const FilterLocation = ({ data }: Props) => {
         <input
           style={{ width: "50px" }}
           type="number"
-          id="companySizeTo"
-          name="companySizeTo"
+          id="minToDrive"
+          name="minToDrive"
           min="0"
+          value={minToDrive}
+          onChange={handleChange}
         />
         {/* </Box> */}
         <p>min. drive to</p>
         <TextField
-          name="tag"
+          name="to"
           size="small"
           // label="Add tag"
           placeholder="e.g. Tel-Aviv"
           variant="standard"
-          value={tag}
-          onChange={e => setTag(e.target.value)}
+          value={to}
+          onChange={handleChange}
           sx={{ width: "123px" }}
         />
       </Box>
       {/* From To Fields End*/}
 
       {/* Checkbox */}
-      <FormControlLabel control={<Checkbox />} label="Anywhere in Israel" />
+      <FormControlLabel
+        control={
+          <Checkbox name="anywhere" value={anywhere} onChange={handleChange} />
+        }
+        label="Anywhere in Israel"
+      />
 
       {/* Checkbox End */}
     </div>

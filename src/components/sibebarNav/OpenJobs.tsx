@@ -54,8 +54,9 @@ const OpenJobs = (props: Props) => {
             gap: "0.38rem",
           }}
         >
-          {mockData.map(position => (
+          {mockData.map((position, i) => (
             <NavLink
+              key={i}
               title={position.jobTitle}
               isActive={position.jobTitle === selected.jobTitle}
               handleClick={() => setSelected(position)}

@@ -8,10 +8,6 @@ import {
   FormGroup,
 } from "@mui/material";
 
-import Underline from "../locofy/Underline";
-
-import ChexboxInput from "../locofy/ChexboxInput";
-
 // Filters Data
 import {
   filtersData,
@@ -21,7 +17,6 @@ import {
 } from "../../utils/constants";
 
 // Icons
-import { Close, Add, Remove } from "@mui/icons-material";
 
 import Filter from "./Filter";
 import FilterFromTo from "./FilterFromTo";
@@ -31,9 +26,9 @@ import FilterInput from "./FilterInput";
 const Filters: FunctionComponent = () => {
   const [filters, setFilters] = useState([...filtersData]);
   const [filtersRange, setFiltersRange] = useState([...filtersRangeData]);
-  const [filtersLocation, setFiltersLocation] = useState([
+  const [filtersLocation, setFiltersLocation] = useState({
     ...filtersLocationData,
-  ]);
+  });
   const [filtersInput, setFiltersInput] = useState([...filtersInputData]);
 
   const removeTag: RemoveTag = (filterData, removeIndex) => {
@@ -103,6 +98,22 @@ const Filters: FunctionComponent = () => {
     newFilterData.applied = [];
     setFiltersInput(filtersTemp);
   };
+  const clearAllLocationData = () => {
+    setFiltersLocation({ ...filtersLocationData });
+  };
+  const handleLocationChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e?.target;
+    let newValue: number | boolean | string = value;
+    if (name === "minToDrive") newValue = Number(value);
+    else if (name === "anywhere") {
+      if (value === "true") newValue = true;
+      else if (value === "false") newValue = false;
+    }
+
+    setFiltersLocation({ ...filtersLocation, [name]: newValue });
+  };
   return (
     <div
       style={{
@@ -145,9 +156,12 @@ const Filters: FunctionComponent = () => {
           handleRangeChange={handleRangeChange}
         />
       ))}
-      {filtersLocation.map((filter, i) => (
-        <FilterLocation data={filter} key={i} />
-      ))}
+
+      <FilterLocation
+        data={filtersLocation}
+        clearAll={clearAllLocationData}
+        handleChange={handleLocationChange}
+      />
 
       {filtersInput.map((filter, i) => (
         <FilterInput

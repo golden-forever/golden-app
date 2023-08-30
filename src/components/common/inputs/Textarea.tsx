@@ -58,7 +58,6 @@ export default function Textarea({ rows, label }: Props) {
     }
   `
   );
-
   return (
     <Box width={"100%"}>
       {label && (
@@ -75,6 +74,7 @@ export default function Textarea({ rows, label }: Props) {
         aria-label="textarea"
         minRows={rows || 3}
         placeholder="The candidate's skills do not fit the requirements..."
+        onChange={e => console.log(e.target.value)}
       />
     </Box>
   );

@@ -47,14 +47,12 @@ export const filtersRangeData: FilterRange[] = [
     max: 20,
   },
 ];
-export const filtersLocationData: FilterLocation[] = [
-  {
-    label: "Education",
-    minToDrive: 60,
-    to: "",
-    anywhere: false,
-  },
-];
+export const filtersLocationData: FilterLocation = {
+  label: "Education",
+  minToDrive: 60,
+  to: "",
+  anywhere: false,
+};
 
 export const filtersInputData: Filter[] = [
   {

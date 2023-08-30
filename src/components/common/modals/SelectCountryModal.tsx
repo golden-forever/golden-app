@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   DialogContent,
@@ -10,23 +10,26 @@ import {
   TextField,
   Autocomplete,
   IconButton,
+  Box,
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
-import Textarea from "../inputs/Textarea";
+
 import { Close } from "@mui/icons-material";
+import { useAppSelector } from "../../../hooks";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
 
 export interface SimpleDialogProps {
   open: boolean;
-  //   selectedValue: string;
   onClose: () => void;
 }
-
 export default function SelectCountryModal({
   open,
   onClose,
 }: SimpleDialogProps) {
+  const { companies } = useAppSelector(state => state.company);
+  const [value, setValue] = useState<null | Company>(null);
+  const [inputValue, setInputValue] = useState<null | string>(null);
+
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Select your company to get started</DialogTitle>
@@ -42,22 +45,58 @@ export default function SelectCountryModal({
       >
         <Close />
       </IconButton>
-      <DialogContent>
-        <DialogContentText>
+      {/* Placeholder to add width */}
+      <Box sx={{ width: "700px" }} />
+
+      <DialogContent sx={{ height: "300px" }}>
+        <DialogContentText marginBottom={"32px"}>
           {"Start typing the company name to select"}
         </DialogContentText>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={top100Films}
-          sx={{ width: 300 }}
-          renderInput={params => <TextField {...params} label="Movie" />}
+          value={value}
+          onChange={(event, newValue) => {
+            setValue(newValue);
+          }}
+          inputValue={inputValue ? inputValue : ""}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+          }}
+          sx={{
+            maxHeight: "200px",
+          }}
+          getOptionLabel={option => `${option.company}`}
+          options={companies}
+          renderInput={params => {
+            return <TextField {...params} label=" Company" />;
+          }}
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+              {...props}
+              key={Math.random()}
+            >
+              <Box
+                width={"24px"}
+                position={"relative"}
+                marginRight={"16px"}
+                paddingY={"12px"}
+              >
+                <img
+                  src={option?.logo_url}
+                  alt=""
+                  style={{ objectFit: "cover", height: "24px" }}
+                />
+              </Box>{" "}
+              {option?.company}
+            </Box>
+          )}
         />
       </DialogContent>
+
       <DialogActions>
-        <Button variant="outlined" color="primary">
-          Edit
-        </Button>
         <Button variant="contained" color="primary">
           Confirm
         </Button>
@@ -65,12 +104,3 @@ export default function SelectCountryModal({
     </Dialog>
   );
 }
-const top100Films = [
-  { label: "The Shawshank Redemption", year: 1994 },
-  { label: "The Godfather", year: 1972 },
-  { label: "The Godfather: Part II", year: 1974 },
-  { label: "The Dark Knight", year: 2008 },
-  { label: "12 Angry Men", year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: "Pulp Fiction", year: 1994 },
-];
