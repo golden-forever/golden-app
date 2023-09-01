@@ -11,7 +11,7 @@ const config = ({ pathname }: Props) => {
   const trimmedPathname = checkLastCharacter(pathname);
   const content = (
     <>
-      {trimmedPathname === "/" && <OpenJobs />}
+      {trimmedPathname.startsWith("/job") && <OpenJobs />}
       {trimmedPathname === "/search-results" && <Filters />}
       {trimmedPathname === "/pipeline" && <SavedJobs />}
     </>

@@ -1,55 +1,52 @@
-import { FunctionComponent, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Button, Slider } from "@mui/material";
 
 // Icons
-import { Close, Add, Remove } from "@mui/icons-material";
 type RangeArr = [number, number];
-type Props = {
-  data: FilterRange;
-  handleRangeChange: (filterRangeData: FilterRange, value: RangeArr) => void;
-  clearAll: (data: FilterRange) => void;
+type Props = {};
+const initialState: { value: RangeArr; min: number; max: number } = {
+  value: [1, 20],
+  min: 1,
+  max: 20,
 };
-const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
-  const [tag, setTag] = useState("");
-  const { label, value, min, max } = data;
-  const [localValue, setLocalValue] = useState([min, max]);
-  //   const handleAdd = () => {
-  //     setIsAddNew(false);
-  //     setTag("");
-  //     addTag(data, tag);
-  //   };
-  const onChange = (value: RangeArr) => {
-    handleRangeChange(data, value);
-    setLocalValue(value);
-  };
+const YearsOfExperience = ({}: Props) => {
+  const [state, setState] = useState({ ...initialState });
+
   const onFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = [...value];
+    const newValue = [...state.value];
     newValue[0] = Number(e.target.value);
-    optimizedOnChange(newValue as RangeArr, value);
+    optimizedOnChange(newValue as RangeArr, state.value);
   };
   const onToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = [...value];
+    const newValue = [...state.value];
     newValue[1] = Number(e.target.value);
-    optimizedOnChange(newValue as RangeArr, value);
+    optimizedOnChange(newValue as RangeArr, state.value);
+  };
+  const handChange = (value: [number, number]) => {
+    setState({ ...state, value });
   };
   const debounce = () => {
     let timeoutID: any;
     return (newValue: RangeArr, curValue: RangeArr) => {
-      setLocalValue(newValue);
+      setState({ ...state, value: newValue });
       console.log(newValue);
       clearTimeout(timeoutID);
       timeoutID = setTimeout(() => {
         if (newValue[0] <= newValue[1]) {
-          if (newValue[0] < min) newValue[0] = min;
-          if (newValue[1] > max) newValue[1] = max;
-          handleRangeChange(data, newValue);
-        } else {
-          setLocalValue(curValue);
+          if (newValue[0] < state.min) newValue[0] = state.min;
+          if (newValue[1] > state.max) newValue[1] = state.max;
+          // handleRangeChange(data, newValue);
         }
+        // else {
+        //   setLocalValue(curValue);
+        // }
       }, 1000);
     };
   };
   const optimizedOnChange = useMemo(() => debounce(), []);
+  const clearAll = () => {
+    setState({ ...initialState });
+  };
   return (
     <div
       style={{
@@ -83,16 +80,9 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
             fontFamily: "inherit",
           }}
         >
-          {label}
+          Years of experience
         </h4>
-        <Button
-          variant="text"
-          color="primary"
-          onClick={() => {
-            clearAll(data);
-            setLocalValue([min, max]);
-          }}
-        >
+        <Button variant="text" color="primary" onClick={clearAll}>
           Clear
         </Button>
       </div>
@@ -114,10 +104,10 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
           type="number"
           id="companySizeFrom"
           name="companySizeFrom"
-          value={localValue[0]}
+          value={state.value[0]}
           onChange={onFromChange}
-          min={min}
-          max={value[1]}
+          min={state.min}
+          max={state.value[1]}
         />
         {/* </Box> */}
         {/* <Box display={"flex"} alignItems={"center"}> */}
@@ -128,10 +118,10 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
           type="number"
           id="companySizeTo"
           name="companySizeTo"
-          value={localValue[1]}
+          value={state.value[1]}
           onChange={onToChange}
-          min={value[0]}
-          max={max}
+          min={state.value[0]}
+          max={state.max}
         />
         {/* </Box> */}
         <p>employees</p>
@@ -142,21 +132,21 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
       <Box width={"100%"}>
         <Slider
           getAriaLabel={() => "Temperature range"}
-          value={value}
+          value={state.value}
           onChange={(e, value) => {
             if (Array.isArray(value)) {
-              onChange([value[0], value[1]]);
+              handChange([value[0], value[1]]);
             }
           }}
           step={1}
           marks
-          min={min}
-          max={max}
+          min={state.min}
+          max={state.max}
           valueLabelDisplay="auto"
         />
         <Box display={"flex"} justifyContent={"space-between"} width={"100%"}>
-          <span>Less than {min}</span>
-          <span>{max}</span>
+          <span>Less than {state.min}</span>
+          <span>{state.max}</span>
         </Box>
       </Box>
       {/* Slider End */}
@@ -164,4 +154,4 @@ const FilterFromTo = ({ data, clearAll, handleRangeChange }: Props) => {
   );
 };
 
-export default FilterFromTo;
+export default YearsOfExperience;

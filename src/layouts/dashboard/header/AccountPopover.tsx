@@ -22,6 +22,7 @@ import {
   LocalPhoneOutlined,
   EmailOutlined,
 } from "@mui/icons-material";
+import { useAppSelector } from "../../../hooks";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -58,7 +59,7 @@ export default function AccountPopover() {
   const [open, setOpen] = useState<(EventTarget & HTMLButtonElement) | null>(
     null
   );
-
+  const { user_info } = useAppSelector(store => store.user);
   const handleOpen = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -86,6 +87,7 @@ export default function AccountPopover() {
             alignItems: "center",
             justifyContent: "flex-start",
             gap: "0.5rem",
+            minWidth: "170px",
           }}
         >
           <Avatar alt="user" src={userAvatar} />
@@ -97,7 +99,7 @@ export default function AccountPopover() {
           >
             <Typography variant="subtitle2" fontSize={"12px"}>
               {" "}
-              Alma Lawson
+              {user_info?.name}
             </Typography>
             <Typography
               variant="caption"
@@ -107,7 +109,7 @@ export default function AccountPopover() {
                 textTransform: "none",
               }}
             >
-              alma.lawson@example.com
+              {user_info?.email}
             </Typography>
           </Box>
         </Box>
@@ -145,7 +147,7 @@ export default function AccountPopover() {
         >
           <Avatar alt="user" src={userAvatar} />
           <Box color={"black"} textAlign={"left"}>
-            <Typography variant="h6"> Alma Lawson</Typography>
+            <Typography variant="h6"> {user_info?.name}</Typography>
             <Typography
               variant="body2"
               sx={{
@@ -153,7 +155,7 @@ export default function AccountPopover() {
                 textTransform: "none",
               }}
             >
-              alma.lawson@example.com
+              {user_info?.email}
             </Typography>
           </Box>
         </Box>

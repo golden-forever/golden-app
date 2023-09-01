@@ -8,13 +8,15 @@ import {
   ProfileDrawerContent,
 } from "../components/common";
 import { Drawer } from "@mui/material";
-import { profiles } from "../_mock/profiles";
+import { useAppSelector } from "../hooks";
 
 const SearchResults: FunctionComponent = () => {
   const [isProfileDrawer, setIsProfileDrawer] = useState(false);
+  const [indexOfSelected, setIndexOfSelected] = useState<number>(0);
   const [selectedProf, setSelectedProf] = useState<null | ProfileData>(null);
-  const [isFeedbackModal, setIsFeedbackModal] = useState(false);
 
+  const [isFeedbackModal, setIsFeedbackModal] = useState(false);
+  const { profiles } = useAppSelector(store => store.project);
   const toggleFeedbackModal = (open: boolean) => {
     setIsFeedbackModal(open);
   };
@@ -29,8 +31,25 @@ const SearchResults: FunctionComponent = () => {
     setIsProfileDrawer(open);
   };
 
-  const handleSelect = (data: ProfileData) => {
-    setSelectedProf(data);
+  const handleSelect = (index: number) => {
+    setIndexOfSelected(index);
+    const newSelectedProf = profiles.at(index);
+    setSelectedProf(newSelectedProf || null);
+  };
+  const handlePagination = (page: Page) => {
+    let newIndexOfSelected = indexOfSelected;
+    if (page === "next") {
+      newIndexOfSelected += 1;
+    } else {
+      newIndexOfSelected -= 1;
+    }
+    if (newIndexOfSelected < 0) {
+      return;
+    }
+    if (newIndexOfSelected > profiles.length - 1) {
+      return setIsProfileDrawer(false);
+    }
+    handleSelect(newIndexOfSelected);
   };
 
   return (
@@ -75,9 +94,12 @@ const SearchResults: FunctionComponent = () => {
           >
             {profiles.map((profile, i) => (
               <ProfileCard
+                key={i}
                 onProfileClick={() => toggleDrawer(true)}
                 openFeedbackModal={() => toggleFeedbackModal(true)}
-                handleSelect={handleSelect}
+                handleSelect={() => {
+                  handleSelect(i);
+                }}
                 data={profile}
               />
             ))}
@@ -98,6 +120,9 @@ const SearchResults: FunctionComponent = () => {
         {selectedProf !== null && (
           <ProfileDrawerContent
             data={selectedProf}
+            indexOfSelected={indexOfSelected}
+            indexOfLast={profiles.length}
+            handlePagination={handlePagination}
             openFeedbackModal={() => toggleFeedbackModal(true)}
           />
         )}

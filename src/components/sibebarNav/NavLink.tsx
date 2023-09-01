@@ -1,5 +1,5 @@
 import CloseIcon from "@mui/icons-material/Close";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 type Props = {
   title: string;
   isActive: boolean;
@@ -16,6 +16,9 @@ const NavLink = ({ title, isActive, handleClick }: Props) => {
         display: "flex",
         transition: "opacity 1s ease 0s",
         color: "#666666",
+        textOverflow: "ellipsis",
+        overflow: "hidden",
+        whiteSpace: "nowrap",
         position: "relative",
         justifyContent: "space-between",
         alignItems: "center",
@@ -54,7 +57,15 @@ const NavLink = ({ title, isActive, handleClick }: Props) => {
       }}
       onClick={handleClick}
     >
-      {title}
+      <Box
+        sx={{
+          textOverflow: "ellipsis",
+          overflow: "hidden",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {title}
+      </Box>
     </Button>
   );
 };

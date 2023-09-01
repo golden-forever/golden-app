@@ -12,20 +12,20 @@ export const jobTitles = [
 ];
 
 export const skillsAndKeywords = [
-  { label: "JavaScript", value: "javaScript" },
-  { label: "Python", value: "python" },
-  { label: "Data Analysis", value: "dataAnalysis" },
-  { label: "Web Development", value: "webDevelopment" },
-  { label: "Machine Learning", value: "machineLearning" },
-  { label: "Graphic Design", value: "graphicDesign" },
-  { label: "Project Management", value: "projectManagement" },
-  { label: "Digital Marketing", value: "digitalMarketing" },
-  { label: "Problem Solving", value: "problemSolving" },
-  { label: "Communication", value: "communication" },
-  { label: "Teamwork", value: "teamwork" },
-  { label: "Creativity", value: "creativity" },
-  { label: "Critical Thinking", value: "criticalThinking" },
-  { label: "Time Management", value: "timeManagement" },
+  "JavaScript",
+  "Python",
+  "Data Analysis",
+  "Web Development",
+  "Machine Learning",
+  "Graphic Design",
+  "Project Management",
+  "Digital Marketing",
+  "Problem Solving",
+  "Communication",
+  "Teamwork",
+  "Creativity",
+  "Critical Thinking",
+  "Time Management",
 ];
 
 export const filters = [

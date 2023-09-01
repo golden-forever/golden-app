@@ -11,22 +11,22 @@ import {
 import Education from "./Education";
 import Experience from "./Experience";
 import userImg from "../../../assets/avatar2@2x.png";
-import ProfileSlideover from "../../locofy/ProfileSlideover";
+
 import FeetbackBtns from "./FeetbackBtns";
 import { East } from "@mui/icons-material";
 type Props = {
   onProfileClick: any;
   openFeedbackModal: () => void;
   data: ProfileData;
-  handleSelect: (data: ProfileData) => void;
+  handleSelect: () => void;
 };
-
 function ProfileCard({
   onProfileClick,
   openFeedbackModal,
   data,
   handleSelect,
 }: Props) {
+  const { first_name, last_name, city, country, profile_pic_url } = data;
   return (
     <Box
       width={"100%"}
@@ -48,9 +48,12 @@ function ProfileCard({
         <img
           style={{
             objectFit: "cover",
+            borderRadius: "6px",
+
+            width: "100%",
           }}
           alt=""
-          src={userImg}
+          src={profile_pic_url}
         />
       </Box>
       <Box width={"100%"} paddingLeft={"24px"}>
@@ -62,17 +65,21 @@ function ProfileCard({
         >
           <Stack direction={"row"} alignItems={"center"}>
             <Typography variant="h4" color={"primary.main"}>
-              Hili Ozer-Singer
+              {first_name} {last_name}
             </Typography>{" "}
             <Divider orientation="vertical" flexItem sx={{ m: "0 8px" }} />
             <Typography variant="body2" color={"secondary"}>
-              Tel-Aviv &#183; Israel
+              {city} &#183; {country}
             </Typography>
           </Stack>
-          <FeetbackBtns openFeedbackModal={openFeedbackModal} />
+          <FeetbackBtns
+            openFeedbackModal={openFeedbackModal}
+            action={data.label}
+            data={data}
+          />
         </Box>
         <Box width={"100%"} display="flex" m={"32px 0 24px 0"}>
-          <Experience data={data.experience[0]} />
+          <Experience data={data.experiences[0]} />
           <Divider orientation="vertical" flexItem sx={{ margin: "0 24px" }} />
 
           <Education data={data.education[0]} />
@@ -82,7 +89,7 @@ function ProfileCard({
           endIcon={<East />}
           onClick={() => {
             onProfileClick();
-            handleSelect(data);
+            handleSelect();
           }}
         >
           See full profile

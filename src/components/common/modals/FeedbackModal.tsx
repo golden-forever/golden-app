@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import {
   Button,
   DialogContent,
@@ -9,13 +7,58 @@ import {
   DialogActions,
   Typography,
   IconButton,
+  styled,
+  TextareaAutosize,
+  FormControl,
+  InputLabel,
+  TextField,
 } from "@mui/material";
-import { blue } from "@mui/material/colors";
-import Textarea from "../inputs/Textarea";
+
 import { Close } from "@mui/icons-material";
+const blue = {
+  400: "#3399FF",
+};
 
-const emails = ["username@gmail.com", "user02@gmail.com"];
-
+const grey = {
+  50: "#f6f8fa",
+  100: "#eaeef2",
+  200: "#d0d7de",
+  300: "#afb8c1",
+  400: "#8c959f",
+  500: "#6e7781",
+  600: "#57606a",
+  700: "#424a53",
+  800: "#32383f",
+  900: "#24292f",
+};
+const StyledTextarea = styled(TextareaAutosize)(
+  ({ theme }) => `
+    width: 100%;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 12px;
+    border-radius: 6px;
+    color:  black;
+    background:  "#fff";
+    border: 1px solid #EDEDED;
+    
+  
+    &:hover {
+      border-color: ##0A66C2;
+    }
+  
+    &:focus {
+      border-color: ##0A66C2;
+      box-shadow: none;
+    }
+  
+    // firefox
+    &:focus-visible {
+      outline: 0;
+    }
+  `
+);
 export interface SimpleDialogProps {
   open: boolean;
   //   selectedValue: string;
@@ -44,7 +87,23 @@ export default function FeedbackModal({ open, onClose }: SimpleDialogProps) {
             "For system to avoid such profiles, please state why you declined profile (this is private)"
           }
         </DialogContentText>
-        <Textarea rows={10} label="Text Description" />
+        <FormControl fullWidth sx={{ marginTop: "20px" }}>
+          <InputLabel
+            disableAnimation
+            htmlFor="component-outlined"
+            sx={{ transform: "translate(0, -100%)" }}
+          >
+            Text Description *
+          </InputLabel>
+          <TextField
+            multiline
+            name="job_description"
+            // value={inputs.job_description}
+            minRows={16}
+            placeholder="The candidate's skills do not fit the requirements..."
+            // onChange={handleChange}
+          />
+        </FormControl>
       </DialogContent>
       <DialogActions>
         <Button variant="outlined" color="primary" onClick={onClose}>

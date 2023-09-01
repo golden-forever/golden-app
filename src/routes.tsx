@@ -1,9 +1,13 @@
 import { Navigate, useRoutes } from "react-router-dom";
 // layouts
 import DashboardLayout from "./layouts/dashboard";
-import JobDescription from "./pages/JobDescription";
-import SearchResults from "./pages/SearchResults";
-import Pipeline from "./pages/Pipeline";
+import {
+  JobDescription,
+  SearchResults,
+  Pipeline,
+  CreateJob,
+  RedirectPage,
+} from "./pages";
 
 // import SimpleLayout from './layouts/simple';
 // //
@@ -22,12 +26,15 @@ export default function Router() {
       path: "/",
       element: <DashboardLayout />,
       children: [
-        { element: <JobDescription />, index: true },
+        { element: <RedirectPage />, index: true },
+        { path: "job/:jobID", element: <JobDescription /> },
+        { path: "job/new-job", element: <CreateJob /> },
         { path: "search-results", element: <SearchResults /> },
         { path: "pipeline", element: <Pipeline /> },
         // { path: "products", element: <ProductsPage /> },
       ],
     },
+    { path: "*", element: <RedirectPage /> },
     // {
     //   path: "login",
     //   element: <LoginPage />,

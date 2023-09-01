@@ -1,22 +1,40 @@
 import { Box, Button, Divider, Slider } from "@mui/material";
 import NavLink from "./NavLink";
 import Logo from "./Logo";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Add } from "@mui/icons-material";
-const mockData = [
-  { jobTitle: "Product Team Lead" },
-  { jobTitle: "QA Engineer" },
-  { jobTitle: "CFU" },
-];
+import { useAppDispatch, useAppSelector } from "../../hooks";
+
+import { getProject } from "../../features/user/userSlice";
+import { getImgSrc } from "../../utils/helpers";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 const OpenJobs = (props: Props) => {
-  const [selected, setSelected] = useState(mockData[1]);
+  const { project_snippets, company_info, recent_pid } = useAppSelector(
+    state => state.user
+  );
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleJobSelect = (project_id: string) => {
+    dispatch(getProject(project_id));
+  };
+  const logo = company_info?.company_logo_url
+    ? company_info.company_logo_url
+    : getImgSrc(company_info?.company_id || "placeholder");
+
+  const handleCreateNewClick = () => {
+    navigate("/job/new-job");
+  };
+  const handleProjectClick = (project_id: string) => {
+    navigate(`/job/${project_id}`);
+  };
 
   return (
     <>
       <Box sx={{ px: 2.5, display: "inline-flex" }}>
-        <Logo />
+        <Logo image={logo} company={company_info?.company_name} />
       </Box>
       <Divider sx={{ width: "90%", margin: "24px auto" }} />
       <div
@@ -54,20 +72,25 @@ const OpenJobs = (props: Props) => {
             gap: "0.38rem",
           }}
         >
-          {mockData.map((position, i) => (
+          {project_snippets?.map((snippet, i) => (
             <NavLink
               key={i}
-              title={position.jobTitle}
-              isActive={position.jobTitle === selected.jobTitle}
-              handleClick={() => setSelected(position)}
+              title={snippet.project_title}
+              isActive={snippet.project_id === recent_pid}
+              handleClick={() => {
+                handleJobSelect(snippet.project_id);
+                navigate(`/job/${snippet.project_id}`);
+              }}
             />
           ))}
         </div>
       </div>
       <Divider sx={{ width: "90%", margin: "24px auto" }} />
+
       <Button
         variant="text"
         fullWidth
+        onClick={handleCreateNewClick}
         startIcon={<Add />}
         sx={{
           display: "flex",

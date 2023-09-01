@@ -1,14 +1,52 @@
 import { Box, Divider, Button, Chip, Stack, Typography } from "@mui/material";
 import NavLink from "./NavLink";
 import Logo from "./Logo";
-import { useState } from "react";
-const mockData = [
-  { label: "Good Leads", amount: 68 },
-  { label: "Not Sure Leads", amount: 31 },
-];
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setIsShowGoodPipeline } from "../../features/project/projectSlice";
+
 type Props = {};
 const SavedJobs = (props: Props) => {
-  const [selected, setSelected] = useState(mockData[1]);
+  const { pipelineTotal, pipeline_good, pipeline_maybe, isShowGoodPipeline } =
+    useAppSelector(store => store.project);
+  const dispatch = useAppDispatch();
+  const handleClick = (isShowGood: boolean) => {
+    dispatch(setIsShowGoodPipeline(isShowGood));
+  };
+
+  const initialConfig = [
+    {
+      label: "Good Leads",
+      amount: pipeline_good.length,
+      handleClick: () => handleClick(true),
+      isActive: isShowGoodPipeline === true,
+    },
+    {
+      label: "Not Sure Leads",
+      amount: pipeline_maybe.length,
+      handleClick: () => handleClick(false),
+      isActive: isShowGoodPipeline === false,
+    },
+  ];
+  const [selected, setSelected] = useState(initialConfig[0]);
+  const [config, setConfig] = useState(initialConfig);
+  useEffect(() => {
+    setConfig([
+      {
+        label: "Good Leads",
+        amount: pipeline_good.length,
+        handleClick: () => handleClick(true),
+
+        isActive: isShowGoodPipeline === true,
+      },
+      {
+        label: "Not Sure Leads",
+        amount: pipeline_maybe.length,
+        handleClick: () => handleClick(false),
+        isActive: isShowGoodPipeline === false,
+      },
+    ]);
+  }, [pipeline_good, pipeline_maybe, isShowGoodPipeline]);
 
   return (
     <>
@@ -31,7 +69,7 @@ const SavedJobs = (props: Props) => {
           p={"0 16px 0 28px"}
         >
           <Typography variant="h4">Total saved</Typography>
-          <Typography variant="body1">80</Typography>
+          <Typography variant="body1">{pipelineTotal}</Typography>
         </Stack>
 
         <div
@@ -44,11 +82,11 @@ const SavedJobs = (props: Props) => {
             gap: "0.38rem",
           }}
         >
-          {mockData.map((option, i) => (
+          {config.map((option, i) => (
             <Button
               variant="text"
-              onClick={() => setSelected(option)}
-              className={option.label === selected.label ? "active" : ""}
+              onClick={option.handleClick}
+              className={option.isActive ? "active" : ""}
               key={i}
               fullWidth
               sx={{
@@ -92,90 +130,10 @@ const SavedJobs = (props: Props) => {
               {option.label}{" "}
               <Chip
                 label={option.amount}
-                color={selected === option ? "primary" : "default"}
+                color={option.isActive ? "primary" : "default"}
               />
             </Button>
           ))}
-          {/* <Button
-            variant="text"
-            fullWidth
-            sx={{
-              display: "flex",
-              transition: "opacity 1s ease 0s",
-
-              position: "relative",
-              justifyContent: "space-between",
-              alignItems: "center",
-              p: "14px 16px 14px 29px",
-              "::after": {
-                content: "''",
-                opacity: 0,
-                transition: "opacity 1s ease 0s",
-
-                position: "absolute",
-                top: 0,
-                left: 0,
-                height: "100%",
-                width: "5px",
-                backgroundColor: "primary.main",
-                borderTopRightRadius: "4px",
-                borderBottomRightRadius: "4px",
-              },
-              "& .MuiButton-endIcon": {
-                transition: "opacity 1s ease 0s",
-                opacity: 0,
-              },
-              ":hover": {
-                background: "transparent",
-                "& .MuiButton-endIcon": { opacity: 1 },
-                "::after": {
-                  opacity: 1,
-                },
-              },
-            }}
-          >
-            Good leads <span>80</span>
-          </Button>
-          <Button
-            variant="text"
-            fullWidth
-            sx={{
-              display: "flex",
-              transition: "opacity 1s ease 0s",
-
-              position: "relative",
-              justifyContent: "space-between",
-              alignItems: "center",
-              p: "14px 16px 14px 29px",
-              "::after": {
-                content: "''",
-                opacity: 0,
-                transition: "opacity 1s ease 0s",
-
-                position: "absolute",
-                top: 0,
-                left: 0,
-                height: "100%",
-                width: "5px",
-                backgroundColor: "primary.main",
-                borderTopRightRadius: "4px",
-                borderBottomRightRadius: "4px",
-              },
-              "& .MuiButton-endIcon": {
-                transition: "opacity 1s ease 0s",
-                opacity: 0,
-              },
-              ":hover": {
-                background: "transparent",
-                "& .MuiButton-endIcon": { opacity: 1 },
-                "::after": {
-                  opacity: 1,
-                },
-              },
-            }}
-          >
-            Not Sure Leads<span>22</span>
-          </Button> */}
         </div>
       </div>
     </>

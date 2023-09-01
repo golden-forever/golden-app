@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import companySlice from "./features/companies/companySlice";
+import userSlice from "./features/user/userSlice";
+import projectSlice from "./features/project/projectSlice";
 
 export const store = configureStore({
   reducer: {
-    company: companySlice,
+    project: projectSlice,
+    user: userSlice,
   },
 });
 

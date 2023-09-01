@@ -14,9 +14,9 @@ import {
 } from "@mui/material";
 
 import { Close } from "@mui/icons-material";
-import { useAppSelector } from "../../../hooks";
-
-const emails = ["username@gmail.com", "user02@gmail.com"];
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { getRequest } from "../../../utils/apiHelper";
+import { getImgSrc } from "../../../utils/helpers";
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -26,10 +26,25 @@ export default function SelectCountryModal({
   open,
   onClose,
 }: SimpleDialogProps) {
-  const { companies } = useAppSelector(state => state.company);
-  const [value, setValue] = useState<null | Company>(null);
-  const [inputValue, setInputValue] = useState<null | string>(null);
+  const [companies, setCompanies] = useState<CompanyInfo[]>([]);
 
+  const [value, setValue] = useState<null | CompanyInfo>(null);
+  const [inputValue, setInputValue] = useState<string>("");
+  const handleChange = async (inputVal: string) => {
+    if (inputVal.length > 0) {
+      const res = await getRequest(`autocomplete/company/${inputVal}`);
+      const data: CompanyInfo[] = res.data;
+      setCompanies(data);
+    }
+    setInputValue(inputVal);
+  };
+  const dispatch = useAppDispatch();
+  const handleSubmit = () => {
+    if (value) {
+      // dispatch(getCompany(value.company_id));
+      onClose();
+    }
+  };
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Select your company to get started</DialogTitle>
@@ -59,14 +74,14 @@ export default function SelectCountryModal({
           onChange={(event, newValue) => {
             setValue(newValue);
           }}
-          inputValue={inputValue ? inputValue : ""}
+          inputValue={inputValue}
           onInputChange={(event, newInputValue) => {
-            setInputValue(newInputValue);
+            handleChange(newInputValue);
           }}
           sx={{
             maxHeight: "200px",
           }}
-          getOptionLabel={option => `${option.company}`}
+          getOptionLabel={option => `${option.company_name}`}
           options={companies}
           renderInput={params => {
             return <TextField {...params} label=" Company" />;
@@ -85,19 +100,27 @@ export default function SelectCountryModal({
                 paddingY={"12px"}
               >
                 <img
-                  src={option?.logo_url}
+                  src={
+                    option &&
+                    (option?.company_logo_url || getImgSrc(option.company_id))
+                  }
                   alt=""
                   style={{ objectFit: "cover", height: "24px" }}
                 />
               </Box>{" "}
-              {option?.company}
+              {option?.company_name}
             </Box>
           )}
         />
       </DialogContent>
 
       <DialogActions>
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={!value}
+          onClick={handleSubmit}
+        >
           Confirm
         </Button>
       </DialogActions>

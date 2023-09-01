@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -12,22 +12,42 @@ import {
 import { Close, Add, Remove } from "@mui/icons-material";
 import Include from "./filters/Include";
 import CustomAutocomplete from "./filters/CustomAutocomplete";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { setFilters } from "../../features/project/projectSlice";
 type Props = {
-  data: Filter;
-  removeTag: RemoveTag;
-  addTag: AddTag;
-  clearAllTags: ClearAllTags;
+  allTags: string[];
+  applied: string[];
+  label: string;
+  name: string;
 };
-const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
+const Filter = ({ allTags, applied, label, name }: Props) => {
   const [isAddNew, setIsAddNew] = useState(false);
-  const { label, applied, include, allTags } = data;
-  const [availableTags, setAvailableTags] = useState<never[] | Tag[]>(allTags);
 
-  const handleAdd = (tag: Tag) => {
+  const [localApplied, setLocalApplied] = useState(applied);
+  const dispatch = useAppDispatch();
+  const [availableTags, setAvailableTags] = useState<string[]>(allTags);
+  useEffect(() => {
+    setAvailableTags(allTags);
+  }, [allTags]);
+  useEffect(() => {
+    setLocalApplied(applied);
+  }, [applied]);
+  const handleAdd = (tag: string) => {
+    setLocalApplied([...localApplied, tag]);
+    const tempTags = [...availableTags];
+    const tagIndex = tempTags.indexOf(tag);
+    tempTags.splice(tagIndex, 1);
     setIsAddNew(false);
-    addTag(data, tag);
-    const newTags = allTags.filter(item => !applied.includes(item));
-    setAvailableTags(newTags);
+    setAvailableTags(tempTags);
+    dispatch(setFilters({ name, value: [...localApplied, tag] }));
+  };
+  const clearAllTags = () => {
+    setLocalApplied([]);
+  };
+  const removeTag = (index: number) => {
+    const tempApplied = [...localApplied];
+    tempApplied.splice(index, 1);
+    setLocalApplied(tempApplied);
   };
   return (
     <div
@@ -64,11 +84,7 @@ const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
         >
           {label}
         </h4>
-        <Button
-          variant="text"
-          color="primary"
-          onClick={() => clearAllTags(data)}
-        >
+        <Button variant="text" color="primary" onClick={() => clearAllTags()}>
           Clear
         </Button>
       </div>
@@ -93,13 +109,14 @@ const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
             gap: "0.5rem",
           }}
         >
-          {applied.map((val, i) => (
+          {localApplied.map((val, i) => (
             <Box
               key={i}
               sx={{
                 borderRadius: "100px",
                 backgroundColor: "#caedff",
                 display: "flex",
+                maxWidth: "100%",
                 flexDirection: "row",
                 padding: "0.25rem 0.5rem 0.25rem 0.63rem",
                 textTransform: "capitalize",
@@ -109,11 +126,20 @@ const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
                 textAlign: "left",
                 fontSize: "0.88rem",
                 color: "#191919",
-                fontFamily: "'Noto Sans'",
+                position: "relative",
               }}
             >
-              {val.label}
-              <IconButton sx={{ p: "0" }} onClick={() => removeTag(data, i)}>
+              <Box
+                sx={{
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                  width: "100%",
+                }}
+              >
+                {val}
+              </Box>
+              <IconButton sx={{ p: "0" }} onClick={() => removeTag(i)}>
                 <Close sx={{ width: "15px", height: "15px" }} />
               </IconButton>
             </Box>
@@ -135,7 +161,7 @@ const Filter = ({ data, removeTag, addTag, clearAllTags }: Props) => {
         )}
       </div>
       {/* Include */}
-      {include && <Include addTag={addTag} availableTags={availableTags} />}
+      {name !== "titles" && <Include />}
       {/* Include End*/}
     </div>
   );

@@ -9,16 +9,13 @@ import {
   Box,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-type Props = {
-  addTag: AddTag;
-  availableTags: Tag[];
-};
+type Props = {};
 const includeOptions = [
   { label: "Current or Past", value: "all" },
   { label: "Past", value: "past" },
   { label: "Current", value: "current" },
 ];
-const Include = ({ addTag, availableTags }: Props) => {
+const Include = ({}: Props) => {
   const [value, setValue] = useState("all");
   const [label, setLabel] = useState("Current or Past");
   const [isEdit, setIsEdit] = useState(false);

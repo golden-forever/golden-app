@@ -1,37 +1,49 @@
 import { jobTitles, skillsAndKeywords, filters } from "../_mock/filters";
-export const filtersData: Filter[] = [
-  { label: "Job Titles", applied: [], allTags: jobTitles },
-  {
-    label: "Skills and Keywords",
-    applied: [],
-    include: "Current or Past",
-    allTags: skillsAndKeywords,
-  },
-  {
-    label: "Keywords To Avoid",
-    applied: [],
-    include: "Current or Past",
-    allTags: filters,
-  },
-  {
-    label: "Company Industries",
-    applied: [],
-    include: "Current or Past",
-    allTags: filters,
-  },
-  {
-    label: "Companies to Include",
-    applied: [],
-    include: "Current or Past",
-    allTags: filters,
-  },
-  {
-    label: "Companies to Avoid",
-    applied: [],
-    include: "Current or Past",
-    allTags: filters,
-  },
-];
+// export const filtersData: (Filter | CustomFilter)[] = [
+//   {
+//     label: "Job Titles",
+//     applied: [],
+//     allTags: jobTitles,
+//     name: "titles",
+//   },
+
+//   {
+//     label: "Skills and Keywords",
+//     applied: [],
+//     include: "Current or Past",
+//     allTags: skillsAndKeywords,
+//     name: "keywords",
+//   },
+//   { type: "location" },
+//   {
+//     label: "Keywords To Avoid",
+//     applied: [],
+//     include: "Current or Past",
+//     allTags: filters,
+//     name: "negative_keywords",
+//   },
+//   {
+//     label: "Company Specialities",
+//     applied: [],
+//     include: "Current or Past",
+//     allTags: filters,
+//     name: "specialities",
+//   },
+//   {
+//     label: "Companies to Include",
+//     applied: [],
+//     include: "Current or Past",
+//     allTags: filters,
+//     name: "companies",
+//   },
+//   {
+//     label: "Companies to Avoid",
+//     applied: [],
+//     include: "Current or Past",
+//     allTags: filters,
+//     name: "companies_to_avoid",
+//   },
+// ];
 
 export const filtersRangeData: FilterRange[] = [
   {
@@ -53,12 +65,3 @@ export const filtersLocationData: FilterLocation = {
   to: "",
   anywhere: false,
 };
-
-export const filtersInputData: Filter[] = [
-  {
-    label: "Education",
-    applied: [],
-    include: "Current or Past",
-    allTags: filters,
-  },
-];

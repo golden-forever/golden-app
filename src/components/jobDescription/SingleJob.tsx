@@ -1,8 +1,27 @@
 import { Box, Button } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { useNavigate } from "react-router-dom";
+import Typewriter from "../common/Typewriter";
+import { useState } from "react";
+
 type Props = {
-  setSelected: () => void;
+  setSelected?: () => void;
 };
 const SingleJob = ({ setSelected }: Props) => {
+  const { job_info, company_info } = useAppSelector(store => store.user);
+  const [finishedAnimations, setFinishedAnimations] = useState({
+    title: false,
+    location: false,
+    description: false,
+  });
+  const { profiles } = useAppSelector(store => store.project);
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/search-results");
+  };
+  const dispatch = useAppDispatch();
+  const finishAnimation = (name: "title" | "location" | "description") =>
+    setFinishedAnimations({ ...finishedAnimations, [name]: true });
   return (
     <Box width={"500px"} m={"0 auto"}>
       <div
@@ -12,7 +31,7 @@ const SingleJob = ({ setSelected }: Props) => {
           fontWeight: "600",
         }}
       >
-        Product Team Lead for Techify
+        {company_info?.company_name}
       </div>
       <div
         style={{
@@ -73,7 +92,11 @@ const SingleJob = ({ setSelected }: Props) => {
                 color: "#191919",
               }}
             >
-              Product Team Lead
+              <Typewriter
+                text={job_info?.job_title || ""}
+                delay={50}
+                setFinished={() => finishAnimation("title")}
+              />
             </div>
           </div>
           <div
@@ -105,7 +128,14 @@ const SingleJob = ({ setSelected }: Props) => {
                 color: "#191919",
               }}
             >
-              Tel-Aviv, Israel
+              {finishedAnimations.title && (
+                <Typewriter
+                  text={job_info?.job_location || "N/A"}
+                  delay={50}
+                  setFinished={() => finishAnimation("location")}
+                />
+              )}
+              \{" "}
             </div>
           </div>
           <div
@@ -139,95 +169,14 @@ const SingleJob = ({ setSelected }: Props) => {
                 color: "#191919",
               }}
             >
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                As Techify's Product Team Lead, you'll oversee the advancement
-                of our innovative SaaS solution, empowering finance
-                professionals to efficiently manage and analyze consolidated
-                cross-organizational data. Be an integral part of the leadership
-                team in our product department. You will train and guide the
-                other product managers in the team, and join us in improving the
-                product to become the leading product in the market.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                What You'll Do Develop and maintain a deep understanding of our
-                FPNA product and customer needs Collaborate with sales and
-                marketing teams to identify and prioritize product
-                enhancements Work closely with engineering teams to design and
-                develop new features and functionality
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Develop and execute product launch plans
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Conduct market and competitive research to inform product
-                roadmap decisions
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Create and maintain product documentation, including user guides
-                and training materials
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Define and track key performance metrics to measure product
-                success
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                What We Offer
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                &nbsp;
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                We offer a supportive, agile and creative work environment with
-                brilliant colleagues!
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Competitive compensation, ongoing recognition, and most of all,
-                a chance to learn, contribute and develop your skills.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Opportunity to join an explosive industry, a successful and
-                growing organization, and an unmatched leadership team,
-                passionate about their employees!
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Most of all we will give you fun, enthusiasm, support, a passion
-                for healthy living, and never a dull moment!
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Requirements
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                &nbsp;
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                5+ years of demonstrated track record launching multiple
-                successful products and features in the B2B fintech industry.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Self-starter with a bias to action, capable of managing complex
-                projects with limited resources and competing priorities.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Consumer-focused design is ingrained, with a keen eye for
-                beautifully intuitive products.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Strong ability to read, interpret, and communicate impact
-                through data, numbers, and graphs, generating actionable
-                insights.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Skilled in driving collaboration across multiple disciplines -
-                data, marketing, operations, and sales, facilitating teamwork
-                without forced authority.
-              </p>
-              <p style={{ marginBlockStart: "0", marginBlockEnd: "12px" }}>
-                Excellent interpersonal and communication skills, capable of
-                turning problems into compelling stories and documenting ideas
-                effectively.
-              </p>
-              <p style={{ margin: "0" }}>
-                Thorough understanding of the product development lifecycle.
+              <p style={{ whiteSpace: "pre-line" }}>
+                {finishedAnimations.location && (
+                  <Typewriter
+                    text={job_info?.job_description || ""}
+                    delay={10}
+                    setFinished={() => finishAnimation("description")}
+                  />
+                )}
               </p>
             </div>
           </div>
@@ -248,8 +197,8 @@ const SingleJob = ({ setSelected }: Props) => {
           <Button variant="outlined" color="primary" onClick={setSelected}>
             Edit
           </Button>
-          <Button variant="contained" color="primary">
-            Confirm
+          <Button variant="contained" color="primary" onClick={handleNavigate}>
+            See Results {`(${profiles.length})`}
           </Button>
         </footer>
       </div>

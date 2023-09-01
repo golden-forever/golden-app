@@ -1,12 +1,17 @@
 import { Button } from "@mui/material";
 import { Check, VisibilityOffOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useAppDispatch } from "../../hooks";
+import { cancelAction } from "../../features/project/projectSlice";
 
 type Props = {
-  variant?: "save" | "hide";
-  handleCancel: () => void;
+  action: ProfileData;
 };
-const Action = ({ variant = "save", handleCancel }: Props) => {
+const Action = ({ action }: Props) => {
+  const dispatch = useAppDispatch();
+  const handleCancel = () => {
+    dispatch(cancelAction(action));
+  };
   return (
     <div
       style={{
@@ -21,18 +26,7 @@ const Action = ({ variant = "save", handleCancel }: Props) => {
         gap: "2rem",
       }}
     >
-      {/* <img
-        style={{
-          position: "relative",
-          width: "1.25rem",
-          height: "1.25rem",
-          overflow: "hidden",
-          flexShrink: "0",
-        }}
-        alt=""
-        src={tickIcon}
-      /> */}
-      {variant === "save" ? <Check /> : <VisibilityOffOutlined />}
+      {action.label !== "not good" ? <Check /> : <VisibilityOffOutlined />}
       <div
         style={{
           alignSelf: "stretch",
@@ -43,14 +37,14 @@ const Action = ({ variant = "save", handleCancel }: Props) => {
           justifyContent: "space-between",
         }}
       >
-        {variant === "save" ? (
+        {action.label !== "not good" ? (
           <div
             style={{
               position: "relative",
               fontWeight: "600",
             }}
           >
-            <span>{`Yoss Maman was saved to `}</span>
+            <span>{`${action.first_name} ${action.last_name} was saved to `}</span>
             <Link to="/pipeline" style={{ color: "#0a66c2" }}>
               Pipeline
             </Link>
@@ -62,7 +56,7 @@ const Action = ({ variant = "save", handleCancel }: Props) => {
               fontWeight: "600",
             }}
           >
-            <span>{`Yoss Maman doesn't fit to your project `}</span>
+            <span>{`${action.first_name} ${action.last_name} doesn't fit to your project `}</span>
           </div>
         )}
         <Button variant="text" color="primary" onClick={handleCancel}>

@@ -4,8 +4,19 @@ import { Box, Typography } from "@mui/material";
 type Props = {
   rows?: number;
   label?: string;
+  name?: string;
+  value: string;
+  handleChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 };
-export default function Textarea({ rows, label }: Props) {
+export default function Textarea({
+  rows,
+  label,
+  name,
+  value,
+  handleChange,
+}: Props) {
   const blue = {
     100: "#DAECFF",
     200: "#b6daff",
@@ -72,9 +83,11 @@ export default function Textarea({ rows, label }: Props) {
       )}
       <StyledTextarea
         aria-label="textarea"
+        name={name}
+        value={value}
         minRows={rows || 3}
         placeholder="The candidate's skills do not fit the requirements..."
-        onChange={e => console.log(e.target.value)}
+        onChange={handleChange}
       />
     </Box>
   );

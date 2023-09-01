@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,23 +14,40 @@ import {
 
 // Icons
 import { Close, Add, Remove } from "@mui/icons-material";
-
-type Props = {
-  data: FilterLocation;
-  clearAll: () => void;
-  handleChange: (
+import { getRequest } from "../../utils/apiHelper";
+import { URLcities } from "../../utils/helpers";
+const initialState = { minToDrive: 60, to: "", anywhere: false };
+type Props = {};
+const FilterLocation = ({}: Props) => {
+  const [state, setState] = useState({ ...initialState });
+  const [locations, setLocations] = useState<string[]>([]);
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-};
-const FilterLocation = ({ data, clearAll, handleChange }: Props) => {
-  const [tag, setTag] = useState("");
-  const { label, minToDrive, to, anywhere } = data;
+  ) => {
+    const { name, value } = e?.target;
+    let newValue: number | boolean | string = value;
+    if (name === "minToDrive") newValue = Number(value);
+    else if (name === "anywhere") {
+      if (value === "true") newValue = true;
+      else if (value === "false") newValue = false;
+    }
 
-  //   const handleAdd = () => {
-  //     setIsAddNew(false);
-  //     setTag("");
-  //     addTag(data, tag);
-  //   };
+    setState({ ...state, [name]: newValue });
+  };
+  useEffect(() => {
+    const asyncWrapper = async () => {
+      try {
+        const { data } = await getRequest(URLcities);
+        setLocations(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    asyncWrapper();
+  }, []);
+  const clearAll = () => {
+    setState({ ...initialState });
+  };
   return (
     <div
       style={{
@@ -64,7 +81,7 @@ const FilterLocation = ({ data, clearAll, handleChange }: Props) => {
             fontFamily: "inherit",
           }}
         >
-          {label}
+          Location
         </h4>
         <Button variant="text" color="primary" onClick={clearAll}>
           Clear
@@ -88,7 +105,7 @@ const FilterLocation = ({ data, clearAll, handleChange }: Props) => {
           id="minToDrive"
           name="minToDrive"
           min="0"
-          value={minToDrive}
+          value={state.minToDrive}
           onChange={handleChange}
         />
         {/* </Box> */}
@@ -99,7 +116,7 @@ const FilterLocation = ({ data, clearAll, handleChange }: Props) => {
           // label="Add tag"
           placeholder="e.g. Tel-Aviv"
           variant="standard"
-          value={to}
+          value={state.to}
           onChange={handleChange}
           sx={{ width: "123px" }}
         />
@@ -109,7 +126,11 @@ const FilterLocation = ({ data, clearAll, handleChange }: Props) => {
       {/* Checkbox */}
       <FormControlLabel
         control={
-          <Checkbox name="anywhere" value={anywhere} onChange={handleChange} />
+          <Checkbox
+            name="anywhere"
+            value={state.anywhere}
+            onChange={handleChange}
+          />
         }
         label="Anywhere in Israel"
       />

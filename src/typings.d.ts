@@ -6,12 +6,16 @@ declare module "*.css" {
   export = classNames;
 }
 type Tag = { label: string; value: string };
+type CustomFilter = {
+  type: "location" | "company_sizes";
+};
 type Filter = {
   label: string;
   applied: Tag[];
   include?: string;
   allTags: Tag[];
 };
+
 type FilterRange = {
   label: string;
   value: [number, number];
@@ -37,13 +41,15 @@ type Role = {
 type Experience = {
   starts_at: string;
   ends_at: string;
-  company_info: string;
   degree_name: string;
   company: string;
-  school_linkedin_profile_url: string;
+  location: string;
+  company_linkedin_profile_url: string;
+  company_size: number;
   description: string;
   logo_url: string;
-  roles: Role[];
+  industry: string;
+  specialities?: string[];
 };
 type Education = {
   starts_at: string;
@@ -59,20 +65,33 @@ type Education = {
 type ProfileData = {
   _id: string;
   city: null;
+  label?: "good" | "maybe" | "not good";
   connections: number;
   country: string;
   country_full_name: string;
   first_name: string;
+  last_name: string;
   headline: string;
   occupation: string;
+  industry: stringl;
   profile_pic_url: string;
   public_identifier: string;
   state: null;
   summary: string;
   education: Education[];
-  experience: Experience[];
+  experiences: Experience[];
   full_name: string;
 };
+type PipelineLabel = "good" | "maybe" | "not good";
+
+interface Action {
+  first_name: string;
+  last_name: string;
+  _id: string;
+}
+interface TookAction extends Action {
+  label: PipelineLabel;
+}
 
 type AsyncThunkConfig = {
   /** return type for `thunkApi.getState` */
@@ -106,4 +125,54 @@ type Company = {
   company_size: number;
   company_id: string;
   logo_url: string;
+  summary: string;
+  title: string;
+  location: null | string;
+};
+
+type User = {
+  name: string;
+  email: string;
+  completed_onboarding: boolean;
+};
+type Job = {
+  project_id: string;
+  job_title: string;
+  job_location: string;
+  job_description: string;
+};
+type CompanyInfo = {
+  company_id: string;
+  company_name: string;
+  company_logo_url: string;
+};
+type ProjectSnippet = {
+  project_title: string;
+  company_id: string;
+  project_id: string;
+};
+type Location = {
+  location_text_display: string;
+  location_id: string;
+};
+type Page = "next" | "prev";
+
+type SearchQuery = {
+  titles: string[];
+  city_hq: string;
+  max_driving_time: number;
+  min_years_of_experience_title: number;
+  max_years_of_experience_title: number;
+  min_years_of_experience_in_industry: number;
+  max_years_of_experience_in_industry: number;
+  companies: string[];
+  companies_to_avoid: string[];
+  company_sizes: string[];
+  industries: string[];
+  specialities: string[];
+  keywords: string[];
+  negative_keywords: string[];
+  is_top_schools_only: boolean;
+  degree_names: string[];
+  fields_of_study: string[];
 };

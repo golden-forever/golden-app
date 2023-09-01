@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import tickIcon from "../../assets/icons11.svg";
 import eyeIcon from "../../assets/icons12.svg";
 import Action from "./Action";
+import { useAppSelector } from "../../hooks";
 type ActionData = undefined | "save" | "hide";
 
 const mockActions: { variant?: ActionData }[] = [
@@ -12,14 +13,7 @@ const mockActions: { variant?: ActionData }[] = [
   {},
 ];
 const Actions: FunctionComponent = () => {
-  const onDanielChoenSavedClick = useCallback(() => {
-    // Please sync "Pipeline(My candidates)" to the project
-  }, []);
-
-  const onDanielChoenSaved1Click = useCallback(() => {
-    // Please sync "Pipeline(My candidates)" to the project
-  }, []);
-
+  const { actions } = useAppSelector(store => store.project);
   return (
     <div
       style={{
@@ -36,8 +30,8 @@ const Actions: FunctionComponent = () => {
         fontFamily: "'Noto Sans'",
       }}
     >
-      {mockActions.map((action, i) => (
-        <Action variant={action.variant} handleCancel={() => {}} />
+      {actions.map((action, i) => (
+        <Action action={action} key={i} />
       ))}
     </div>
   );

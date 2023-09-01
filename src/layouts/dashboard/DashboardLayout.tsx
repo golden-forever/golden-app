@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 // @mui
 import { styled } from "@mui/material/styles";
@@ -7,6 +7,9 @@ import Header from "./header";
 import SideNavbar from "./sideNavbar";
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+import { useAppDispatch } from "../../hooks";
+import { getProfiles } from "../../features/project/projectSlice";
+import { showMe } from "../../features/user/userSlice";
 
 // ----------------------------------------------------------------------
 
@@ -38,9 +41,14 @@ const Main = styled("div")(({ theme }) => ({
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const dispatch = useAppDispatch();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const headerHeight = isDesktop ? APP_BAR_DESKTOP : APP_BAR_MOBILE;
 
+  // Only for dev
+  useEffect(() => {
+    dispatch(showMe(""));
+  }, []);
   return (
     <StyledRoot>
       <Header onOpenNav={() => setOpen(true)} />

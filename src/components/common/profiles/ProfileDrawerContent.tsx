@@ -9,7 +9,6 @@ import {
   Typography,
   styled,
 } from "@mui/material";
-import ProfileSlideover from "../../locofy/ProfileSlideover";
 
 import Education from "./Education";
 import Experience from "./Experience";
@@ -24,6 +23,7 @@ import {
   Close,
 } from "@mui/icons-material";
 import { useState } from "react";
+import { useAppSelector } from "../../../hooks";
 
 const PaginationButton = styled(IconButton)({
   boxShadow: "none",
@@ -47,17 +47,59 @@ const PaginationButton = styled(IconButton)({
   "&:focus": {
     backgroundColor: "#d8d7d7",
   },
+  "&:disabled": {
+    backgroundColor: "#e6e5e57c",
+  },
 });
 
 type Props = {
   openFeedbackModal: () => void;
   data: ProfileData;
+  indexOfSelected: number;
+  indexOfLast: number;
+
+  handlePagination: (page: Page) => void;
 };
 
-const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
+const ProfileDrawerContent = ({
+  openFeedbackModal,
+  data,
+  indexOfSelected,
+  indexOfLast,
+  handlePagination,
+}: Props) => {
   const [isShowMore, setIseShowMore] = useState(false);
   const [isShowMoreExperience, setIseShowMoreExperience] = useState(false);
   const [isShowMoreEducation, setIseShowMoreEducation] = useState(false);
+  const {
+    first_name,
+    last_name,
+    city,
+    country,
+    profile_pic_url,
+    occupation,
+    experiences,
+    summary,
+  } = data;
+  const getCompanySize = () => {
+    const companySize = experiences.find(experience => experience.company_size);
+    if (companySize) return companySize.company_size;
+    return null;
+  };
+  const getYearsInIndustry = () => {
+    const allStarts_at = experiences.map(
+      experience => new Date(experience.starts_at)
+    );
+    const earliestDate = allStarts_at.reduce((minDate, currentDate) => {
+      return currentDate < minDate ? currentDate : minDate;
+    }, allStarts_at[0]);
+    const currentDate = new Date();
+    const timeDifferenceMs = currentDate.getTime() - earliestDate.getTime();
+    const millisecondsPerYear = 365 * 24 * 60 * 60 * 1000;
+    const yearsDifference = Math.floor(timeDifferenceMs / millisecondsPerYear);
+
+    return yearsDifference;
+  };
   return (
     <div
       style={{
@@ -106,7 +148,7 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
             color: "inherit",
           }}
         >
-          Product Team Lead for Techify
+          {occupation}
         </h3>
         <div
           style={{
@@ -128,13 +170,19 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
               gap: "16px",
             }}
           >
-            <PaginationButton>
+            <PaginationButton
+              disabled={1 === indexOfLast}
+              onClick={() => handlePagination("prev")}
+            >
               <KeyboardArrowLeft />
             </PaginationButton>
             <Typography variant="body2">
-              <span>1</span> of <span>67</span>
+              <span>{indexOfSelected + 1}</span> of <span>{indexOfLast}</span>
             </Typography>
-            <PaginationButton>
+            <PaginationButton
+              disabled={indexOfSelected + 1 === indexOfLast}
+              onClick={() => handlePagination("next")}
+            >
               <KeyboardArrowRight />
             </PaginationButton>
           </div>
@@ -178,27 +226,35 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
           >
             <img
               style={{
+                borderRadius: "6px",
+
                 objectFit: "cover",
                 width: "100%",
               }}
               alt=""
-              src={"https://storage.googleapis.com/linkedingpt/avi-ventura.jpg"}
+              src={profile_pic_url}
             />
           </Box>
           <Stack>
-            <Typography variant="h4">Hili Ozer-Singer</Typography>
-            <Typography variant="body2"> 14 years in industry</Typography>
+            <Typography variant="h4">
+              {first_name} {last_name}
+            </Typography>
+            <Typography variant="body2">
+              {" "}
+              {getYearsInIndustry()} years in industry
+            </Typography>
             <Typography
               variant="body2"
               color={"secondary"}
               marginBottom={"26px"}
             >
-              Company Info: 6,874 employees · public · IPO 2013 · Website
-              builder software
+              Company Info:{" "}
+              {getCompanySize() && `${getCompanySize()} employees ·`} public ·
+              IPO 2013 · {experiences[0].industry}
             </Typography>
             <Stack direction={"row"} m={"17px 0 5px 0"}>
               <Typography variant="body2" color={"secondary"}>
-                Tel Aviv, Israel{" "}
+                {city}, {country}{" "}
               </Typography>
               <span
                 style={{
@@ -220,7 +276,12 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
               </Link>
             </Stack>
             <div style={{ width: "fit-content" }}>
-              <FeetbackBtns openFeedbackModal={openFeedbackModal} />
+              <FeetbackBtns
+                openFeedbackModal={openFeedbackModal}
+                action={data.label}
+                data={data}
+                handleActionForDrawer={() => handlePagination("next")}
+              />
             </div>
           </Stack>
         </div>
@@ -258,31 +319,9 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
             }}
           >
             <Collapse in={isShowMore} collapsedSize={40}>
-              I'm a passionate, down to earth "can do" person with a good
-              attitude and great people skills. I love shaping products vision,
-              fine tuning small details, without losing sight of the big
-              picture. I believe my creativity, dedication to UX and a good eye
-              for details is the key for creating products that are smart,
-              intuitive that makes an impact.
+              {summary}
             </Collapse>
-            {/* <div
-              style={{
-                alignSelf: "stretch",
-                position: "relative",
-                display: "-webkit-inline-box",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                WebkitLineClamp: "32",
-                WebkitBoxOrient: "vertical",
-              }}
-            >
-              I'm a passionate, down to earth "can do" person with a good
-              attitude and great people skills. I love shaping products vision,
-              fine tuning small details, without losing sight of the big
-              picture. I believe my creativity, dedication to UX and a good eye
-              for details is the key for creating products that are smart,
-              intuitive that makes an impact.
-            </div> */}
+
             <Button
               variant="text"
               color="primary"
@@ -338,7 +377,7 @@ const ProfileDrawerContent = ({ openFeedbackModal, data }: Props) => {
               }}
             >
               <Collapse in={isShowMoreExperience} collapsedSize={50}>
-                {data.experience.map((experience, i) => (
+                {data.experiences.map((experience, i) => (
                   <Experience data={experience} isFullView />
                 ))}
               </Collapse>

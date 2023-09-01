@@ -1,6 +1,9 @@
 import logo from "../../assets/icon5@2x.png";
-type Props = {};
-const Logo = (props: Props) => {
+type Props = {
+  image: string | undefined;
+  company: string | undefined;
+};
+const Logo = ({ image, company }: Props) => {
   return (
     <div
       style={{
@@ -20,10 +23,10 @@ const Logo = (props: Props) => {
           objectFit: "cover",
         }}
         alt=""
-        src={logo}
+        src={image ? image : logo}
       />
       <div style={{ flex: "1", position: "relative", fontWeight: "600" }}>
-        Techify
+        {company}
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
-import { FunctionComponent, useState, useCallback } from "react";
+import { FunctionComponent, useState, useCallback, useEffect } from "react";
 
 import {
   FeetbackModal,
   ProfileCard,
   ProfileDrawerContent,
 } from "../components/common";
+import { useAppSelector } from "../hooks";
 
 import { Box, Drawer } from "@mui/material";
 
@@ -12,9 +13,19 @@ import { profiles } from "../_mock/profiles";
 
 const Pipeline: FunctionComponent = () => {
   const [isProfileDrawer, setIsProfileDrawer] = useState(false);
-  const [selectedProf, setSelectedProf] = useState<null | ProfileData>(null);
+  const [indexOfSelected, setIndexOfSelected] = useState<number>(0);
 
+  const [selectedProf, setSelectedProf] = useState<null | ProfileData>(null);
+  const { pipeline_good, pipeline_maybe, isShowGoodPipeline } = useAppSelector(
+    store => store.project
+  );
+  const [profiles, setProfiles] = useState(
+    isShowGoodPipeline ? pipeline_good : pipeline_maybe
+  );
   const [isFeedbackModal, setIsFeedbackModal] = useState(false);
+  useEffect(() => {
+    setProfiles(isShowGoodPipeline ? pipeline_good : pipeline_maybe);
+  }, [isShowGoodPipeline, pipeline_good, pipeline_maybe]);
 
   const toggleFeedbackModal = (open: boolean) => {
     setIsFeedbackModal(open);
@@ -29,38 +40,25 @@ const Pipeline: FunctionComponent = () => {
     // }
     setIsProfileDrawer(open);
   };
-  const handleSelect = (data: ProfileData) => {
-    setSelectedProf(data);
+  const handleSelect = (index: number) => {
+    setIndexOfSelected(index);
+    const newSelectedProf = profiles.at(index);
+    setSelectedProf(newSelectedProf || null);
   };
-
+  const handlePagination = (page: Page) => {
+    let newIndexOfSelected = indexOfSelected;
+    if (page === "next") {
+      newIndexOfSelected += 1;
+    } else {
+      newIndexOfSelected -= 1;
+    }
+    if (newIndexOfSelected < 0 || newIndexOfSelected > profiles.length - 1) {
+      return;
+    }
+    handleSelect(newIndexOfSelected);
+  };
   return (
     <>
-      {/* <div
-        style={{
-          position: "relative",
-          backgroundColor: "#fff",
-          width: "100%",
-          overflow: "hidden",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-        }}
-      >
-        <main
-          style={{
-            alignSelf: "stretch",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: "1",
-            textAlign: "left",
-            fontSize: "1rem",
-            color: "#191919",
-            fontFamily: "'Noto Sans'",
-          }}
-        > */}
       <Box
         sx={{
           position: "relative",
@@ -87,7 +85,9 @@ const Pipeline: FunctionComponent = () => {
             <ProfileCard
               onProfileClick={() => toggleDrawer(true)}
               openFeedbackModal={() => toggleFeedbackModal(true)}
-              handleSelect={handleSelect}
+              handleSelect={() => {
+                handleSelect(i);
+              }}
               data={profile}
             />
           ))}
@@ -108,6 +108,9 @@ const Pipeline: FunctionComponent = () => {
         {selectedProf !== null && (
           <ProfileDrawerContent
             data={selectedProf}
+            indexOfSelected={indexOfSelected}
+            indexOfLast={profiles.length}
+            handlePagination={handlePagination}
             openFeedbackModal={() => toggleFeedbackModal(true)}
           />
         )}

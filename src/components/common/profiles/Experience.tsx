@@ -11,28 +11,34 @@ const Experience = ({ data, isFullView }: Props) => {
   const {
     starts_at,
     ends_at,
-    company_info,
     degree_name,
     company,
-    school_linkedin_profile_url,
+    location,
+    company_linkedin_profile_url,
     description,
     logo_url,
-    roles,
+    specialities,
   } = data;
-  const rolesToShow = isFullView ? roles : roles.slice(0, 1);
+
+  const allSpecialities = specialities ? specialities.slice() : [];
+  const specialitiesToShow = isFullView
+    ? allSpecialities
+    : allSpecialities.slice(0, 1);
   const getTimeline = (start: string, end: string) => {
     const startTime = moment(start).format("MMM YYYY");
-    const endTime = moment(end).format("MMM YYYY");
+    let endTime = "present";
+    if (end) endTime = moment(end).format("MMM YYYY");
     return `${startTime} - ${endTime}`;
   };
   const getDifference = (start: string, end: string) => {
     const startDate = moment(start);
-    const endDate = moment(end);
+    let endDate = moment();
+    if (end) endDate = moment(end);
     const years = endDate.diff(startDate, "years");
     startDate.add(years, "years"); // Remove years from the start date
     const months = endDate.diff(startDate, "months");
 
-    return ` ${years} yrs ${months} mos`;
+    return ` ${years > 0 ? `${years} yrs` : ""} ${months} mos`;
   };
   return (
     <Box width={"100%"}>
@@ -79,17 +85,19 @@ const Experience = ({ data, isFullView }: Props) => {
           </Stack>
         </Box>
       </Box>
-      {rolesToShow.map((role, i) => {
-        const { label, starts_at, ends_at, location } = role;
+      {specialitiesToShow.map((speciality, i) => {
         return (
           <Box width={"100%"} display={"flex"} key={i} marginBottom={"10px"}>
             <Box
               display={"flex"}
               flexDirection={"column"}
               alignItems={"center"}
-              width="48px"
               paddingTop={"4px"}
             >
+              {/* Placeholder. For setting width */}
+
+              <Box width={"48px"} />
+
               {/* Circle */}
 
               <Box
@@ -101,7 +109,7 @@ const Experience = ({ data, isFullView }: Props) => {
                 height={"0"}
               />
               {/* Vertical Line */}
-              {i + 1 !== rolesToShow.length && (
+              {i + 1 !== specialitiesToShow.length && (
                 <Box height={"100%"} paddingTop={"4px"} position={"relative"}>
                   <Box
                     width={"1.5px"}
@@ -114,20 +122,19 @@ const Experience = ({ data, isFullView }: Props) => {
                 </Box>
               )}
             </Box>
-            <Box display={"flex"} flexDirection={"column"} rowGap={"24px"}>
-              {/* Role */}
 
-              <Stack>
-                <Typography variant="subtitle1">{label}</Typography>
-                <Typography variant="body2">
-                  {getTimeline(starts_at, ends_at)} &#183;
-                  {getDifference(starts_at, ends_at)}
-                </Typography>
-                <Typography variant="body2" color={"secondary"}>
-                  {location}
-                </Typography>
-              </Stack>
-            </Box>
+            {/* Role */}
+
+            <Stack sx={{ width: "100%" }}>
+              <Typography variant="subtitle1">{speciality}</Typography>
+              <Typography variant="body2">
+                {getTimeline(starts_at, ends_at)} &#183;
+                {getDifference(starts_at, ends_at)}
+              </Typography>
+              <Typography variant="body2" color={"secondary"}>
+                {location}
+              </Typography>
+            </Stack>
           </Box>
         );
       })}
@@ -136,79 +143,3 @@ const Experience = ({ data, isFullView }: Props) => {
 };
 
 export default Experience;
-
-// const mockData = {
-//   _id: "avi-ventura",
-//   city: null,
-//   connections: 500.0,
-//   country: "IL",
-//   country_full_name: "Israel",
-//   first_name: "Avi",
-//   headline: "Product Team Lead",
-//   last_name: "Ventura",
-//   occupation: "Product Team Lead at Surecomp",
-//   profile_pic_url: "https://storage.googleapis.com/linkedingpt/avi-ventura.jpg",
-//   public_identifier: "avi-ventura",
-//   state: null,
-//   summary:
-//     "• Vast experience building successful consumer Mobile Web and Desktop products from scratch.\n• Demonstrated success in creating innovative and user-friendly software applications and customer- facing features.\n• Experience working on Agile enabled teams (SCRUM) as a product owner.\n• Experience launching consumer-facing online service (Web/ Mobile/ Tablet) from start to finish.\n• Proven ability to understand complex business problems, apply strong analytical skill and create \n  technical requirements (PRD's, user stories - high level and detailed design).\n• Deep experience in analytics, and massive understanding of the online industry.\n\n• Have both the ability to work independently and also to integrate with other team members.\n• Attention to detail and the ability to see the bigger picture.\n• Ability to manage cross-functional projects without direct authority.\n\n• In my spare time I'm a long distances runner and a triathlete. Also I was competing in The Iron Man Triathlon competition in Austria 2019.",
-//   education: [
-//     {
-//       starts_at: "2000-01-01T00:00:00.000+0000",
-//       ends_at: "2003-12-31T00:00:00.000+0000",
-//       field_of_study: "Mass communication, management",
-//       degree_name: "BA",
-//       school: "Hamaslool Ha'akademi shel Hamichlala Leminhal",
-//       school_linkedin_profile_url:
-//         "https://il.linkedin.com/school/the-college-of-management/",
-//       description: "Student",
-//       logo_url:
-//         "https://storage.googleapis.com/linkedingpt/school-the-college-of-management.jpeg",
-//     },
-//   ],
-//   experience: [
-//     {
-//       starts_at: "2000-01-01T00:00:00.000+0000",
-//       ends_at: "2003-12-31T00:00:00.000+0000",
-//       company_info:
-//         "Company Info: 6,874 employees · public · IPO 2013 ·  Website builder software",
-//       degree_name: "BA",
-//       company: "Wix.com",
-//       school_linkedin_profile_url:
-//         "https://il.linkedin.com/school/the-college-of-management/",
-//       description: "Student",
-//       logo_url:
-//         "https://storage.googleapis.com/linkedingpt/school-the-college-of-management.jpeg",
-//       roles: [
-//         {
-//           label: "Head of Product",
-//           starts_at: "2000-01-01T00:00:00.000+0000",
-//           ends_at: "2003-12-31T00:00:00.000+0000",
-//           location: "Tel-Aviv, Israel",
-//         },
-//       ],
-//     },
-//     {
-//       starts_at: "2000-01-01T00:00:00.000+0000",
-//       ends_at: "2003-12-31T00:00:00.000+0000",
-//       company_info:
-//         "Company Info: 6,874 employees · public · IPO 2013 ·  Website builder software",
-//       degree_name: "BA",
-//       company: "Wix.com",
-//       school_linkedin_profile_url:
-//         "https://il.linkedin.com/school/the-college-of-management/",
-//       description: "Student",
-//       logo_url:
-//         "https://storage.googleapis.com/linkedingpt/school-product-league-product-management-mentoring-program.jpeg",
-//       roles: [
-//         {
-//           label: "Head of Product",
-//           starts_at: "2000-01-01T00:00:00.000+0000",
-//           ends_at: "2003-12-31T00:00:00.000+0000",
-//           location: "Tel-Aviv, Israel",
-//         },
-//       ],
-//     },
-//   ],
-//   full_name: "Avi Ventura",
-// };

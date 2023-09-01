@@ -8,10 +8,9 @@ import SideNavbar from "../components/locofy/SideNavbar";
 import { EditJob, SingleJob } from "../components/jobDescription";
 import { NoJobModal, SelectCountryModal } from "../components/common";
 import { useAppDispatch } from "../hooks";
-import { getCompanies } from "../features/companies/companySlice";
 
 const JobDescription: FunctionComponent = () => {
-  const [isSelectCountryModal, setIsSelectCountryModal] = useState(true);
+  const [isSelectCountryModal, setIsSelectCountryModal] = useState(false);
 
   const [isNoJobModal, setIsNoJobModal] = useState(false);
 
@@ -22,7 +21,7 @@ const JobDescription: FunctionComponent = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getCompanies(""));
+    // dispatch(getCompanies(""));
   }, []);
   return (
     <Box
@@ -38,7 +37,7 @@ const JobDescription: FunctionComponent = () => {
       }}
     >
       {selected ? (
-        <EditJob setSelected={() => setSelected(false)} />
+        <EditJob setSelected={() => setSelected(false)} isEdit />
       ) : (
         <SingleJob setSelected={() => setSelected(true)} />
       )}

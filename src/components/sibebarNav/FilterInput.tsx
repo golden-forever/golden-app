@@ -103,10 +103,10 @@ const FilterInput = ({ data, removeTag, addTag, clearAllTags }: Props) => {
             // onChange={e => setTag(e.target.value)}
           />
         </Box> */}
-        <CustomAutocomplete
+        {/* <CustomAutocomplete
           availableTags={availableTags}
           handleSelect={handleAdd}
-        />
+        /> */}
         <Box
           sx={{
             alignSelf: "stretch",
