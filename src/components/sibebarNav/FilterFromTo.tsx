@@ -1,51 +1,56 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Box, Button, Slider } from "@mui/material";
+import { setFilters } from "../../features/project/projectSlice";
+import { useAppDispatch } from "../../hooks";
 
 // Icons
 type RangeArr = [number, number];
-type Props = {};
-const initialState: { value: RangeArr; min: number; max: number } = {
-  value: [1, 20],
-  min: 1,
-  max: 20,
+type Props = {
+  min_years_of_experience_title: number;
+  max_years_of_experience_title: number;
 };
-const YearsOfExperience = ({}: Props) => {
-  const [state, setState] = useState({ ...initialState });
+const MIN_VALUE = 1;
+const MAX_VALUE = 20;
 
-  const onFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = [...state.value];
-    newValue[0] = Number(e.target.value);
-    optimizedOnChange(newValue as RangeArr, state.value);
-  };
-  const onToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = [...state.value];
-    newValue[1] = Number(e.target.value);
-    optimizedOnChange(newValue as RangeArr, state.value);
-  };
-  const handChange = (value: [number, number]) => {
-    setState({ ...state, value });
+const YearsOfExperience = ({
+  min_years_of_experience_title,
+  max_years_of_experience_title,
+}: Props) => {
+  const [localValue, setLocalValue] = useState<RangeArr>([
+    min_years_of_experience_title,
+    max_years_of_experience_title,
+  ]);
+  useEffect(() => {
+    setLocalValue([
+      min_years_of_experience_title,
+      max_years_of_experience_title,
+    ]);
+  }, [min_years_of_experience_title, max_years_of_experience_title]);
+  const dispatch = useAppDispatch();
+  const handleChange = (newValue: RangeArr) => {
+    if (newValue[0] < MIN_VALUE) newValue[0] = MIN_VALUE;
+    if (newValue[1] > MAX_VALUE) newValue[1] = MAX_VALUE;
+    if (newValue[0] > newValue[1]) return;
+    optimizedOnChange(newValue);
   };
   const debounce = () => {
     let timeoutID: any;
-    return (newValue: RangeArr, curValue: RangeArr) => {
-      setState({ ...state, value: newValue });
-      console.log(newValue);
+    return (newValue: RangeArr) => {
+      setLocalValue(newValue);
       clearTimeout(timeoutID);
       timeoutID = setTimeout(() => {
-        if (newValue[0] <= newValue[1]) {
-          if (newValue[0] < state.min) newValue[0] = state.min;
-          if (newValue[1] > state.max) newValue[1] = state.max;
-          // handleRangeChange(data, newValue);
-        }
-        // else {
-        //   setLocalValue(curValue);
-        // }
+        dispatch(
+          setFilters({
+            min_years_of_experience_title: newValue[0],
+            max_years_of_experience_title: newValue[1],
+          })
+        );
       }, 1000);
     };
   };
   const optimizedOnChange = useMemo(() => debounce(), []);
   const clearAll = () => {
-    setState({ ...initialState });
+    setLocalValue([MIN_VALUE, MAX_VALUE]);
   };
   return (
     <div
@@ -104,10 +109,15 @@ const YearsOfExperience = ({}: Props) => {
           type="number"
           id="companySizeFrom"
           name="companySizeFrom"
-          value={state.value[0]}
-          onChange={onFromChange}
-          min={state.min}
-          max={state.value[1]}
+          value={localValue[0]}
+          onChange={e => {
+            const tempRange: RangeArr = [...localValue];
+            const fromValue = e.target.value;
+            tempRange[0] = Number(fromValue);
+            handleChange(tempRange);
+          }}
+          min={MIN_VALUE}
+          max={localValue[1]}
         />
         {/* </Box> */}
         {/* <Box display={"flex"} alignItems={"center"}> */}
@@ -118,10 +128,15 @@ const YearsOfExperience = ({}: Props) => {
           type="number"
           id="companySizeTo"
           name="companySizeTo"
-          value={state.value[1]}
-          onChange={onToChange}
-          min={state.value[0]}
-          max={state.max}
+          value={localValue[1]}
+          onChange={e => {
+            const tempRange: RangeArr = [...localValue];
+            const toValue = e.target.value;
+            tempRange[1] = Number(toValue);
+            handleChange(tempRange);
+          }}
+          min={localValue[0]}
+          max={MAX_VALUE}
         />
         {/* </Box> */}
         <p>employees</p>
@@ -132,21 +147,21 @@ const YearsOfExperience = ({}: Props) => {
       <Box width={"100%"}>
         <Slider
           getAriaLabel={() => "Temperature range"}
-          value={state.value}
+          value={localValue}
           onChange={(e, value) => {
             if (Array.isArray(value)) {
-              handChange([value[0], value[1]]);
+              handleChange([value[0], value[1]]);
             }
           }}
           step={1}
           marks
-          min={state.min}
-          max={state.max}
+          min={MIN_VALUE}
+          max={MAX_VALUE}
           valueLabelDisplay="auto"
         />
         <Box display={"flex"} justifyContent={"space-between"} width={"100%"}>
-          <span>Less than {state.min}</span>
-          <span>{state.max}</span>
+          <span>Less than {MIN_VALUE}</span>
+          <span>{MAX_VALUE}</span>
         </Box>
       </Box>
       {/* Slider End */}

@@ -54,20 +54,17 @@ export const getPipeline = createAsyncThunk(
   "project/getPipeline",
   getPipelineThunk
 );
-type FilterProperty = {
-  name: string;
-  value: any;
-};
+
 export const setFilters = createAsyncThunk(
   "project/setFilters",
-  async ({ name, value }: FilterProperty, thunkAPI) => {
+  async (filters: any, thunkAPI) => {
     try {
       const { recent_pid } = thunkAPI.getState().user;
       const { search_query } = thunkAPI.getState().project;
       const URL = `search_query/${recent_pid}`;
       const response = await postRequest(URL, {
         ...search_query,
-        [name]: value,
+        ...filters,
       });
       const data = response.data;
       thunkAPI.dispatch(setSearchQuery(search_query));

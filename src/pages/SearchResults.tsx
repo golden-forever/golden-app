@@ -9,6 +9,7 @@ import {
 } from "../components/common";
 import { Drawer } from "@mui/material";
 import { useAppSelector } from "../hooks";
+import { ProfileCardSkeleton } from "../components/skeletons";
 
 const SearchResults: FunctionComponent = () => {
   const [isProfileDrawer, setIsProfileDrawer] = useState(false);

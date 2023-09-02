@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -16,24 +16,55 @@ import {
 import { Close, Add, Remove } from "@mui/icons-material";
 import { getRequest } from "../../utils/apiHelper";
 import { URLcities } from "../../utils/helpers";
-const initialState = { minToDrive: 60, to: "", anywhere: false };
-type Props = {};
-const FilterLocation = ({}: Props) => {
+import { useAppDispatch } from "../../hooks";
+import { setFilters } from "../../features/project/projectSlice";
+import CustomAutocomplete from "./filters/CustomAutocomplete";
+const initialState = { max_driving_time: 60, city_hq: "", anywhere: false };
+type Props = { cities: string[] };
+const FilterLocation = ({ cities }: Props) => {
   const [state, setState] = useState({ ...initialState });
-  const [locations, setLocations] = useState<string[]>([]);
+  const [locations, setLocations] = useState<string[]>(cities);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    setLocations(cities);
+  }, [cities]);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e?.target;
     let newValue: number | boolean | string = value;
-    if (name === "minToDrive") newValue = Number(value);
+    if (name === "max_driving_time") newValue = Number(value);
     else if (name === "anywhere") {
       if (value === "true") newValue = true;
       else if (value === "false") newValue = false;
     }
 
-    setState({ ...state, [name]: newValue });
+    setState(prev => ({ ...prev, [name]: newValue }));
   };
+  const debounce = () => {
+    let timeoutID: string | number | NodeJS.Timeout | undefined;
+    return (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      handleChange(e);
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        dispatch(setFilters({ [e.target.name]: e.target.value }));
+      }, 1000);
+    };
+  };
+  const optimizedDebounce = useMemo(() => debounce(), []);
+  const autocompeteDebounce = () => {
+    let timeoutID: string | number | NodeJS.Timeout | undefined;
+    return (location: String) => {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        dispatch(setFilters({ city_hq: location }));
+      }, 1000);
+    };
+  };
+  const optimizedAutocompleteDebounce = useMemo(
+    () => autocompeteDebounce(),
+    []
+  );
   useEffect(() => {
     const asyncWrapper = async () => {
       try {
@@ -102,23 +133,24 @@ const FilterLocation = ({}: Props) => {
         <input
           style={{ width: "50px" }}
           type="number"
-          id="minToDrive"
-          name="minToDrive"
+          id="max_driving_time"
+          name="max_driving_time"
           min="0"
-          value={state.minToDrive}
+          value={state.max_driving_time}
           onChange={handleChange}
         />
         {/* </Box> */}
-        <p>min. drive to</p>
-        <TextField
-          name="to"
-          size="small"
-          // label="Add tag"
-          placeholder="e.g. Tel-Aviv"
-          variant="standard"
-          value={state.to}
-          onChange={handleChange}
-          sx={{ width: "123px" }}
+        <Typography
+          variant="body2"
+          color={"secondary"}
+          sx={{ whiteSpace: "nowrap" }}
+        >
+          min. drive to
+        </Typography>
+
+        <CustomAutocomplete
+          availableTags={locations}
+          handleSelect={optimizedAutocompleteDebounce}
         />
       </Box>
       {/* From To Fields End*/}
@@ -129,7 +161,7 @@ const FilterLocation = ({}: Props) => {
           <Checkbox
             name="anywhere"
             value={state.anywhere}
-            onChange={handleChange}
+            onChange={optimizedDebounce}
           />
         }
         label="Anywhere in Israel"

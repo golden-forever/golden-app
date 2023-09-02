@@ -1,4 +1,5 @@
 import { Filters, OpenJobs, SavedJobs } from "../../../components/sibebarNav";
+import { FiltersSkeleton } from "../../../components/skeletons";
 
 type Props = { pathname: string };
 const config = ({ pathname }: Props) => {
@@ -13,6 +14,7 @@ const config = ({ pathname }: Props) => {
     <>
       {trimmedPathname.startsWith("/job") && <OpenJobs />}
       {trimmedPathname === "/search-results" && <Filters />}
+
       {trimmedPathname === "/pipeline" && <SavedJobs />}
     </>
   );

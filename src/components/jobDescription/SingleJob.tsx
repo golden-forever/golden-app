@@ -135,7 +135,6 @@ const SingleJob = ({ setSelected }: Props) => {
                   setFinished={() => finishAnimation("location")}
                 />
               )}
-              \{" "}
             </div>
           </div>
           <div

@@ -136,7 +136,7 @@ const mockSearchQuery = {
   max_years_of_experience_in_industry: 5,
   companies: ["Amazon"],
   companies_to_avoid: ["Foobar"],
-  company_sizes: ["Small"],
+  company_sizes: ["501-1,000", "5,001-10,000"],
   industries: ["Internet"],
   specialities: ["Web Application Development"],
   keywords: ["Python", "FastAPI"],

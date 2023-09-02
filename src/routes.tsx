@@ -7,6 +7,7 @@ import {
   Pipeline,
   CreateJob,
   RedirectPage,
+  SignUp,
 } from "./pages";
 
 // import SimpleLayout from './layouts/simple';
@@ -34,6 +35,7 @@ export default function Router() {
         // { path: "products", element: <ProductsPage /> },
       ],
     },
+    { path: "/register", element: <SignUp /> },
     { path: "*", element: <RedirectPage /> },
     // {
     //   path: "login",

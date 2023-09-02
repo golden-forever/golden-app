@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -39,8 +39,20 @@ const Filter = ({ allTags, applied, label, name }: Props) => {
     tempTags.splice(tagIndex, 1);
     setIsAddNew(false);
     setAvailableTags(tempTags);
-    dispatch(setFilters({ name, value: [...localApplied, tag] }));
+
+    optimizedDebounce({ name, value: [...localApplied, tag] });
   };
+
+  const debounce = () => {
+    let timeoutID: string | number | NodeJS.Timeout | undefined;
+    return (filter: { name: string; value: string[] }) => {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        dispatch(setFilters({ [filter.name]: filter.value }));
+      }, 1000);
+    };
+  };
+  const optimizedDebounce = useMemo(() => debounce(), []);
   const clearAllTags = () => {
     setLocalApplied([]);
   };
@@ -48,6 +60,7 @@ const Filter = ({ allTags, applied, label, name }: Props) => {
     const tempApplied = [...localApplied];
     tempApplied.splice(index, 1);
     setLocalApplied(tempApplied);
+    optimizedDebounce({ name, value: tempApplied });
   };
   return (
     <div

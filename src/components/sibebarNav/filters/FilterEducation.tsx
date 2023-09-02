@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useEffect, useMemo, useState } from "react";
 import {
   Box,
   Button,
@@ -10,13 +10,37 @@ import {
   Checkbox,
 } from "@mui/material";
 import { useAppDispatch } from "../../../hooks";
+import { setFilters } from "../../../features/project/projectSlice";
 
 // Icons
 
-type Props = {};
-const FilterEducation = ({}: Props) => {
+type Props = { applied: boolean };
+const FilterEducation = ({ applied }: Props) => {
   const dispatch = useAppDispatch();
-  const clearAllTags = () => {};
+  const [localState, setLocalState] = useState(applied);
+  useEffect(() => {
+    setLocalState(applied);
+  }, [applied]);
+
+  const clearAllTags = () => {
+    setLocalState(false);
+    optimizedDebounce(false);
+  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setLocalState(isChecked);
+    optimizedDebounce(isChecked);
+  };
+  const debounce = () => {
+    let timeoutID: string | number | NodeJS.Timeout | undefined;
+    return (value: boolean) => {
+      clearTimeout(timeoutID);
+      timeoutID = setTimeout(() => {
+        dispatch(setFilters({ is_top_schools_only: value }));
+      }, 1000);
+    };
+  };
+  const optimizedDebounce = useMemo(() => debounce(), []);
   return (
     <div
       style={{
@@ -67,12 +91,7 @@ const FilterEducation = ({}: Props) => {
         }}
       >
         <FormControlLabel
-          control={
-            <Checkbox
-            // value={state.anywhere}
-            // onChange={handleChange}
-            />
-          }
+          control={<Checkbox checked={localState} onChange={handleChange} />}
           label="Top schools only"
         />
       </div>

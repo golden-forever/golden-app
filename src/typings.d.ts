@@ -176,3 +176,12 @@ type SearchQuery = {
   degree_names: string[];
   fields_of_study: string[];
 };
+type CompanySize =
+  | "1-10"
+  | "11-50"
+  | "51-200"
+  | "201-500"
+  | "501-1,000"
+  | "1,001-5,000"
+  | "5,001-10,000"
+  | "10,000+";

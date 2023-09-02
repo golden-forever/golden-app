@@ -3,5 +3,12 @@ import JobDescription from "./JobDescription";
 import Pipeline from "./Pipeline";
 import RedirectPage from "./RedirectPage";
 import SearchResults from "./SearchResults";
-
-export { CreateJob, JobDescription, Pipeline, SearchResults, RedirectPage };
+import SignUp from "./auth/SignUp";
+export {
+  CreateJob,
+  JobDescription,
+  Pipeline,
+  SearchResults,
+  RedirectPage,
+  SignUp,
+};
