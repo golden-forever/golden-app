@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 // @mui
 import { styled, alpha } from "@mui/material/styles";
-
 import {
   Box,
   Link,
@@ -23,6 +22,8 @@ import Scrollbar from "../../../components/common/scrollbar";
 
 //
 import Content from "./config";
+import { useAppSelector } from "../../../hooks";
+import Logo from "../../../components/sibebarNav/Logo";
 
 // ----------------------------------------------------------------------
 
@@ -48,6 +49,8 @@ export default function Nav({ openNav, onCloseNav, headerHeight }: Props) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive("up", "lg");
+
+  const { company_info } = useAppSelector(state => state.user);
 
   useEffect(() => {
     if (openNav) {
@@ -87,11 +90,12 @@ export default function Nav({ openNav, onCloseNav, headerHeight }: Props) {
           variant="permanent"
           PaperProps={{
             sx: {
-              width: NAV_WIDTH,
-              bgcolor: "#EDEDED",
+              width: { xs: NAV_WIDTH, lg: NAV_WIDTH },
+              bgcolor: "secondary.lighter",
               paddingTop: `44px`,
               height: `calc(100vh - ${headerHeight}px)`,
               borderRightStyle: "solid",
+              borderColor: "secondary.light",
               marginTop: `${headerHeight}px`,
             },
           }}
@@ -100,13 +104,19 @@ export default function Nav({ openNav, onCloseNav, headerHeight }: Props) {
         </Drawer>
       ) : (
         <Drawer
-          open={openNav}
-          onClose={onCloseNav}
-          ModalProps={{
-            keepMounted: true,
-          }}
+          open
+          variant="permanent"
+          anchor="top"
           PaperProps={{
-            sx: { width: NAV_WIDTH },
+            sx: {
+              width: { xs: "100vw" },
+              bgcolor: "secondary.lighter",
+
+              height: "auto",
+              borderRightStyle: "solid",
+              borderColor: "secondary.light",
+              marginTop: `${headerHeight}px`,
+            },
           }}
         >
           {renderContent}

@@ -61,25 +61,6 @@ export const updateProject = createAsyncThunk(
     }
   }
 );
-// export const setFilters = createAsyncThunk(
-//   "user/setFilters",
-//   async (search_query: SearchQuery, thunkAPI) => {
-//     try {
-//       const { recent_pid } = thunkAPI.getState().user;
-//       const URL = `search_query/${recent_pid}`;
-//       const response = await postRequest(URL, search_query);
-//       const data = response.data;
-
-//       return {search_query,data};
-//     } catch (err) {
-//       const error: AxiosError<KnownError> = err as any;
-
-//       console.log(error);
-
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
 
 const userSlice = createSlice({
   name: "user",

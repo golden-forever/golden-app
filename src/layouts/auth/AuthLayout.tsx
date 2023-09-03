@@ -2,19 +2,21 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 // @mui
 import { styled } from "@mui/material/styles";
+import { Box, AppBar, Toolbar, IconButton, Divider } from "@mui/material";
+
+// import Logo from "./Logo";
+
 //
-import Header from "./header";
-import SideNavbar from "./sideNavbar";
+
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import { useAppDispatch } from "../../hooks";
-import { getProfiles } from "../../features/project/projectSlice";
-import { showMe } from "../../features/user/userSlice";
-
-// Top Bar sizes
-import { APP_BAR_DESKTOP, APP_BAR_MOBILE } from "../../utils/constants";
+import Header from "./header";
 
 // ----------------------------------------------------------------------
+
+const APP_BAR_MOBILE = 44;
+const APP_BAR_DESKTOP = 60;
 
 const StyledRoot = styled("div")({
   display: "flex",
@@ -38,26 +40,16 @@ const Main = styled("div")(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-export default function DashboardLayout() {
+export default function AuthLayout() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const dispatch = useAppDispatch();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const headerHeight = isDesktop ? APP_BAR_DESKTOP : APP_BAR_MOBILE;
 
-  // Only for dev
-  useEffect(() => {
-    dispatch(showMe(""));
-  }, []);
   return (
     <StyledRoot>
-      <Header onOpenNav={() => setOpen(true)} />
-      <SideNavbar
-        openNav={true}
-        onCloseNav={() => setOpen(false)}
-        headerHeight={headerHeight}
-      />
-
+      <Header />
       <Main>
         <Outlet />
       </Main>

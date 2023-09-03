@@ -15,8 +15,10 @@ const NavLink = ({ title, isActive, handleClick }: Props) => {
       sx={{
         display: "flex",
         transition: "opacity 1s ease 0s",
+        fontSize: "16px",
         color: "#666666",
         textOverflow: "ellipsis",
+        borderRadius: "0",
         overflow: "hidden",
         whiteSpace: "nowrap",
         position: "relative",

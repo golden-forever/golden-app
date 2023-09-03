@@ -8,6 +8,7 @@ export const StyledRootScrollbar = styled("div")(() => ({
   flexGrow: 1,
   height: "100%",
   overflow: "hidden",
+  width: "100%",
 }));
 
 export const StyledScrollbar = styled(SimpleBar)(({ theme }) => ({

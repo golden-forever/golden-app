@@ -8,16 +8,29 @@ export function pxToRem(value) {
   return `${value / 16}rem`;
 }
 
-export function responsiveFontSizes({ sm, md, lg }) {
+export function responsiveFontSizes({ lg }) {
+  return {
+    "@media (min-width:991px)": {
+      fontSize: pxToRem(lg),
+    },
+  };
+}
+export function responsiveFontWeights({ sm, lg }) {
   return {
     "@media (min-width:600px)": {
-      fontSize: pxToRem(sm),
+      fontWeight: sm,
     },
-    "@media (min-width:900px)": {
-      fontSize: pxToRem(md),
-    },
+
     "@media (min-width:1200px)": {
-      fontSize: pxToRem(lg),
+      fontWeight: lg,
+    },
+  };
+}
+export function responsiveFonts({ size, weight }) {
+  return {
+    "@media (min-width:600)": {
+      fontWeight: weight,
+      fontSize: pxToRem(size),
     },
   };
 }
@@ -41,20 +54,20 @@ const typography = {
   h2: {
     fontWeight: 600,
     lineHeight: 64 / 48,
-    fontSize: pxToRem(28),
-    ...responsiveFontSizes({ sm: 40, md: 44, lg: 48 }),
+    fontSize: pxToRem(24),
+    ...responsiveFontSizes({ sm: 24, md: 24, lg: 28 }),
   },
   h3: {
     fontWeight: 600,
     lineHeight: 1.5,
-    fontSize: pxToRem(24),
-    ...responsiveFontSizes({ sm: 26, md: 30, lg: 32 }),
+    fontSize: pxToRem(20),
+    ...responsiveFontSizes({ lg: 24 }),
   },
   h4: {
     fontWeight: 600,
     lineHeight: 1.5,
-    fontSize: pxToRem(20),
-    ...responsiveFontSizes({ sm: 20, md: 24, lg: 24 }),
+    fontSize: pxToRem(16),
+    ...responsiveFontSizes({ lg: 20 }),
   },
   h5: {
     fontWeight: 600,
@@ -98,8 +111,8 @@ const typography = {
   },
   button: {
     fontWeight: 600,
-    lineHeight: 24 / 16,
-    fontSize: pxToRem(16),
+    lineHeight: 19 / 14,
+    fontSize: pxToRem(14),
     textTransform: "capitalize",
   },
 };

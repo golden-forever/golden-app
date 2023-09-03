@@ -43,6 +43,7 @@ export default function GlobalStyles() {
         img: {
           display: "block",
           maxWidth: "100%",
+          objectFit: "cover",
         },
         ul: {
           margin: 0,

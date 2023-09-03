@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import logo from "../../assets/icon5@2x.png";
 type Props = {
   image: string | undefined;
@@ -25,9 +26,7 @@ const Logo = ({ image, company }: Props) => {
         alt=""
         src={image ? image : logo}
       />
-      <div style={{ flex: "1", position: "relative", fontWeight: "600" }}>
-        {company}
-      </div>
+      <Typography variant="h4">{company}</Typography>
     </div>
   );
 };
