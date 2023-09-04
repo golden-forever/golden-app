@@ -9,6 +9,7 @@ import Backdrop from "./Backdrop";
 import Typography from "./Typography";
 import Autocomplete from "./Autocomplete";
 import Label from "./Label";
+import Toolbar from "./Toolbar";
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +24,7 @@ export default function ComponentsOverrides(theme) {
     Tooltip(theme),
     Backdrop(theme),
     Typography(theme),
-    Autocomplete(theme)
+    Autocomplete(theme),
+    Toolbar(theme)
   );
 }

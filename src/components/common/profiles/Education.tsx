@@ -21,12 +21,14 @@ const Education = ({ data }: Props) => {
         <img style={{ objectFit: "cover" }} alt="" src={logo_url} />
       </Box>
       <Box>
-        <Stack>
+        <Stack rowGap={"8px"}>
           <Typography variant="subtitle1">{school} </Typography>
-          <Typography variant="body2">{field_of_study}</Typography>
-          <Typography variant="body2" color={"secondary"}>
-            {start} - {end}
-          </Typography>
+          <Stack rowGap={"4px"}>
+            <Typography variant="body2">{field_of_study}</Typography>
+            <Typography variant="body2" color={"secondary"}>
+              {start} - {end}
+            </Typography>
+          </Stack>
         </Stack>
       </Box>
     </Box>

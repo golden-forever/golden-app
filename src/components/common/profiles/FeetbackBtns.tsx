@@ -4,13 +4,14 @@ import Stack from "@mui/material/Stack";
 import { purple } from "@mui/material/colors";
 import { useAppDispatch } from "../../../hooks";
 import { addAction } from "../../../features/project/projectSlice";
+import { Box } from "@mui/material";
 const ActionButton = styled(Button)({
   boxShadow: "none",
   textTransform: "none",
-  fontSize: 16,
+  fontSize: "16px",
   padding: "10px",
   border: "none",
-  lineHeight: 1.5,
+  lineHeight: 1,
   backgroundColor: "#EDEDED",
   color: "#191919",
 
@@ -44,12 +45,12 @@ const FeedbackBtns = ({
     if (handleActionForDrawer) handleActionForDrawer();
   };
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: { xs: "start", lg: "center" },
         gap: "8px",
       }}
     >
@@ -81,7 +82,7 @@ const FeedbackBtns = ({
       >
         Not Good
       </ActionButton>
-    </div>
+    </Box>
   );
 };
 export default FeedbackBtns;

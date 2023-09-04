@@ -66,6 +66,6 @@ export const filtersLocationData: FilterLocation = {
   anywhere: false,
 };
 
-export const APP_BAR_MOBILE = 112;
-export const APP_BAR_DESKTOP = 112;
+export const APP_BAR_MOBILE = 90;
+export const APP_BAR_DESKTOP = 109;
 export const MOBILE_TOP_SIDEBAR = 52;

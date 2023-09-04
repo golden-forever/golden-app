@@ -56,13 +56,24 @@ export default function JobsPopover() {
         sx={{
           p: 0,
           color: "white",
-          fontSize: "16px",
+          fontSize: { xs: "14px", lg: "16px" },
           fontWeight: "400",
+          "& .MuiButton-endIcon": { marginLeft: { xs: "0", lg: "4px" } },
           ...(open && {}),
         }}
         endIcon={<KeyboardArrowDown />}
       >
-        Product Team Lead for Technify
+        <Typography
+          variant="body1"
+          sx={{
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+            whiteSpace: "nowrap",
+            maxWidth: "300px",
+          }}
+        >
+          Product Team Lead for Technify
+        </Typography>
       </Button>
 
       <Popover

@@ -24,6 +24,7 @@ import {
 } from "@mui/icons-material";
 import { useState } from "react";
 import { useAppSelector } from "../../../hooks";
+import { getYearsInIndustry } from "../../../utils/helpers";
 
 const PaginationButton = styled(IconButton)({
   boxShadow: "none",
@@ -86,20 +87,7 @@ const ProfileDrawerContent = ({
     if (companySize) return companySize.company_size;
     return null;
   };
-  const getYearsInIndustry = () => {
-    const allStarts_at = experiences.map(
-      experience => new Date(experience.starts_at)
-    );
-    const earliestDate = allStarts_at.reduce((minDate, currentDate) => {
-      return currentDate < minDate ? currentDate : minDate;
-    }, allStarts_at[0]);
-    const currentDate = new Date();
-    const timeDifferenceMs = currentDate.getTime() - earliestDate.getTime();
-    const millisecondsPerYear = 365 * 24 * 60 * 60 * 1000;
-    const yearsDifference = Math.floor(timeDifferenceMs / millisecondsPerYear);
 
-    return yearsDifference;
-  };
   return (
     <div
       style={{
@@ -122,19 +110,19 @@ const ProfileDrawerContent = ({
       }}
       data-animate-on-scroll
     >
-      <header
-        style={{
+      <Box
+        component={"header"}
+        sx={{
           alignSelf: "stretch",
           borderBottom: "2px solid #ededed",
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column-reverse", lg: "row" },
           padding: "0px 0px 16px",
-          alignItems: "center",
+          alignItems: { xs: "start", lg: "center" },
           justifyContent: "space-between",
-          textAlign: "left",
+          // textAlign: "left",
           fontSize: "20px",
-          color: "#191919",
-          fontFamily: "'Noto Sans'",
+          width: "100%",
         }}
       >
         <h3
@@ -150,16 +138,11 @@ const ProfileDrawerContent = ({
         >
           {occupation}
         </h3>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "24px",
-            fontSize: "14px",
-            color: "#7f7f7f",
-          }}
+
+        <Box
+          display={"flex"}
+          justifyContent={{ xs: "space-between, center" }}
+          columnGap={"24px"}
         >
           <div
             style={{
@@ -176,7 +159,7 @@ const ProfileDrawerContent = ({
             >
               <KeyboardArrowLeft />
             </PaginationButton>
-            <Typography variant="body2">
+            <Typography variant="body2" color={"secondary"}>
               <span>{indexOfSelected + 1}</span> of <span>{indexOfLast}</span>
             </Typography>
             <PaginationButton
@@ -189,8 +172,8 @@ const ProfileDrawerContent = ({
           <IconButton sx={{ marginRight: "-10px" }}>
             <Close />
           </IconButton>
-        </div>
-      </header>
+        </Box>
+      </Box>
       <main
         style={{
           alignSelf: "stretch",
@@ -241,7 +224,7 @@ const ProfileDrawerContent = ({
             </Typography>
             <Typography variant="body2">
               {" "}
-              {getYearsInIndustry()} years in industry
+              {getYearsInIndustry(experiences)} years in industry
             </Typography>
             <Typography
               variant="body2"

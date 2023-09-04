@@ -83,6 +83,7 @@ const Pipeline: FunctionComponent = () => {
         >
           {profiles.map((profile, i) => (
             <ProfileCard
+              key={i}
               onProfileClick={() => toggleDrawer(true)}
               openFeedbackModal={() => toggleFeedbackModal(true)}
               handleSelect={() => {

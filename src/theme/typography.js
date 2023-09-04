@@ -93,10 +93,11 @@ const typography = {
   },
   body1: {
     lineHeight: 1.5,
-    fontSize: pxToRem(16),
+    fontSize: pxToRem(14),
+    ...responsiveFontSizes({ lg: 16 }),
   },
   body2: {
-    lineHeight: 22 / 14,
+    lineHeight: 19 / 14,
     fontSize: pxToRem(14),
   },
   caption: {

@@ -12,7 +12,11 @@ import { getProfiles } from "../../features/project/projectSlice";
 import { showMe } from "../../features/user/userSlice";
 
 // Top Bar sizes
-import { APP_BAR_DESKTOP, APP_BAR_MOBILE } from "../../utils/constants";
+import {
+  APP_BAR_DESKTOP,
+  APP_BAR_MOBILE,
+  MOBILE_TOP_SIDEBAR,
+} from "../../utils/constants";
 
 // ----------------------------------------------------------------------
 
@@ -27,9 +31,9 @@ const Main = styled("div")(({ theme }) => ({
   overflow: "auto",
   minHeight: "100%",
   background: "#fff",
-  paddingTop: APP_BAR_MOBILE + 24,
+  paddingTop: APP_BAR_MOBILE + MOBILE_TOP_SIDEBAR + 24,
   paddingBottom: theme.spacing(8),
-  [theme.breakpoints.up("md")]: {
+  [theme.breakpoints.up("lg")]: {
     paddingTop: APP_BAR_DESKTOP + 24,
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
@@ -40,8 +44,8 @@ const Main = styled("div")(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const theme = useTheme();
   const dispatch = useAppDispatch();
+  const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
   const headerHeight = isDesktop ? APP_BAR_DESKTOP : APP_BAR_MOBILE;
 

@@ -72,7 +72,10 @@ const Experience = ({ data, isFullView }: Props) => {
         <Box display={"flex"} flexDirection={"column"}>
           {/* Company */}
 
-          <Stack sx={{ paddingLeft: "8px", paddingBottom: "24px" }}>
+          <Stack
+            sx={{ paddingLeft: "8px", paddingBottom: "24px" }}
+            rowGap={"8px"}
+          >
             <Typography variant="subtitle1"> Wix.com</Typography>
             <Typography variant="body2">
               {" "}
@@ -125,7 +128,7 @@ const Experience = ({ data, isFullView }: Props) => {
 
             {/* Role */}
 
-            <Stack sx={{ width: "100%" }}>
+            <Stack sx={{ width: "100%" }} rowGap={"8px"}>
               <Typography variant="subtitle1">{speciality}</Typography>
               <Typography variant="body2">
                 {getTimeline(starts_at, ends_at)} &#183;

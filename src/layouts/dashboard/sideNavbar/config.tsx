@@ -1,8 +1,8 @@
 import { Filters, OpenJobs, SavedJobs } from "../../../components/sibebarNav";
 import { FiltersSkeleton } from "../../../components/skeletons";
 
-type Props = { pathname: string };
-const config = ({ pathname }: Props) => {
+type Props = { pathname: string; toggleMobileSidebar: () => void };
+const config = ({ pathname, toggleMobileSidebar }: Props) => {
   const checkLastCharacter = (str: string) => {
     const lastCharacter = str.slice(-1);
     if (str === "/") return str;
@@ -12,10 +12,16 @@ const config = ({ pathname }: Props) => {
   const trimmedPathname = checkLastCharacter(pathname);
   const content = (
     <>
-      {trimmedPathname.startsWith("/job") && <OpenJobs />}
-      {trimmedPathname === "/search-results" && <Filters />}
+      {trimmedPathname.startsWith("/job") && (
+        <OpenJobs toggleMobileSidebar={toggleMobileSidebar} />
+      )}
+      {trimmedPathname === "/search-results" && (
+        <Filters toggleMobileSidebar={toggleMobileSidebar} />
+      )}
 
-      {trimmedPathname === "/pipeline" && <SavedJobs />}
+      {trimmedPathname === "/pipeline" && (
+        <SavedJobs toggleMobileSidebar={toggleMobileSidebar} />
+      )}
     </>
   );
   return <div>{content}</div>;

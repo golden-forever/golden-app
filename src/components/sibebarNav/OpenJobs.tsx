@@ -1,33 +1,37 @@
-import { Box, Button, Divider, Slider, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Collapse,
+  Divider,
+  Slider,
+  Typography,
+} from "@mui/material";
 import NavLink from "./NavLink";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
-import { Add } from "@mui/icons-material";
+import { Add, BorderColor } from "@mui/icons-material";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-import { getProject } from "../../features/user/userSlice";
+import { getProject, setIsMobileSidebar } from "../../features/user/userSlice";
 import { getImgSrc } from "../../utils/helpers";
 import { useNavigate } from "react-router-dom";
 // Top Bar sizes
-import {
-  APP_BAR_DESKTOP,
-  APP_BAR_MOBILE,
-  MOBILE_TOP_SIDEBAR,
-} from "../../utils/constants";
+import { useTheme } from "@mui/material/styles";
+import { useMediaQuery } from "@mui/material";
 
-type Props = {};
-const OpenJobs = (props: Props) => {
-  const { project_snippets, company_info, recent_pid } = useAppSelector(
-    state => state.user
-  );
-  const [isMobileSidebar, setIsMobileSidebar] = useState(false);
+type Props = { toggleMobileSidebar: () => void };
+const OpenJobs = ({ toggleMobileSidebar }: Props) => {
+  const { project_snippets, company_info, recent_pid, isMobileSidebar } =
+    useAppSelector(state => state.user);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
   const handleJobSelect = (project_id: string) => {
     dispatch(getProject(project_id));
+    dispatch(setIsMobileSidebar(false));
     navigate(`/job/${project_id}`);
   };
   const logo = company_info?.company_logo_url
@@ -37,63 +41,32 @@ const OpenJobs = (props: Props) => {
   const handleCreateNewClick = () => {
     navigate("/job/new-job");
   };
-
+  const toggleSideBar = () => {
+    dispatch(setIsMobileSidebar(!isMobileSidebar));
+  };
   return (
     <>
-      {/* <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-
-              p: "12px 16px",
-            }}
-          >
-            <Stack direction={"row"}>
-              <Logo
-                image={company_info?.company_logo_url || ""}
-                company={company_info?.company_name}
-              />
-              <Box
-                height={"16px"}
-                borderRight={"1px solid"}
-                borderColor={"secondary.light"}
-                m={"0 8px"}
-              />
-              <Button
-                endIcon={<KeyboardArrowDownIcon />}
-                onClick={() => setIsMobileSidebar(!isMobileSidebar)}
-                size="small"
-                sx={{
-                  p: "0",
-                  color: "secondary.darker",
-                  fontSize: "16px",
-                  fontWeight: "500",
-                  ":hover": { background: "none" },
-                  "& .MuiButton-endIcon": { marginLeft: "2px" },
-                }}
-              >
-                3 open jobs
-              </Button>
-            </Stack>
-          </Box> */}
       <Box
         sx={{
           display: "inline-flex",
+          width: "100%",
           alignItems: "center",
-          p: { xs: "12px 18px", lg: "0 28px" },
+          p: { xs: "11.5px 18px", lg: "0 28px" },
+          borderBottom: "1px solid",
+          borderColor: "secondary.light",
         }}
       >
         <Logo image={logo} company={company_info?.company_name} />
         <Box
           height={"16px"}
-          bgcolor={"secondary.light"}
+          bgcolor={"secondary.main"}
           width={"1px"}
           marginX={"8px"}
           sx={{ display: { lg: "none" } }}
         />
         <Button
           endIcon={<KeyboardArrowDownIcon />}
-          onClick={() => setIsMobileSidebar(!isMobileSidebar)}
+          onClick={toggleSideBar}
           size="small"
           sx={{
             p: "0",
@@ -108,94 +81,94 @@ const OpenJobs = (props: Props) => {
           3 open jobs
         </Button>
       </Box>
-
-      <Box
-        sx={{
-          display: { xs: isMobileSidebar ? "block" : "none", lg: "block" },
-          height: `calc(100vh - ${APP_BAR_MOBILE + MOBILE_TOP_SIDEBAR}px)`,
-        }}
-      >
-        {" "}
-        <Divider
-          sx={{
-            display: { xs: "none", lg: "block" },
-            width: "90%",
-            margin: "24px auto",
-            borderColor: "secondary.light",
-          }}
-        />
+      <Collapse in={isDesktop || isMobileSidebar}>
         <Box
           sx={{
-            marginTop: { xs: "24px", lg: "0" },
-            alignSelf: "stretch",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            gap: "1rem",
-            fontSize: "1rem",
+            height: "100%",
           }}
         >
-          <div
-            style={{
-              alignSelf: "stretch",
-              display: "flex",
-              flexDirection: "row",
-              padding: "0rem 0rem 0rem 1.75rem",
-              alignItems: "center",
-              justifyContent: "flex-start",
+          {" "}
+          <Divider
+            sx={{
+              display: { xs: "none", lg: "block" },
+              width: "90%",
+              margin: "24px auto",
+              borderColor: "secondary.light",
             }}
-          >
-            <Typography variant="h3">Open positions</Typography>
-          </div>
-          <div
-            style={{
+          />
+          <Box
+            sx={{
+              marginTop: { xs: "24px", lg: "0" },
               alignSelf: "stretch",
               display: "flex",
               flexDirection: "column",
               alignItems: "flex-start",
               justifyContent: "flex-start",
-              gap: "0.38rem",
+              gap: "1rem",
+              fontSize: "1rem",
             }}
           >
-            {project_snippets?.map((snippet, i) => (
-              <NavLink
-                key={i}
-                title={snippet.project_title}
-                isActive={snippet.project_id === recent_pid}
-                handleClick={() => handleJobSelect(snippet.project_id)}
-              />
-            ))}
-          </div>
+            <div
+              style={{
+                alignSelf: "stretch",
+                display: "flex",
+                flexDirection: "row",
+                padding: "0rem 0rem 0rem 1.75rem",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Typography variant="h3">Open positions</Typography>
+            </div>
+            <div
+              style={{
+                alignSelf: "stretch",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                justifyContent: "flex-start",
+                gap: "0.38rem",
+              }}
+            >
+              {project_snippets?.map((snippet, i) => (
+                <NavLink
+                  key={i}
+                  title={snippet.project_title}
+                  isActive={snippet.project_id === recent_pid}
+                  handleClick={() => handleJobSelect(snippet.project_id)}
+                />
+              ))}
+            </div>
+          </Box>
+          {/* <Divider sx={{ width: "90%", margin: "24px auto", color: "#EDEDED" }} /> */}
+          <Divider
+            sx={{
+              width: "90%",
+              margin: "24px auto",
+              borderColor: "secondary.light",
+            }}
+          />
+          <Button
+            variant="text"
+            fullWidth
+            onClick={handleCreateNewClick}
+            startIcon={<Add />}
+            sx={{
+              display: "flex",
+              transition: "opacity 0.3s ease 0s",
+              position: "relative",
+              justifyContent: "start",
+              alignItems: "center",
+              p: "5px 28px",
+              borderRadius: 0,
+              "& .MuiButton-startIcon": { marginRight: "4px" },
+            }}
+            // onClick={handleClose}
+          >
+            Create a new job
+          </Button>
         </Box>
-        {/* <Divider sx={{ width: "90%", margin: "24px auto", color: "#EDEDED" }} /> */}
-        <Divider
-          sx={{
-            width: "90%",
-            margin: "24px auto",
-            borderColor: "secondary.light",
-          }}
-        />
-        <Button
-          variant="text"
-          fullWidth
-          onClick={handleCreateNewClick}
-          startIcon={<Add />}
-          sx={{
-            display: "flex",
-            transition: "opacity 0.3s ease 0s",
-            position: "relative",
-            justifyContent: "start",
-            alignItems: "center",
-            p: "5px 28px",
-            borderRadius: 0,
-            "& .MuiButton-startIcon": { marginRight: "4px" },
-          }}
-          // onClick={handleClose}
-        >
-          Create a new job
-        </Button>
-      </Box>
+      </Collapse>
     </>
   );
 };

@@ -1,5 +1,5 @@
 import PropTypes, { number } from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 // @mui
 import { styled, alpha } from "@mui/material/styles";
@@ -19,11 +19,17 @@ import account from "../../../_mock/account";
 import useResponsive from "../../../hooks/useResponsive";
 // components
 import Scrollbar from "../../../components/common/scrollbar";
+import {
+  APP_BAR_DESKTOP,
+  APP_BAR_MOBILE,
+  MOBILE_TOP_SIDEBAR,
+} from "../../../utils/constants";
 
 //
 import Content from "./config";
-import { useAppSelector } from "../../../hooks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
 import Logo from "../../../components/sibebarNav/Logo";
+import { setIsMobileSidebar } from "../../../features/user/userSlice";
 
 // ----------------------------------------------------------------------
 
@@ -49,12 +55,15 @@ export default function Nav({ openNav, onCloseNav, headerHeight }: Props) {
   const { pathname } = useLocation();
 
   const isDesktop = useResponsive("up", "lg");
-
-  const { company_info } = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
+  const { isMobileSidebar } = useAppSelector(state => state.user);
+  const toggleMobileSidebar = () => {
+    setIsMobileSidebar(!isMobileSidebar);
+  };
 
   useEffect(() => {
     if (openNav) {
-      onCloseNav();
+      dispatch(setIsMobileSidebar(false));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
@@ -70,7 +79,7 @@ export default function Nav({ openNav, onCloseNav, headerHeight }: Props) {
         },
       }}
     >
-      <Content pathname={pathname} />
+      <Content pathname={pathname} toggleMobileSidebar={toggleMobileSidebar} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>
@@ -111,11 +120,12 @@ export default function Nav({ openNav, onCloseNav, headerHeight }: Props) {
             sx: {
               width: { xs: "100vw" },
               bgcolor: "secondary.lighter",
-
-              height: "auto",
+              height: isMobileSidebar
+                ? `calc(100vh - ${APP_BAR_MOBILE}px)`
+                : `${MOBILE_TOP_SIDEBAR}px`,
               borderRightStyle: "solid",
               borderColor: "secondary.light",
-              marginTop: `${headerHeight}px`,
+              marginTop: `${APP_BAR_MOBILE}px`,
             },
           }}
         >

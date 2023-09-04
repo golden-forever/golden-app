@@ -1,4 +1,4 @@
-import { Box, Button } from "@mui/material";
+import { Box, Button, Link } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../../hooks";
 import { useEffect, useState } from "react";
@@ -36,49 +36,94 @@ const NavLinks = (props: Props) => {
   return (
     <Box
       sx={{
+        paddingX: { xs: "30px", sm: "24px", lg: "24px" },
+
         alignSelf: "stretch",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "flex-start",
-        marginLeft: "-7px",
+        justifyContent: { xs: "space-between", sm: "flex-start" },
+
+        paddingBottom: "1px",
+        columnGap: { sm: "32px", lg: "44px" },
+        "& .nav-link": {
+          "& .underline": {
+            backgroundColor: "rgb(255, 255, 255)",
+            borderRadius: "50px",
+            width: "100%",
+            height: "2px",
+            display: "none",
+          },
+          "& span": {
+            padding: "11px 0",
+
+            whiteSpace: "nowrap",
+            fontWeight: "600",
+            "&.btn-text": { display: "block" },
+          },
+
+          "&.active": {
+            "& .underline": { display: "block" },
+            "& span": { padding: "11px 0 9px 0" },
+          },
+        },
       }}
     >
       <NavLink
         to={`/job/${recent_pid}`}
+        className={`nav-link ${
+          location.pathname.startsWith("/job") ? "active" : ""
+        }`}
         style={({ isActive, isPending }) => {
           return {
             position: "relative",
-            padding: "12px 10px",
-            margin: "0 24px 0 0",
-            fontWeight: location.pathname.startsWith("/job") ? "bold" : "",
             color: location.pathname.startsWith("/job")
               ? "white"
               : "rgba(237, 237, 237, 0.3)",
-            borderBottom: location.pathname.startsWith("/job")
-              ? "2px solid white"
-              : "",
           };
         }}
       >
-        <span>Job Description</span>
+        <Box
+          component={"span"}
+          sx={{
+            display: {
+              xs: "none",
+              lg: "block",
+            },
+          }}
+        >
+          Job Description
+        </Box>
+        <Box
+          component={"span"}
+          sx={{
+            display: {
+              xs: "block",
+              lg: "none",
+            },
+          }}
+        >
+          Job info
+        </Box>
+        <Box className={"underline"} />
       </NavLink>
       {config.map((page, i) => (
         <NavLink
           to={page.path}
+          className={"nav-link"}
           key={i}
           style={({ isActive, isPending }) => {
             return {
               position: "relative",
-              padding: "12px 10px",
-              margin: "0 24px 0 0",
-              fontWeight: isActive ? "bold" : "",
+              whiteSpace: "nowrap",
               color: isActive ? "white" : "rgba(237, 237, 237, 0.3)",
-              borderBottom: isActive ? "2px solid white" : "",
             };
           }}
         >
-          <span>{page.title}</span>
+          <Box component={"span"} className={"btn-text"}>
+            {page.title}
+          </Box>
+          <Box className="underline" />
         </NavLink>
       ))}
     </Box>

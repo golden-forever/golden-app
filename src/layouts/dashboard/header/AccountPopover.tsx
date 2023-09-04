@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 // @mui
 import { alpha } from "@mui/material/styles";
+import { Menu } from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -10,6 +11,7 @@ import {
   Avatar,
   Button,
   Popover,
+  IconButton,
 } from "@mui/material";
 import userAvatar from "../../../assets/rectangle-116@2x.png";
 // mocks_
@@ -76,7 +78,9 @@ export default function AccountPopover() {
         variant="text"
         onClick={handleOpen}
         sx={{
+          display: { xs: "none", lg: "block" },
           p: 0,
+
           ...(open && {}),
         }}
       >
@@ -85,13 +89,13 @@ export default function AccountPopover() {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            justifyContent: "flex-start",
-            gap: "0.5rem",
+            justifyContent: "flex-end",
             minWidth: "170px",
           }}
         >
           <Avatar alt="user" src={userAvatar} />
           <Box
+            marginLeft={"8px"}
             color={"white"}
             textAlign={"left"}
             display={"flex"}
@@ -114,6 +118,19 @@ export default function AccountPopover() {
           </Box>
         </Box>
       </Button>
+      <IconButton
+        sx={{
+          display: {
+            xs: "flex",
+            lg: "none",
+            color: "white",
+            marginRight: "-6px",
+          },
+        }}
+        onClick={handleOpen}
+      >
+        <Menu />
+      </IconButton>
 
       <Popover
         open={Boolean(open)}

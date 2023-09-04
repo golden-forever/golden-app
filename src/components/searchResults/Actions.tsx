@@ -15,25 +15,29 @@ const mockActions: { variant?: ActionData }[] = [
 const Actions: FunctionComponent = () => {
   const { actions } = useAppSelector(store => store.project);
   return (
-    <div
-      style={{
-        alignSelf: "stretch",
-        display: "flex",
-        flexDirection: "column",
-        padding: "1.5rem 0rem 0rem",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        gap: "1.5rem",
-        textAlign: "left",
-        fontSize: "0.88rem",
-        color: "#666",
-        fontFamily: "'Noto Sans'",
-      }}
-    >
-      {actions.map((action, i) => (
-        <Action action={action} key={i} />
-      ))}
-    </div>
+    <>
+      {actions.length > 0 && (
+        <div
+          style={{
+            alignSelf: "stretch",
+            display: "flex",
+            flexDirection: "column",
+            padding: "1.5rem 0rem 0rem",
+            alignItems: "center",
+            justifyContent: "flex-start",
+            gap: "1.5rem",
+            textAlign: "left",
+            fontSize: "0.88rem",
+            color: "#666",
+            fontFamily: "'Noto Sans'",
+          }}
+        >
+          {actions.map((action, i) => (
+            <Action action={action} key={i} />
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

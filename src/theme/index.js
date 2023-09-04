@@ -29,7 +29,7 @@ export default function ThemeProvider({ children }) {
           xs: 0,
           sm: 481,
           md: 768,
-          lg: 1024,
+          lg: 992,
           xl: 1200,
           xxl: 1500,
         },

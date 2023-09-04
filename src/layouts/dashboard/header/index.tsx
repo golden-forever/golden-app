@@ -29,7 +29,6 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   flexDirection: "column",
   [theme.breakpoints.up("lg")]: {
     minHeight: HEADER_DESKTOP,
-    padding: theme.spacing(0, 5),
   },
 }));
 
@@ -46,7 +45,9 @@ export default function Header({}: Props) {
       <StyledToolbar>
         <Box
           sx={{
+            paddingX: { xs: "16px", lg: "24px" },
             display: "flex",
+
             flexGrow: 1,
             justifyContent: "space-between",
             width: "100%",
@@ -56,18 +57,23 @@ export default function Header({}: Props) {
             display={"flex"}
             alignItems={"center"}
             padding={"8px 0"}
-            columnGap={"24px"}
+            sx={{ columnGap: { xs: "8px", lg: "24px" } }}
           >
             <Logo />
             <JobsPopover />
           </Box>
           <AccountPopover />
         </Box>
-        <Box
-          width={"100%"}
-          height={"2px"}
-          sx={{ backgroundColor: "rgba(237, 237, 237, 0.5)" }}
-        />
+        <Box width={"100%"} sx={{ paddingX: { xs: "8px", lg: "24px" } }}>
+          <Box
+            width={"100%"}
+            height={"2px"}
+            sx={{
+              backgroundColor: "rgba(237, 237, 237, 0.5)",
+              borderRadius: "50px",
+            }}
+          />
+        </Box>
         <NavLinks />
       </StyledToolbar>
     </StyledRoot>

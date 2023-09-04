@@ -11,3 +11,18 @@ export const URLspecialities =
   "https://file.notion.so/f/s/c7e8f22a-640a-43e9-ab10-6eceacfdad3c/sepcilities.json?id=3130eade-6357-4c8a-bbb9-ab50a74be150&table=block&spaceId=418cb9ed-25bf-4ab3-a23f-8711d87f49f2&expirationTimestamp=1693677600000&signature=6VJNasNvzT__Y6Iwi1Wbt3YiZqPMUKv4Z6iaVNvOVAM&downloadName=sepcilities.json";
 export const URLcompanies =
   "https://file.notion.so/f/s/35397912-12c4-4f1f-b0fa-07f7c3192579/companies_name_only.json?id=6987ad19-2e52-4caf-854e-964541f6a179&table=block&spaceId=418cb9ed-25bf-4ab3-a23f-8711d87f49f2&expirationTimestamp=1693677600000&signature=MU-Wct23WpAPRqWhb9ErGwDM-lTjwddhoVALlb6kw1w&downloadName=companies_name_only.json";
+
+export const getYearsInIndustry = (experiences: Experience[]) => {
+  const allStarts_at = experiences.map(
+    experience => new Date(experience.starts_at)
+  );
+  const earliestDate = allStarts_at.reduce((minDate, currentDate) => {
+    return currentDate < minDate ? currentDate : minDate;
+  }, allStarts_at[0]);
+  const currentDate = new Date();
+  const timeDifferenceMs = currentDate.getTime() - earliestDate.getTime();
+  const millisecondsPerYear = 365 * 24 * 60 * 60 * 1000;
+  const yearsDifference = Math.floor(timeDifferenceMs / millisecondsPerYear);
+
+  return yearsDifference;
+};

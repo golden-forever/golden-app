@@ -16,6 +16,7 @@ type InitialState = {
   project_snippets: ProjectSnippet[];
   job_info: Job | null;
   isLoading: boolean;
+  isMobileSidebar: boolean;
   message: string;
 };
 const initialState: InitialState = {
@@ -25,6 +26,7 @@ const initialState: InitialState = {
   project_snippets: [],
   job_info: null,
   isLoading: false,
+  isMobileSidebar: false,
   message: "",
 };
 export const showMe = createAsyncThunk("user/me", showMeThunk);
@@ -66,11 +68,8 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setCompany: (state, { payload }) => {
-      return { ...state, recent_pid: payload };
-    },
-    setFilters: (state, { payload }) => {
-      return { ...state, search_query: payload };
+    setIsMobileSidebar: (state, { payload }) => {
+      return { ...state, isMobileSidebar: payload };
     },
   },
   extraReducers: builder => {
@@ -126,6 +125,6 @@ const userSlice = createSlice({
   },
 });
 
-export const {} = userSlice.actions;
+export const { setIsMobileSidebar } = userSlice.actions;
 
 export default userSlice.reducer;
