@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/golden-app/static/css/main.69053253.css",
-    "main.js": "/golden-app/static/js/main.9d6c4825.js",
-    "static/js/787.48addf74.chunk.js": "/golden-app/static/js/787.48addf74.chunk.js",
+    "main.js": "/golden-app/static/js/main.0df7c020.js",
+    "static/js/787.1d089923.chunk.js": "/golden-app/static/js/787.1d089923.chunk.js",
     "static/media/search-results.png": "/golden-app/static/media/search-results.8fea4cbca0105a6ebdc5.png",
     "static/media/user-2.png": "/golden-app/static/media/user-2.ba7ab8a99ccc5d805cea.png",
     "static/media/user-1.png": "/golden-app/static/media/user-1.187f40326d2a0647575b.png",
     "static/media/google.svg": "/golden-app/static/media/google.3f2e4444094c0a9a9288c5a91dd2b64a.svg",
     "index.html": "/golden-app/index.html",
     "main.69053253.css.map": "/golden-app/static/css/main.69053253.css.map",
-    "main.9d6c4825.js.map": "/golden-app/static/js/main.9d6c4825.js.map",
-    "787.48addf74.chunk.js.map": "/golden-app/static/js/787.48addf74.chunk.js.map"
+    "main.0df7c020.js.map": "/golden-app/static/js/main.0df7c020.js.map",
+    "787.1d089923.chunk.js.map": "/golden-app/static/js/787.1d089923.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.69053253.css",
-    "static/js/main.9d6c4825.js"
+    "static/js/main.0df7c020.js"
   ]
 }
