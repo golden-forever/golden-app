@@ -31,61 +31,45 @@ import { setIsMobileSidebar } from "../../features/user/userSlice";
 
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+
+// Autocompletes
+import titles from "../../assets/autocompletes/titles.json";
+import companies from "../../assets/autocompletes/companies_name_only.json";
+import cities from "../../assets/autocompletes/cities.json";
+import specialities from "../../assets/autocompletes/specialities.json";
+import industries from "../../assets/autocompletes/industries.json";
+
 type Autocomplete = {
   titles: string[];
   companies: string[];
-
   keywords: string[];
   cities: string[];
   specialities: string[];
 };
 const initialFilters: Autocomplete = {
-  titles: [],
-  companies: [],
-  cities: [],
+  titles,
+  companies,
+  cities,
   // company_sizes,
   keywords: skillsAndKeywords,
 
-  specialities: [],
+  specialities: [...specialities, ...industries],
 };
-type Props = { toggleMobileSidebar: () => void };
+type Props = {};
 
-const Filters = ({ toggleMobileSidebar }: Props) => {
+const Filters = ({}: Props) => {
+  const [activeTagInput, setActiveTagInput] = useState("");
   const [autocompletes, setAutocompletes] =
     useState<Autocomplete>(initialFilters);
-  useEffect(() => {
-    const asyncWrapper = async () => {
-      try {
-        const titlesRes = await getRequest(URLtitles);
-        const companiesRes = await getRequest(URLcompanies);
-        const specialitiesRes = await getRequest(URLspecialities);
-        const citiesRes = await getRequest(URLcities);
-        const industriesRes = await getRequest(URLindustries);
-        const titles = titlesRes.data;
-        const companies = companiesRes.data;
-        const specialities = specialitiesRes.data;
-        const industries = industriesRes.data;
-        const cities = citiesRes.data;
 
-        setAutocompletes(prev => ({
-          ...prev,
-          titles,
-          companies,
-          cities,
-
-          specialities: [...specialities, ...industries],
-        }));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    asyncWrapper();
-  }, []);
   const dispatch = useAppDispatch();
   const { search_query } = useAppSelector(store => store.project);
   const { isMobileSidebar } = useAppSelector(state => state.user);
   const theme = useTheme();
   const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+  const handleActiveTagInput = (input_id: string) => {
+    setActiveTagInput(input_id);
+  };
   return (
     <Box
       sx={{
@@ -138,15 +122,28 @@ const Filters = ({ toggleMobileSidebar }: Props) => {
           width: "100%",
           display: { xs: "none", lg: "block" },
         }}
+        p={"0 20px 0 24px"}
         variant="h5"
       >
         Filters
       </Typography>
-      <Collapse in={isDesktop || isMobileSidebar}>
-        <Box height={"100%"} padding="0 16px">
+      <Collapse
+        in={isDesktop || isMobileSidebar}
+        sx={{ width: "100%", maxWidth: "375px" }}
+      >
+        <Box
+          height={"100%"}
+          padding={{ xs: "0 16px", lg: "0 20px 0 24px" }}
+          width={"100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          rowGap={"20px"}
+        >
           <Filter
             allTags={autocompletes.titles}
             applied={search_query?.titles || []}
+            activeTagInput={activeTagInput}
+            handleActiveTagInput={handleActiveTagInput}
             label="Job Titles"
             name="titles"
           />
@@ -154,6 +151,8 @@ const Filters = ({ toggleMobileSidebar }: Props) => {
           <Filter
             allTags={autocompletes.keywords}
             applied={search_query?.keywords || []}
+            activeTagInput={activeTagInput}
+            handleActiveTagInput={handleActiveTagInput}
             label="Skills & Keywords
         To Look For"
             name="keywords"
@@ -161,6 +160,8 @@ const Filters = ({ toggleMobileSidebar }: Props) => {
           <Filter
             allTags={autocompletes.keywords}
             applied={search_query?.negative_keywords || []}
+            activeTagInput={activeTagInput}
+            handleActiveTagInput={handleActiveTagInput}
             label="Keywords to Avoid"
             name="negative_keywords"
           />
@@ -171,6 +172,8 @@ const Filters = ({ toggleMobileSidebar }: Props) => {
                 ? [...search_query.industries, ...search_query.specialities]
                 : []
             }
+            activeTagInput={activeTagInput}
+            handleActiveTagInput={handleActiveTagInput}
             label="Company Specialities"
             name="specialities"
           />
@@ -178,12 +181,16 @@ const Filters = ({ toggleMobileSidebar }: Props) => {
           <Filter
             allTags={autocompletes.companies}
             applied={search_query?.companies || []}
+            activeTagInput={activeTagInput}
+            handleActiveTagInput={handleActiveTagInput}
             label="Companies to Include"
             name="companies"
           />
           <Filter
             allTags={autocompletes.companies}
             applied={search_query?.companies_to_avoid || []}
+            activeTagInput={activeTagInput}
+            handleActiveTagInput={handleActiveTagInput}
             label="Companies to Avoid"
             name="companies_to_avoid"
           />

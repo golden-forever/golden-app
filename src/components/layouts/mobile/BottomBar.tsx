@@ -1,7 +1,19 @@
 import { Box, Button } from "@mui/material";
 
-type Props = {};
-const BottomBar = (props: Props) => {
+type Props = {
+  btnLeftText: string;
+  btnRightText: string;
+  onLeftBtnClick: () => void;
+  onRightBtnClick: () => void;
+  btnRightClr?: "primary" | "success";
+};
+const BottomBar = ({
+  btnLeftText,
+  btnRightText,
+  onLeftBtnClick,
+  onRightBtnClick,
+  btnRightClr,
+}: Props) => {
   return (
     <Box
       position={"fixed"}
@@ -24,12 +36,17 @@ const BottomBar = (props: Props) => {
         type="button"
         variant="outlined"
         color="primary"
-        //   onClick={isEdit ? setSelected : handleNavigate}
+        onClick={onLeftBtnClick}
       >
-        Cancel
+        {btnLeftText}
       </Button>
-      <Button type="submit" variant="contained" color="primary">
-        Confirm
+      <Button
+        type="submit"
+        variant="contained"
+        color={btnRightClr ? btnRightClr : "primary"}
+        onClick={onRightBtnClick}
+      >
+        {btnRightText}
       </Button>
     </Box>
   );

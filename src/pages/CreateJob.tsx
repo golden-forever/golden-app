@@ -8,6 +8,7 @@ import SideNavbar from "../components/locofy/SideNavbar";
 import { EditJob, SingleJob } from "../components/jobDescription";
 import { NoJobModal, SelectCountryModal } from "../components/common";
 import { useAppDispatch } from "../hooks";
+import { BottomBar } from "../components/layouts";
 
 const CreateJob: FunctionComponent = () => {
   const [isSelectCountryModal, setIsSelectCountryModal] = useState(false);
@@ -33,7 +34,7 @@ const CreateJob: FunctionComponent = () => {
         justifyContent: "flex-start",
       }}
     >
-      <EditJob />
+      <EditJob setSelected={() => {}} />
 
       <NoJobModal open={isNoJobModal} onClose={() => toggleNoJob(false)} />
       <SelectCountryModal

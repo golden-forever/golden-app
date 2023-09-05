@@ -115,6 +115,15 @@ const SearchResults: FunctionComponent = () => {
 
       <Drawer
         anchor={"right"}
+        sx={{
+          "& .MuiPaper-root": {
+            borderRadius: {
+              xs: "0",
+              md: "8px 0 0 8px",
+              // width: { xs: "100%", md: "95%" },
+            },
+          },
+        }}
         open={isProfileDrawer}
         onClose={() => toggleDrawer(false)}
       >

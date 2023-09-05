@@ -69,3 +69,4 @@ export const filtersLocationData: FilterLocation = {
 export const APP_BAR_MOBILE = 90;
 export const APP_BAR_DESKTOP = 109;
 export const MOBILE_TOP_SIDEBAR = 52;
+export const NAV_WIDTH=320

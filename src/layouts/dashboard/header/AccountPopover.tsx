@@ -25,6 +25,7 @@ import {
   EmailOutlined,
 } from "@mui/icons-material";
 import { useAppSelector } from "../../../hooks";
+import { useNavigate } from "react-router-dom";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -67,9 +68,10 @@ export default function AccountPopover() {
   ) => {
     setOpen(event.currentTarget);
   };
-
+  const navigate = useNavigate();
   const handleClose = () => {
     setOpen(null);
+    navigate("/login");
   };
 
   return (

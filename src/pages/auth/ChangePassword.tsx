@@ -12,10 +12,14 @@ import {
   Link,
   Grid,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import googleIcon from "../../assets/google.svg";
 import EastIcon from "@mui/icons-material/East";
 const Login: FunctionComponent = () => {
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate("/");
+  };
   return (
     <Box
       sx={{
@@ -81,6 +85,7 @@ const Login: FunctionComponent = () => {
             endIcon={<EastIcon />}
             size="large"
             fullWidth
+            onClick={handleSubmit}
           >
             Change my password
           </Button>

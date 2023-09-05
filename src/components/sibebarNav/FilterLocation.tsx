@@ -114,7 +114,12 @@ const FilterLocation = ({ cities }: Props) => {
         >
           Location
         </h4>
-        <Button variant="text" color="primary" onClick={clearAll}>
+        <Button
+          variant="text"
+          color="secondary"
+          sx={{ color: "secondary.dark" }}
+          onClick={clearAll}
+        >
           Clear
         </Button>
       </div>
@@ -151,6 +156,8 @@ const FilterLocation = ({ cities }: Props) => {
         <CustomAutocomplete
           availableTags={locations}
           handleSelect={optimizedAutocompleteDebounce}
+          marginLabel="0px"
+          placeholder="City"
         />
       </Box>
       {/* From To Fields End*/}

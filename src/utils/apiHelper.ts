@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8000/",
+  baseURL: "https://golden-apis-dev.onrender.com/",
 });
-
+// http://localhost:8000
+// https://golden-apis-dev.onrender.com
 axiosClient.interceptors.request.use(config => {
   // const user = null;
   // if (user) {

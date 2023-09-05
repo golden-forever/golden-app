@@ -12,12 +12,16 @@ import {
   Link,
   Grid,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import googleIcon from "../../assets/google.svg";
 import searchResImg from "../../assets/search-results.png";
 import user1 from "../../assets/user-1.png";
 import user2 from "../../assets/user-2.png";
 const SignUp: FunctionComponent = () => {
+  const navigate = useNavigate();
+  const handleSubmit = () => {
+    navigate("/");
+  };
   return (
     <Box
       component={"main"}
@@ -117,7 +121,12 @@ const SignUp: FunctionComponent = () => {
                   // onChange={handleChange}
                 />
               </FormControl>
-              <Button variant="contained" size="large" fullWidth>
+              <Button
+                variant="contained"
+                size="large"
+                fullWidth
+                onClick={handleSubmit}
+              >
                 Sign Up
               </Button>
             </Stack>

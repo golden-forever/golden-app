@@ -31,16 +31,17 @@ export const getPipelineThunk = async (
   try {
     // const URL = `pipeline_profiles/${projectId}/${label} `;
 
-    const responseMaybe = await getRequest(
-      `pipeline_profiles/${projectId}/maybe`
-    );
-    const pipeline_maybe = responseMaybe.data;
-    const responseGood = await getRequest(
-      `pipeline_profiles/${projectId}/good`
-    );
-    const pipeline_good = responseGood.data;
+    const response = await getRequest(`pipeline_profiles/${projectId}`);
+    const pipeline_profiles = response.data;
+    // const responseGood = await getRequest(
+    //   `pipeline_profiles/${projectId}/good`
+    // );
+    // const pipeline_good = responseGood.data;
 
-    return { pipeline_good, pipeline_maybe };
+    return {
+      pipeline_good: pipeline_profiles,
+      pipeline_maybe: pipeline_profiles,
+    };
   } catch (err) {
     const error: AxiosError<KnownError> = err as any;
     return thunkAPI.rejectWithValue(error.message);

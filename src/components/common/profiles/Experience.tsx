@@ -81,7 +81,7 @@ const Experience = ({ data, isFullView }: Props) => {
               {" "}
               3 yr and 2 mo at the company
             </Typography>
-            <Typography variant="body2" color={"secondary"}>
+            <Typography variant="body2" color={"secondary.dark"}>
               Company Info: 6,874 employees · public · IPO 2013 · Website
               builder software
             </Typography>
@@ -128,19 +128,26 @@ const Experience = ({ data, isFullView }: Props) => {
 
             {/* Role */}
 
-            <Stack sx={{ width: "100%" }} rowGap={"8px"}>
+            <Stack sx={{ width: "100%" }} rowGap={"8px"} marginLeft={"-8px"}>
               <Typography variant="subtitle1">{speciality}</Typography>
               <Typography variant="body2">
                 {getTimeline(starts_at, ends_at)} &#183;
                 {getDifference(starts_at, ends_at)}
               </Typography>
-              <Typography variant="body2" color={"secondary"}>
+              <Typography variant="body2" color={"secondary.dark"}>
                 {location}
               </Typography>
             </Stack>
           </Box>
         );
       })}
+      <Box
+        component={"p"}
+        paddingLeft={"39px"}
+        sx={{ whiteSpace: "pre-line", display: isFullView ? "block" : "none" }}
+      >
+        {description}
+      </Box>
     </Box>
   );
 };

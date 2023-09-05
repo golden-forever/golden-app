@@ -10,7 +10,7 @@ import { NoJobModal, SelectCountryModal } from "../components/common";
 import { useAppDispatch } from "../hooks";
 
 const JobDescription: FunctionComponent = () => {
-  const [isSelectCountryModal, setIsSelectCountryModal] = useState(false);
+  const [isSelectCountryModal, setIsSelectCountryModal] = useState(true);
 
   const [isNoJobModal, setIsNoJobModal] = useState(false);
 

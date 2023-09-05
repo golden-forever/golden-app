@@ -3,7 +3,7 @@ import { Check, VisibilityOffOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../hooks";
 import { cancelAction } from "../../features/project/projectSlice";
-
+import UndoIcon from "@mui/icons-material/Undo";
 type Props = {
   action: ProfileData;
 };
@@ -59,7 +59,12 @@ const Action = ({ action }: Props) => {
             <span>{`${action.first_name} ${action.last_name} doesn't fit to your project `}</span>
           </div>
         )}
-        <Button variant="text" color="primary" onClick={handleCancel}>
+        <Button
+          variant="text"
+          color="secondary"
+          endIcon={<UndoIcon />}
+          onClick={handleCancel}
+        >
           Cancel
         </Button>
       </div>

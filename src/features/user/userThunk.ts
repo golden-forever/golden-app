@@ -17,17 +17,21 @@ export const showMeThunk = async (_: any = "", thunkAPI: AsyncThunkConfig) => {
     const URL = "me";
     const response = await getRequest(URL);
     const data = response.data;
-    thunkAPI.dispatch(getProfiles(data.recent_pid));
-    thunkAPI.dispatch(getProject(data.recent_pid));
-    thunkAPI.dispatch(
-      getPipeline({ projectId: data.recent_pid, label: "good" })
-    );
+    const user_info = {
+      name: data.name,
+      email: data.email,
+      completed_onboarding: data.completed_onboarding,
+    };
+    const recent_pid = data.project_snippets[0].project_id;
+    thunkAPI.dispatch(getProfiles(recent_pid));
+    thunkAPI.dispatch(getProject(recent_pid));
+    thunkAPI.dispatch(getPipeline({ projectId: recent_pid, label: "good" }));
 
     // thunkAPI.dispatch(
     //   getPipeline({ projectId: data.recent_pid, label: "maybe" })
     // );
 
-    return data;
+    return { ...data, recent_pid, user_info };
   } catch (err) {
     const error: AxiosError<KnownError> = err as any;
 

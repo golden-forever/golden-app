@@ -30,7 +30,7 @@ const PaginationButton = styled(IconButton)({
   boxShadow: "none",
   textTransform: "none",
   fontSize: 16,
-  padding: "4px",
+  // padding:'4px',
   border: "none",
   borderRadius: "4px",
   lineHeight: 1.5,
@@ -89,19 +89,19 @@ const ProfileDrawerContent = ({
   };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         position: "relative",
-        borderRadius: "8px 0px 0px 8px",
         backgroundColor: "#fff",
         boxShadow: "0px 32px 64px -12px rgba(16, 24, 40, 0.14)",
         borderBottom: "1px solid #d1d5db",
         boxSizing: "border-box",
-        width: "750px",
+        width: { xs: "100%", lg: "750px" },
+        maxWidth: "750px",
         overflowY: "auto",
         display: "flex",
         flexDirection: "column",
-        padding: "24px 32px 44px",
+        padding: { xs: "24px 16px 44px", lg: "24px 32px 44px" },
         alignItems: "flex-start",
         justifyContent: "flex-start",
         gap: "16px",
@@ -113,6 +113,7 @@ const ProfileDrawerContent = ({
       <Box
         component={"header"}
         sx={{
+          position: "relative",
           alignSelf: "stretch",
           borderBottom: "2px solid #ededed",
           display: "flex",
@@ -120,29 +121,18 @@ const ProfileDrawerContent = ({
           padding: "0px 0px 16px",
           alignItems: { xs: "start", lg: "center" },
           justifyContent: "space-between",
-          // textAlign: "left",
-          fontSize: "20px",
+          rowGap: { xs: "18px", lg: "none" },
           width: "100%",
         }}
       >
-        <h3
-          style={{
-            margin: "0",
-            flex: "1",
-            position: "relative",
-            fontSize: "inherit",
-            fontWeight: "600",
-            fontFamily: "inherit",
-            color: "inherit",
-          }}
-        >
+        <Typography variant="h3" fontSize="20px">
           {occupation}
-        </h3>
+        </Typography>
 
         <Box
           display={"flex"}
           justifyContent={{ xs: "space-between, center" }}
-          columnGap={"24px"}
+          paddingRight={"56px"}
         >
           <div
             style={{
@@ -154,6 +144,7 @@ const ProfileDrawerContent = ({
             }}
           >
             <PaginationButton
+              sx={{ p: { xs: "1px", lg: "4px" } }}
               disabled={1 === indexOfLast}
               onClick={() => handlePagination("prev")}
             >
@@ -163,16 +154,25 @@ const ProfileDrawerContent = ({
               <span>{indexOfSelected + 1}</span> of <span>{indexOfLast}</span>
             </Typography>
             <PaginationButton
+              sx={{ p: { xs: "2px", lg: "4px" } }}
               disabled={indexOfSelected + 1 === indexOfLast}
               onClick={() => handlePagination("next")}
             >
               <KeyboardArrowRight />
             </PaginationButton>
           </div>
-          <IconButton sx={{ marginRight: "-10px" }}>
-            <Close />
-          </IconButton>
         </Box>
+        <IconButton
+          sx={{
+            marginRight: "-10px",
+            position: "absolute",
+            transform: "translateY(-8%)",
+            top: "0",
+            right: "0",
+          }}
+        >
+          <Close />
+        </IconButton>
       </Box>
       <main
         style={{
@@ -188,86 +188,143 @@ const ProfileDrawerContent = ({
           fontFamily: "'Noto Sans'",
         }}
       >
-        <div
-          style={{
-            alignSelf: "stretch",
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            gap: "12px",
-            fontSize: "24px",
-          }}
-        >
+        <Box width={"100%"}>
           <Box
             sx={{
-              borderRadius: "6px",
-              width: "200px",
-              height: "200px",
-              position: "relative",
+              alignSelf: "stretch",
+              display: "flex",
+
+              flexDirection: "row",
+              alignItems: "flex-start",
+              justifyContent: "flex-start",
+              gap: "12px",
+              fontSize: "24px",
             }}
           >
-            <img
-              style={{
-                borderRadius: "6px",
-
-                objectFit: "cover",
-                width: "100%",
+            <Box
+              sx={{
+                borderRadius: { xs: "4px", lg: "6px" },
+                width: { xs: "120px", lg: "200px" },
+                height: { xs: "120px", lg: "200px" },
+                position: "relative",
               }}
-              alt=""
-              src={profile_pic_url}
-            />
-          </Box>
-          <Stack>
-            <Typography variant="h4">
-              {first_name} {last_name}
-            </Typography>
-            <Typography variant="body2">
-              {" "}
-              {getYearsInIndustry(experiences)} years in industry
-            </Typography>
-            <Typography
-              variant="body2"
-              color={"secondary"}
-              marginBottom={"26px"}
             >
-              Company Info:{" "}
-              {getCompanySize() && `${getCompanySize()} employees ·`} public ·
-              IPO 2013 · {experiences[0].industry}
-            </Typography>
-            <Stack direction={"row"} m={"17px 0 5px 0"}>
-              <Typography variant="body2" color={"secondary"}>
-                {city}, {country}{" "}
-              </Typography>
-              <span
-                style={{
-                  fontSize: "16px",
-                  fontWeight: "bolder",
-                  margin: "0 5px",
+              {/* Placeholder */}
+              <Box
+                sx={{
+                  width: { xs: "120px", lg: "200px" },
                 }}
+              />
+              <Box
+                component={"img"}
+                sx={{
+                  objectFit: "cover",
+                  borderRadius: { xs: "4px", lg: "6px" },
+                  width: "100%",
+                }}
+                alt=""
+                src={profile_pic_url}
+              />
+            </Box>
+            <Stack>
+              <Typography
+                variant="h4"
+                sx={{ marginBottom: { xs: "0", lg: "8px" } }}
               >
-                &#183;
-              </span>
-
-              <Link
-                href="#"
-                underline="none"
-                sx={{ display: "flex", alignItems: "center", fontSize: "16px" }}
+                {first_name} {last_name}
+              </Typography>
+              <Typography
+                variant="body2"
+                color={"secondary.dark"}
+                marginBottom={"8px"}
+                sx={{ display: { xs: "block", lg: "none" } }}
+              >
+                {city} &#183; {country}{" "}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ marginBottom: { xs: "2px", lg: "4px" } }}
               >
                 {" "}
-                <LinkedIn /> Public profile
-              </Link>
+                {getYearsInIndustry(experiences)} years in industry
+              </Typography>
+              <Typography
+                variant="body2"
+                color={"secondary.dark"}
+                marginBottom={{ xs: "0", lg: "28px" }}
+              >
+                Company Info:{" "}
+                {getCompanySize() && `${getCompanySize()} employees ·`} public ·
+                IPO 2013 · {experiences[0].industry}
+              </Typography>
+              <Stack direction={"row"} m={"15px 0 5px 0"}>
+                <Typography
+                  variant="body2"
+                  color={"secondary.dark"}
+                  sx={{ display: { xs: "none", lg: "block" } }}
+                >
+                  {city}, {country}{" "}
+                </Typography>
+                <Box
+                  component={"span"}
+                  sx={{
+                    fontSize: "16px",
+                    fontWeight: "bolder",
+                    margin: "0 5px",
+                    display: { xs: "none", lg: "block" },
+                  }}
+                >
+                  &#183;
+                </Box>
+
+                <Link
+                  href="#"
+                  underline="none"
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "16px",
+                  }}
+                >
+                  {" "}
+                  <LinkedIn /> Public profile
+                </Link>
+              </Stack>
+              <Box
+                sx={{
+                  width: "fit-content",
+                  display: { xs: "none", lg: "block" },
+                }}
+              >
+                <FeetbackBtns
+                  openFeedbackModal={openFeedbackModal}
+                  action={data.label}
+                  data={data}
+                  isBlue
+                  handleActionForDrawer={() => handlePagination("next")}
+                />
+              </Box>
             </Stack>
-            <div style={{ width: "fit-content" }}>
-              <FeetbackBtns
-                openFeedbackModal={openFeedbackModal}
-                action={data.label}
-                data={data}
-                handleActionForDrawer={() => handlePagination("next")}
-              />
-            </div>
-          </Stack>
-        </div>
+          </Box>
+          {/* Feetback Buttons Mobile*/}
+
+          <Box
+            display={{ xs: "block", lg: "none" }}
+            marginTop={"12px"}
+            width={"100%"}
+          >
+            <FeetbackBtns
+              openFeedbackModal={openFeedbackModal}
+              action={data.label}
+              isBlue
+              padding={"10px 0"}
+              data={data}
+              isFullBtn
+            />
+          </Box>
+        </Box>
+
+        {/* Feetback Buttons Mobile End*/}
         <div
           style={{
             alignSelf: "stretch",
@@ -301,13 +358,18 @@ const ProfileDrawerContent = ({
               color: "#666",
             }}
           >
-            <Collapse in={isShowMore} collapsedSize={40}>
+            <Collapse
+              in={isShowMore}
+              collapsedSize={"40px"}
+              sx={{ whiteSpace: "pre-line" }}
+            >
               {summary}
             </Collapse>
 
             <Button
               variant="text"
               color="primary"
+              sx={{ p: "0" }}
               endIcon={isShowMore ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
               onClick={() => setIseShowMore(!isShowMore)}
             >
@@ -338,7 +400,7 @@ const ProfileDrawerContent = ({
               fontFamily: "inherit",
               color: "inherit",
             }}
-          >{`Experience `}</h3>
+          >{`Experience`}</h3>
           <div
             style={{
               alignSelf: "stretch",
@@ -357,11 +419,16 @@ const ProfileDrawerContent = ({
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
                 gap: "16px",
+                marginBottom: "16px",
               }}
             >
-              <Collapse in={isShowMoreExperience} collapsedSize={50}>
+              <Collapse
+                in={isShowMoreExperience}
+                collapsedSize={50}
+                sx={{ whiteSpace: "pre-line" }}
+              >
                 {data.experiences.map((experience, i) => (
-                  <Experience data={experience} isFullView />
+                  <Experience key={i} data={experience} isFullView />
                 ))}
               </Collapse>
             </div>
@@ -369,6 +436,7 @@ const ProfileDrawerContent = ({
             <Button
               variant="text"
               color="primary"
+              sx={{ p: "0", m: "0 auto" }}
               endIcon={
                 isShowMoreExperience ? (
                   <KeyboardArrowUp />
@@ -435,17 +503,19 @@ const ProfileDrawerContent = ({
                 alignItems: "flex-start",
                 justifyContent: "flex-start",
                 gap: "16px",
+                marginBottom: "16px",
               }}
             >
               <Collapse in={isShowMoreEducation} collapsedSize={50}>
                 {data.education.map((education, i) => (
-                  <Education data={education} />
+                  <Education key={i} data={education} />
                 ))}
               </Collapse>
             </div>
             <Button
               variant="text"
               color="primary"
+              sx={{ p: "0", m: "0 auto" }}
               endIcon={
                 isShowMoreEducation ? (
                   <KeyboardArrowUp />
@@ -460,7 +530,7 @@ const ProfileDrawerContent = ({
           </div>
         </div>
       </main>
-    </div>
+    </Box>
   );
 };
 export default ProfileDrawerContent;

@@ -87,7 +87,12 @@ const YearsOfExperience = ({
         >
           Years of experience
         </h4>
-        <Button variant="text" color="primary" onClick={clearAll}>
+        <Button
+          variant="text"
+          color="secondary"
+          sx={{ color: "secondary.dark" }}
+          onClick={clearAll}
+        >
           Clear
         </Button>
       </div>

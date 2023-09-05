@@ -15,9 +15,7 @@ const config = ({ pathname, toggleMobileSidebar }: Props) => {
       {trimmedPathname.startsWith("/job") && (
         <OpenJobs toggleMobileSidebar={toggleMobileSidebar} />
       )}
-      {trimmedPathname === "/search-results" && (
-        <Filters toggleMobileSidebar={toggleMobileSidebar} />
-      )}
+      {trimmedPathname === "/search-results" && <Filters />}
 
       {trimmedPathname === "/pipeline" && (
         <SavedJobs toggleMobileSidebar={toggleMobileSidebar} />

@@ -25,7 +25,7 @@ const Education = ({ data }: Props) => {
           <Typography variant="subtitle1">{school} </Typography>
           <Stack rowGap={"4px"}>
             <Typography variant="body2">{field_of_study}</Typography>
-            <Typography variant="body2" color={"secondary"}>
+            <Typography variant="body2" color={"secondary.dark"}>
               {start} - {end}
             </Typography>
           </Stack>

@@ -76,7 +76,12 @@ const FilterEducation = ({ applied }: Props) => {
         >
           Education
         </h4>
-        <Button variant="text" color="primary" onClick={() => clearAllTags()}>
+        <Button
+          variant="text"
+          color="secondary"
+          sx={{ color: "secondary.dark" }}
+          onClick={() => clearAllTags()}
+        >
           Clear
         </Button>
       </div>

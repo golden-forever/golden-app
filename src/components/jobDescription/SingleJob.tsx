@@ -13,7 +13,7 @@ import Scrollbar from "../common/scrollbar/Scrollbar";
 import { BottomBar } from "../layouts";
 
 type Props = {
-  setSelected?: () => void;
+  setSelected: () => void;
 };
 const SingleJob = ({ setSelected }: Props) => {
   const { job_info, company_info } = useAppSelector(store => store.user);
@@ -42,7 +42,7 @@ const SingleJob = ({ setSelected }: Props) => {
         }}
       >
         <Typography variant="h3" textAlign={"center"} marginBottom={"32px"}>
-          {company_info?.company_name}
+          {company_info?.name}
         </Typography>
         <Box
           sx={{
@@ -222,7 +222,12 @@ const SingleJob = ({ setSelected }: Props) => {
           </Box>
         </Box>
       </Box>
-      <BottomBar />
+      <BottomBar
+        btnLeftText="Edit"
+        btnRightText={`See Results (${profiles.length})`}
+        onLeftBtnClick={setSelected}
+        onRightBtnClick={handleNavigate}
+      />
     </>
   );
 };

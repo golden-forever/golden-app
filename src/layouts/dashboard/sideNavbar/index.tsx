@@ -23,6 +23,7 @@ import {
   APP_BAR_DESKTOP,
   APP_BAR_MOBILE,
   MOBILE_TOP_SIDEBAR,
+  NAV_WIDTH,
 } from "../../../utils/constants";
 
 //
@@ -32,8 +33,6 @@ import Logo from "../../../components/sibebarNav/Logo";
 import { setIsMobileSidebar } from "../../../features/user/userSlice";
 
 // ----------------------------------------------------------------------
-
-const NAV_WIDTH = 304;
 
 const StyledAccount = styled("div")(({ theme }) => ({
   display: "flex",

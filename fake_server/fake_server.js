@@ -30,6 +30,8 @@ const mockExperiences = [
       "front to back trade finance software",
       "Supply Chain Finance",
     ],
+    description:
+      "• Leading the product activity of a successful B2B and B2C growing igaming company (inbound and outbound). \n• Matrix management and full ownership of the Casino online product, all the way from inception to production.\n• Identify customer (b2b and players) needs and work collaboratively with Engineering, Marketing, Legal, UX, Support, and other cross-functional teams on innovative technologies.\n• Working in a tight schedule and complex business and legal demands on number of products simultaneously.\n• Writing PRD's and MRD's for the company's dev team (IL and Kiev) and for third party companies.\n• Gathering, specifying, deeply analyzing and prioritizing market requirements for current and future products, by conducting market research supported by interactions with stakeholders and customers.\n• Represent the company in front of our b2b customers and partners as the product-centric, technologically oriented figure.",
   },
   {
     starts_at: "2021-05-01T00:00:00.000+0000",
@@ -64,27 +66,11 @@ const mockExperiences = [
     title:
       "Senior Product Manager at Aspire Global - a leading online iGaming company",
     description:
-      "• Leading the product activity of a successful B2B and B2C growing igaming company (inbound and outbound). \n• Matrix management and full ownership of the Casino online product, all the way from inception to production.\n• Identify customer (b2b and players) needs and work collaboratively with Engineering, Marketing, Legal, UX, Support, and other cross-functional teams on innovative technologies.\n• Working in a tight schedule and complex business and legal demands on number of products simultaneously.\n• Writing PRD's and MRD's for the company's dev team (IL and Kiev) and for third party companies.\n• Gathering, specifying, deeply analyzing and prioritizing market requirements for current and future products, by conducting market research supported by interactions with stakeholders and customers.\n• Represent the company in front of our b2b customers and partners as the product-centric, technologically oriented figure.\n\n            \n\n    \n    \n\n    \n        Show less",
+      "• Leading the product activity of a successful B2B and B2C growing igaming company (inbound and outbound). \n• Matrix management and full ownership of the Casino online product, all the way from inception to production.\n• Identify customer (b2b and players) needs and work collaboratively with Engineering, Marketing, Legal, UX, Support, and other cross-functional teams on innovative technologies.\n• Working in a tight schedule and complex business and legal demands on number of products simultaneously.\n• Writing PRD's and MRD's for the company's dev team (IL and Kiev) and for third party companies.\n• Gathering, specifying, deeply analyzing and prioritizing market requirements for current and future products, by conducting market research supported by interactions with stakeholders and customers.\n• Represent the company in front of our b2b customers and partners as the product-centric, technologically oriented figure.",
     location: "Israel",
     logo_url:
       "https://storage.googleapis.com/linkedingpt/company-aspireglobal.jpeg",
     company_id: "aspireglobal",
-    company_website: "http://www.aspireglobal.com",
-    company_size: 234.0,
-    industry: "Software Development",
-    specialities: [""],
-  },
-  {
-    starts_at: "2015-12-01T00:00:00.000+0000",
-    ends_at: "2017-07-31T00:00:00.000+0000",
-    company: "Efix (iForex)",
-    company_linkedin_profile_url: null,
-    title:
-      "Product Manager - lead the self-activation domain at iForex – a leading online trading platform",
-    description:
-      "• Managing the company's self-activation domain from scratch. Including definition of the end user on boarding process, detecting his needs and making the trading platform more self-explanatory and user friendly.\n• Lead the trading platform UX domain. Improving its overall user experience (Web, Mobile, Download apps). \n• Play a key role at every stage of the product life cycle, heading up the end-to-end development of new products, and making sure that the company goals are aligned with users’ needs.\n• Writing requirements documents (PRD's) and user stories. Performing design reviews with programmers (Israel and abroad) and accompanied the development process from start to launch.  \n• Performing A/B testing for every change in the system. Analyze the results and decision-making upon it.\n• Define the product long-term strategy, initiate new features, and define KPI's and how success should be measured.\n\n            \n\n    \n    \n\n    \n        Show less",
-    location: "Herzelia",
-    logo_url: null,
     company_website: "http://www.aspireglobal.com",
     company_size: 234.0,
     industry: "Software Development",
@@ -108,8 +94,8 @@ const mockJobInfo = {
 
 const mockCompanyInfo = {
   company_id: "company123",
-  company_name: "TechCo",
-  company_logo_url:
+  name: "TechCo",
+  profile_pic_url:
     "https://storage.googleapis.com/linkedingpt/company-surecomp.jpeg",
 };
 
@@ -188,7 +174,8 @@ const mockProfile = {
   connections: 500,
   occupation: "Backend Developer at TechCo",
   headline: "Passionate developer",
-  summary: "Experienced backend developer with a passion for coding.",
+  summary:
+    "• Vast experience building successful consumer Mobile Web and Desktop products from scratch.\n• Demonstrated success in creating innovative and user-friendly software applications and customer- facing features.\n• Experience working on Agile enabled teams (SCRUM) as a product owner.\n• Experience launching consumer-facing online service (Web/ Mobile/ Tablet) from start to finish.\n• Proven ability to understand complex business problems, apply strong analytical skill and create \n  technical requirements (PRD's, user stories - high level and detailed design).\n• Deep experience in analytics, and massive understanding of the online industry.\n\n• Have both the ability to work independently and also to integrate with other team members.\n• Attention to detail and the ability to see the bigger picture.\n• Ability to manage cross-functional projects without direct authority.\n\n• In my spare time I'm a long distances runner and a triathlete. Also I was competing in The Iron Man Triathlon competition in Austria 2019.",
   country: "US",
   country_full_name: "United States",
   city: "New York",
@@ -211,8 +198,10 @@ const mockLocation = {
 
 app.get("/me", (req, res) => {
   res.json({
-    user_info: mockUserInfo,
-    recent_pid: "projA",
+    id: "parth_id",
+    name: "Parth Lathiya",
+    email: "plathiya1234@gmail.com",
+    completed_onboarding: true,
     company_info: mockCompanyInfo,
     project_snippets: mockProjectSnippets,
   });

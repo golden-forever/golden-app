@@ -50,7 +50,11 @@ export const updateProject = createAsyncThunk(
     try {
       const { recent_pid } = thunkAPI.getState().user;
       const URL = `project/${recent_pid}`;
-      const response = await postRequest(URL, updatedData);
+      const response = await postRequest(URL, {
+        ...updatedData,
+        project_id: recent_pid,
+        id: "22",
+      });
       const data = response.data;
 
       return data;

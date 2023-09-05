@@ -64,10 +64,11 @@ const StyledTextarea = styled(TextareaAutosize)(
 );
 type Props = {
   isEdit?: boolean;
-  setSelected?: () => void;
+  setSelected: () => void;
+  isCreateNew?: boolean;
 };
 
-const EditJob = ({ isEdit, setSelected }: Props) => {
+const EditJob = ({ isEdit, setSelected, isCreateNew }: Props) => {
   const { job_info, company_info, recent_pid } = useAppSelector(
     store => store.user
   );
@@ -92,7 +93,7 @@ const EditJob = ({ isEdit, setSelected }: Props) => {
     e.preventDefault();
     if (isEdit) {
       dispatch(updateProject(inputs));
-      if (setSelected) setSelected();
+      setSelected();
     } else {
       dispatch(updateProject(inputs));
     }
@@ -114,9 +115,7 @@ const EditJob = ({ isEdit, setSelected }: Props) => {
         }}
       >
         <Typography variant="h3">
-          {isEdit
-            ? job_info?.job_title
-            : `New Job for ${company_info?.company_name}`}
+          {isEdit ? job_info?.job_title : `New Job for ${company_info?.name}`}
         </Typography>
         <Box
           component={"form"}
@@ -145,11 +144,7 @@ const EditJob = ({ isEdit, setSelected }: Props) => {
             }}
           >
             <FormControl fullWidth sx={{ marginTop: "20px" }}>
-              <InputLabel
-                disableAnimation
-                htmlFor="component-outlined"
-                sx={{ transform: "translate(0, -100%)" }}
-              >
+              <InputLabel disableAnimation htmlFor="component-outlined">
                 Job Title
               </InputLabel>
               <OutlinedInput
@@ -161,11 +156,7 @@ const EditJob = ({ isEdit, setSelected }: Props) => {
               />
             </FormControl>
             <FormControl fullWidth sx={{ marginTop: "20px" }}>
-              <InputLabel
-                disableAnimation
-                htmlFor="component-outlined"
-                sx={{ transform: "translate(0, -100%)" }}
-              >
+              <InputLabel disableAnimation htmlFor="component-outlined">
                 Location
               </InputLabel>
               <OutlinedInput
@@ -178,11 +169,7 @@ const EditJob = ({ isEdit, setSelected }: Props) => {
             </FormControl>
 
             <FormControl fullWidth sx={{ marginTop: "20px" }}>
-              <InputLabel
-                disableAnimation
-                htmlFor="component-outlined"
-                sx={{ transform: "translate(0, -100%)" }}
-              >
+              <InputLabel disableAnimation htmlFor="component-outlined">
                 Job Description
               </InputLabel>
               <TextField
@@ -214,13 +201,26 @@ const EditJob = ({ isEdit, setSelected }: Props) => {
             >
               Cancel
             </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Confirm
+            <Button type="submit" variant="contained" color="success">
+              {isEdit ? "Save Changes" : "Confirm"}
             </Button>
           </Box>
         </Box>
       </Box>
-      <BottomBar />
+      <BottomBar
+        btnLeftText="Cancel"
+        btnRightClr={isEdit ? "success" : "primary"}
+        btnRightText={isEdit ? "Save Changes" : "Confirm"}
+        onLeftBtnClick={isEdit ? setSelected : handleNavigate}
+        onRightBtnClick={() => {
+          if (isEdit) {
+            dispatch(updateProject(inputs));
+            setSelected();
+          } else {
+            dispatch(updateProject(inputs));
+          }
+        }}
+      />
     </>
   );
 };

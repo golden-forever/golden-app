@@ -1,17 +1,25 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
+import { TextField, OutlinedInput } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { createFilterOptions } from "@mui/material/Autocomplete";
 
 type Props = {
   availableTags: string[];
   handleSelect: (tag: string) => void;
+  marginLabel?: string;
+  label?: string;
+  placeholder?: string;
+  autoFocus?: boolean;
 };
 const OPTIONS_LIMIT = 30;
 export default function CustomAutocomplete({
   availableTags,
   handleSelect,
+  marginLabel,
+  label,
+  placeholder,
+  autoFocus,
 }: Props) {
   const filterOptions = createFilterOptions({ limit: OPTIONS_LIMIT });
   return (
@@ -34,8 +42,15 @@ export default function CustomAutocomplete({
         <TextField
           {...params}
           variant="standard"
-          label="Choose a country"
+          label={label}
+          autoFocus={autoFocus}
+          placeholder={placeholder}
           autoComplete="off"
+          sx={{
+            "& .MuiInputBase-root": {
+              marginTop: marginLabel ? marginLabel : "16px",
+            },
+          }}
           inputProps={{
             ...params.inputProps,
             autoComplete: "off", // disable autocomplete and autofill

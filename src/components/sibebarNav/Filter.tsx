@@ -18,9 +18,18 @@ type Props = {
   allTags: string[];
   applied: string[];
   label: string;
+  activeTagInput: string;
+  handleActiveTagInput: (input_id: string) => void;
   name: string;
 };
-const Filter = ({ allTags, applied, label, name }: Props) => {
+const Filter = ({
+  allTags,
+  applied,
+  label,
+  name,
+  activeTagInput,
+  handleActiveTagInput,
+}: Props) => {
   const [isAddNew, setIsAddNew] = useState(false);
 
   const [localApplied, setLocalApplied] = useState(applied);
@@ -77,11 +86,10 @@ const Filter = ({ allTags, applied, label, name }: Props) => {
     >
       <div
         style={{
-          alignSelf: "stretch",
+          width: "100%",
           display: "flex",
-          flexDirection: "row",
           alignItems: "center",
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
           fontSize: "1rem",
         }}
       >
@@ -97,7 +105,12 @@ const Filter = ({ allTags, applied, label, name }: Props) => {
         >
           {label}
         </h4>
-        <Button variant="text" color="primary" onClick={() => clearAllTags()}>
+        <Button
+          variant="text"
+          color="secondary"
+          sx={{ color: "secondary.dark", width: "fit-content" }}
+          onClick={() => clearAllTags()}
+        >
           Clear
         </Button>
       </div>
@@ -161,20 +174,24 @@ const Filter = ({ allTags, applied, label, name }: Props) => {
           <IconButton
             size="small"
             sx={{ marginLeft: "-5px", p: "1px" }}
-            onClick={() => setIsAddNew(!isAddNew)}
+            onClick={() => handleActiveTagInput(name)}
+            disabled={activeTagInput === name}
           >
-            {isAddNew ? <Remove /> : <Add />}
+            <Add />
           </IconButton>
         </div>
-        {isAddNew && (
+        {activeTagInput === name && (
           <CustomAutocomplete
             availableTags={availableTags}
             handleSelect={handleAdd}
+            marginLabel="0px"
+            placeholder="Select filter"
+            autoFocus
           />
         )}
       </div>
       {/* Include */}
-      {name !== "titles" && <Include />}
+      {/* {name !== "titles" && <Include />} */}
       {/* Include End*/}
     </div>
   );

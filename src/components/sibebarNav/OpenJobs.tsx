@@ -4,6 +4,7 @@ import {
   Collapse,
   Divider,
   Slider,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import NavLink from "./NavLink";
@@ -52,11 +53,11 @@ const OpenJobs = ({ toggleMobileSidebar }: Props) => {
           width: "100%",
           alignItems: "center",
           p: { xs: "11.5px 18px", lg: "0 28px" },
-          borderBottom: "1px solid",
+          borderBottom: { xs: "1px solid", lg: "0" },
           borderColor: "secondary.light",
         }}
       >
-        <Logo image={logo} company={company_info?.company_name} />
+        <Logo image={logo} company={company_info?.name} />
         <Box
           height={"16px"}
           bgcolor={"secondary.main"}

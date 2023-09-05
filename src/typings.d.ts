@@ -143,8 +143,8 @@ type Job = {
 };
 type CompanyInfo = {
   company_id: string;
-  company_name: string;
-  company_logo_url: string;
+  name: string;
+  company_logo_url: string | null;
 };
 type ProjectSnippet = {
   project_title: string;
